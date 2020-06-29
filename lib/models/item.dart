@@ -84,6 +84,6 @@ class Item {
 
   @override
     String toString() {
-        return 'Name: $typeLine, amount: $stackSize';
+        return '$typeLine, amount: $stackSize';
     }
 }

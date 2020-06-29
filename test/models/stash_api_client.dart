@@ -13,8 +13,10 @@ void main() {
 
     List<Item> items = await apiClient.getStashTab('Zedimus', POE_SESSION_ID, 0);
 
+    int index = 0;
     items.forEach((item) {
-      print(item);
+      print('$index: $item');
+      index++;
     });
 
     expect(items.length, 51);

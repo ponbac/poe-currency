@@ -19,20 +19,9 @@ class StashApiClient {
     final requestUrl =
         '$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
 
-    //print(requestUrl);
+    String rawData = await _getParsedResponseFromUrlWithSessionId(requestUrl, sessionId);
 
-    HttpClientRequest clientRequest =
-        await httpClient.getUrl(Uri.parse(requestUrl));
-    clientRequest.cookies.add(Cookie("POESESSID", sessionId));
-    HttpClientResponse clientResponse = await clientRequest.close();
-
-    if (clientResponse.statusCode != 200) {
-      throw Exception('error getting stash tab');
-    }
-
-    String parsedResponse = await _readResponse(clientResponse);
-
-    var items = (jsonDecode(parsedResponse)['items'] as List)
+    var items = (jsonDecode(rawData)['items'] as List)
       .map((item) => Item.fromJson(item))
       .toList();
 
@@ -48,5 +37,18 @@ class StashApiClient {
     }, onDone: () => completer.complete(contents.toString()));
 
     return completer.future;
+  }
+
+  Future<String> _getParsedResponseFromUrlWithSessionId(String url, String sessionId) async {
+    HttpClientRequest clientRequest =
+        await httpClient.getUrl(Uri.parse(url));
+    clientRequest.cookies.add(Cookie("POESESSID", sessionId));
+    HttpClientResponse clientResponse = await clientRequest.close();
+
+    if (clientResponse.statusCode != 200) {
+      throw Exception('error getting stash tab');
+    }
+
+    return await _readResponse(clientResponse);
   }
 }
