@@ -3,9 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/secrets.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
+
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final orientation = MediaQuery.of(context).orientation;
+
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Column(
@@ -22,7 +26,7 @@ class StartScreen extends StatelessWidget {
                       accountName: POE_ACCOUNT_NAME))),
           BlocBuilder<StashBloc, StashState>(builder: (context, state) {
             if (state is StashInitial) {
-              return Center(child: Text('Initial state'));
+              return Center(child: Text('Press button, plz'));
             }
             if (state is StashLoadInProgress) {
               return Center(child: CircularProgressIndicator());
@@ -34,15 +38,30 @@ class StartScreen extends StatelessWidget {
                 child: GridView.builder(
                     itemCount: items.length,
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 3),
+                        crossAxisCount:
+                            (orientation == Orientation.portrait) ? 3 : 6),
                     itemBuilder: (BuildContext context, int index) {
                       final item = items[index];
 
                       return new Card(
                         child: new GridTile(
-                            footer:
-                                new Text('${item.typeLine}, ${item.stackSize}'),
-                            child: Image.network(item.icon)),
+                          footer:
+                              new Text('${item.typeLine}, ${item.stackSize}'),
+                          child: CachedNetworkImage(
+                            imageUrl: item.icon,
+                            progressIndicatorBuilder:
+                                (context, url, downloadProgress) => Center(
+                              child: SizedBox(
+                                height: 20,
+                                width: 20,
+                                child: CircularProgressIndicator(
+                                    value: downloadProgress.progress),
+                              ),
+                            ),
+                            errorWidget: (context, url, error) =>
+                                Icon(Icons.error),
+                          ),
+                        ),
                       );
                     }),
               );
