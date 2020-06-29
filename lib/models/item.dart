@@ -81,4 +81,9 @@ class Item {
     data['inventoryId'] = this.inventoryId;
     return data;
   }
+
+  @override
+    String toString() {
+        return 'Name: $typeLine, amount: $stackSize';
+    }
 }
