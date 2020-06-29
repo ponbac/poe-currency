@@ -22,5 +22,5 @@ ports:
     onOpen: ignore
 vscode:
   extensions:
-    - Dart-Code.flutter@3.7.1:gujVOCgsbgoN2/po8X1tfA==
-    - Dart-Code.dart-code@3.7.1:3XT4xvtPoRdNasA5smNMiA==
+    - Dart-Code.flutter@3.11.0:fT5GL2XHrCQe3m8xp+dZJw==
+    - Dart-Code.dart-code@3.11.0:QFsyDgJ0iKFMcfeKafAQ6A==
