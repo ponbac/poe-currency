@@ -24,9 +24,11 @@ class StashBloc extends Bloc<StashEvent, StashState> {
     if (event is StashRequested) {
       yield StashLoadInProgress();
       try {
+        int stashIndex = event.stashIndex ?? 0;
+
         final List<Item> items = await stashApiClient.getStashTab(
-            event.accountName, event.sessionId, event.stashIndex ?? 0);
-        yield StashLoadSuccess(items: items);
+            event.accountName, event.sessionId, stashIndex);
+        yield StashLoadSuccess(items: items, stashIndex: stashIndex);
       } catch (_) {
         yield StashLoadFailure();
       }
