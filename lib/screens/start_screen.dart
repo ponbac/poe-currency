@@ -1,18 +1,70 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/secrets.dart';
 
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: Container(
-        child: Center(
-          child: Text(
-            'UNDER CONSTRUCTION',
-            style: TextStyle(fontSize: 50),
-            textAlign: TextAlign.center,
+      body: Column(
+        children: [
+          SizedBox(
+            height: 60,
           ),
-        ),
+          RaisedButton(
+              child: Text('Grab data!'),
+              color: Colors.amber,
+              onPressed: () => BlocProvider.of<StashBloc>(context).add(
+                  StashRequested(
+                      sessionId: POE_SESSION_ID,
+                      accountName: POE_ACCOUNT_NAME))),
+          BlocBuilder<StashBloc, StashState>(builder: (context, state) {
+            if (state is StashInitial) {
+              return Center(child: Text('Initial state'));
+            }
+            if (state is StashLoadInProgress) {
+              return Center(child: CircularProgressIndicator());
+            }
+            if (state is StashLoadSuccess) {
+              final items = state.items;
+
+              return Expanded(
+                child: GridView.builder(
+                    itemCount: items.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 3),
+                    itemBuilder: (BuildContext context, int index) {
+                      final item = items[index];
+
+                      return new Card(
+                        child: new GridTile(
+                            footer:
+                                new Text('${item.typeLine}, ${item.stackSize}'),
+                            child: Image.network(item.icon)),
+                      );
+                    }),
+              );
+            }
+            if (state is StashLoadFailure) {
+              return Center(
+                child: Text(
+                  'Something went wrong!',
+                  style: TextStyle(color: Colors.red),
+                ),
+              );
+            }
+
+            // default case
+            return Center(
+              child: Text(
+                'Something went wrong!',
+                style: TextStyle(color: Colors.red),
+              ),
+            );
+          }),
+        ],
       ),
     );
   }
