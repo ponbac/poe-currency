@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
@@ -8,7 +6,7 @@ import 'package:poe_currency/screens/start_screen.dart';
 
 void main() {
   final StashApiClient stashApiClient =
-      StashApiClient(httpClient: new HttpClient());
+      StashApiClient();
 
   runApp(MyApp(stashApiClient: stashApiClient,));
 }

@@ -22,4 +22,11 @@ class StashLoadSuccess extends StashState {
   List<Object> get props => [items, stashIndex];
 }
 
-class StashLoadFailure extends StashState {}
+class StashLoadFailure extends StashState {
+  final String errorMessage;
+
+  const StashLoadFailure({@required this.errorMessage}) : assert(errorMessage != null);
+
+  @override
+  List<Object> get props => [errorMessage];
+}

@@ -30,7 +30,7 @@ class StashBloc extends Bloc<StashEvent, StashState> {
             event.accountName, event.sessionId, stashIndex);
         yield StashLoadSuccess(items: items, stashIndex: stashIndex);
       } catch (_) {
-        yield StashLoadFailure();
+        yield StashLoadFailure(errorMessage: _.toString());
       }
     }
   }

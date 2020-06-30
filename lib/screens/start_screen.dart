@@ -84,7 +84,7 @@ class StartScreen extends StatelessWidget {
             if (state is StashLoadFailure) {
               return Center(
                 child: Text(
-                  'Something went wrong!',
+                  'Something went wrong!\n${state.errorMessage}',
                   style: TextStyle(color: Colors.red),
                 ),
               );
@@ -93,7 +93,7 @@ class StartScreen extends StatelessWidget {
             // default case
             return Center(
               child: Text(
-                'Something went wrong!',
+                'Something went wrong, no state!',
                 style: TextStyle(color: Colors.red),
               ),
             );
