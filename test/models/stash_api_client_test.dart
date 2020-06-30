@@ -19,5 +19,6 @@ void main() {
     });*/
 
     expect(stashTab.items.length, greaterThan(1));
+    expect(stashTab.name.length, greaterThan(0));
   });
 }
