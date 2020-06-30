@@ -9,7 +9,9 @@ class Stash {
     if (stashTab == null) {
       _stash = new List()..add(stashTab);
     } else {
-      _stash.add(stashTab);
+      if (!_stash.contains(stashTab)) {
+        _stash.add(stashTab);
+      }
     }
   }
 

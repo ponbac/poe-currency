@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
 import 'package:poe_currency/models/item.dart';
+import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
 
 part 'stash_event.dart';
@@ -26,9 +27,9 @@ class StashBloc extends Bloc<StashEvent, StashState> {
       try {
         int stashIndex = event.stashIndex ?? 0;
 
-        final List<Item> items = await stashApiClient.getStashTab(
+        final StashTab stashTab = await stashApiClient.getStashTab(
             event.accountName, event.sessionId, stashIndex);
-        yield StashLoadSuccess(items: items, stashIndex: stashIndex);
+        yield StashLoadSuccess(stashTab: stashTab);
       } catch (_) {
         yield StashLoadFailure(errorMessage: _.toString());
       }

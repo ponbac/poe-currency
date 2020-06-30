@@ -36,7 +36,7 @@ class StartScreen extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is StashLoadSuccess) {
-              final items = state.items;
+              final items = state.stashTab.items;
 
               return Expanded(
                 child: Column(
@@ -104,7 +104,8 @@ class StartScreen extends StatelessWidget {
   }
 
   Widget _topButtons(BuildContext context, StashLoadSuccess state) {
-    int stashIndex = state.stashIndex;
+    int stashIndex = state.stashTab.index;
+    String name = state.stashTab.name;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -119,6 +120,10 @@ class StartScreen extends StatelessWidget {
                     stashIndex: stashIndex == 0 || stashIndex == 2
                         ? 0
                         : stashIndex - 1))),
+        Text(
+          '$name',
+          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        ),
         RaisedButton(
             child: Text('Next'),
             color: Colors.amber,
