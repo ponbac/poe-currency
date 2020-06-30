@@ -17,12 +17,10 @@ class StashApiClient {
     //print(requestUrl);
 
     var rawData = await http.get(requestUrl, headers: {
-      'COOKIE': 'POESESSID=$sessionId',
-      'Access-Control-Allow-Origin': '*',
-      'Access-Control-Allow-Methods': 'GET,POST,PUT,DELETE,OPTIONS'
+      'COOKIE': 'POESESSID=$sessionId'
     });
 
-    print(rawData.body);
+    //print(rawData.body);
 
     var items = (jsonDecode(rawData.body)['items'] as List)
         .map((item) => Item.fromJson(item))
