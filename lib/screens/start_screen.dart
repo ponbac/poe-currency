@@ -4,8 +4,6 @@ import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/stash.dart';
 import 'package:poe_currency/secrets.dart';
-
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:poe_currency/widgets/tab_items_view.dart';
 
 class StartScreen extends StatelessWidget {

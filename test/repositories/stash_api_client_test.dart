@@ -20,4 +20,19 @@ void main() {
     expect(stashTab.items.length, greaterThan(1));
     expect(stashTab.name.length, greaterThan(0));
   });
+
+  test('Test if the API returns a valid stash tab for web.', () async {
+    var apiClient = StashApiClient();
+
+    StashTab stashTab = await apiClient.fetchStashTabWeb();
+
+    /*int index = 0;
+    items.forEach((item) {
+      print('$index: $item');
+      index++;
+    });*/
+
+    expect(stashTab.items.length, greaterThan(1));
+    expect(stashTab.name.length, greaterThan(0));
+  });
 }

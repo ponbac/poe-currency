@@ -37,9 +37,29 @@ class StashApiClient {
     return new StashTab(
         name: name, type: type, index: stashIndex, items: items);
   }
-}
 
-class OutOfStashTabsException implements Exception {
-  final String cause;
-  OutOfStashTabsException(this.cause);
+  Future<StashTab> fetchStashTabWeb() async {
+    final requestUrl = 'https://poe-currency-ad0db.web.app/web-test.json';
+
+    //print(requestUrl);
+
+    var rawData = await http.get(requestUrl);
+
+    //print(rawData.body);
+
+    var name, type, items;
+
+    try {
+      name = jsonDecode(rawData.body)['tabs'][0]['n'];
+      type = jsonDecode(rawData.body)['tabs'][0]['type'];
+      items = (jsonDecode(rawData.body)['items'] as List)
+          .map((item) => Item.fromJson(item))
+          .toList();
+    } catch (_) {
+      return null;
+    }
+
+    return new StashTab(
+        name: name, type: type, index: 0, items: items);
+  }
 }

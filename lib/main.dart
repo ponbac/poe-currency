@@ -3,13 +3,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
 import 'package:poe_currency/repositories/stash_repository.dart';
+import 'package:poe_currency/repositories/stash_repository_web.dart';
 import 'package:poe_currency/screens/start_screen.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 void main() {
-  final StashRepository stashRepository =
-      StashRepository(stashApiClient: new StashApiClient());
+  StashRepository stashRepository;
 
-  runApp(MyApp(stashRepository: stashRepository,));
+  if (kIsWeb) {
+    stashRepository = new StashRepositoryWeb(stashApiClient: new StashApiClient());
+  } else {
+    stashRepository = new StashRepository(stashApiClient: new StashApiClient());
+  }
+
+  runApp(MyApp(
+    stashRepository: stashRepository,
+  ));
 }
 
 class MyApp extends StatelessWidget {

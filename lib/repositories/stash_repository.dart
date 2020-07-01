@@ -15,12 +15,13 @@ class StashRepository {
     Stash stash = new Stash();
 
     int stashTabIndex = 0;
-    StashTab currentStashTab =
-        await stashApiClient.fetchStashTab(accountName, sessionId, stashTabIndex);
+    StashTab currentStashTab = await stashApiClient.fetchStashTab(
+        accountName, sessionId, stashTabIndex);
     while (currentStashTab != null) {
       stash.addStashTab(currentStashTab);
       stashTabIndex++;
-      currentStashTab = await stashApiClient.fetchStashTab(accountName, sessionId, stashTabIndex);
+      currentStashTab = await stashApiClient.fetchStashTab(
+          accountName, sessionId, stashTabIndex);
     }
 
     return stash;
