@@ -21,30 +21,14 @@ class TabItemsView extends StatelessWidget {
         String tabName = stash.tabs[INITIAL_TAB_INDEX].name;
         List<Item> items = stash.tabs[INITIAL_TAB_INDEX].items;
 
-        return Column(
-          children: [
-            _topButtons(context, INITIAL_TAB_INDEX, tabName),
-            Text('Items in tab = ${items.length}'),
-            Card(
-            child: new GridTile(
-              footer: new Text('${items[0].typeLine}, ${items[0].stackSize}'),
-              child: CachedNetworkImage(
-                imageUrl: 'https://poe-currency-ad0db.web.app/icons/Icon-512.png',
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Center(
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        value: downloadProgress.progress),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
-              ),
-            ),
+        return Expanded(
+          child: Column(
+            children: [
+              _topButtons(context, INITIAL_TAB_INDEX, tabName),
+              Text('Items in tab = ${items.length}'),
+              _itemBox(items, orientation)
+            ],
           ),
-            //_itemBox(items, orientation)
-          ],
         );
       }
       if (state is TabUpdated) {
@@ -52,12 +36,14 @@ class TabItemsView extends StatelessWidget {
         String tabName = stash.tabs[tabIndex].name;
         List<Item> items = stash.tabs[tabIndex].items;
 
-        return Column(
-          children: [
-            _topButtons(context, tabIndex, tabName),
-            Text('Items in tab = ${items.length}'),
-            _itemBox(items, orientation)
-          ],
+        return Expanded(
+          child: Column(
+            children: [
+              _topButtons(context, tabIndex, tabName),
+              Text('Items in tab = ${items.length}'),
+              _itemBox(items, orientation)
+            ],
+          ),
         );
       }
 
