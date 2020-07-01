@@ -1,5 +1,4 @@
 import 'package:poe_currency/models/stash.dart';
-import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
 import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/secrets.dart';

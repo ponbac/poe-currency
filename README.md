@@ -24,4 +24,4 @@ Then:
 
 ## Extras
 
-`cp build/outputs/flutter-apk/app-release.apk build/web/app.apk`
+`cp build/app/outputs/flutter-apk/app-release.apk build/web/app.apk`

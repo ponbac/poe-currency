@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/tab_bloc.dart';
+import 'package:poe_currency/models/stash.dart';
 import 'package:poe_currency/secrets.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:poe_currency/widgets/tab_items_view.dart';
 
 class StartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final orientation = MediaQuery.of(context).orientation;
-
     return Scaffold(
       backgroundColor: Colors.grey[300],
       body: Column(
@@ -36,50 +37,13 @@ class StartScreen extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is StashLoadSuccess) {
-              final items = state.stash.tabs[0].items;
+              Stash stash = state.stash;
 
-              return Expanded(
-                child: Column(
-                  children: [
-                    _topButtons(context, state),
-                    Expanded(
-                      child: GridView.builder(
-                          itemCount: items.length,
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount:
-                                      (orientation == Orientation.portrait)
-                                          ? 3
-                                          : 6),
-                          itemBuilder: (BuildContext context, int index) {
-                            final item = items[index];
-
-                            return new Card(
-                              child: new GridTile(
-                                footer: new Text(
-                                    '${item.typeLine}, ${item.stackSize}'),
-                                child: CachedNetworkImage(
-                                  imageUrl: item.icon,
-                                  progressIndicatorBuilder:
-                                      (context, url, downloadProgress) =>
-                                          Center(
-                                    child: SizedBox(
-                                      height: 20,
-                                      width: 20,
-                                      child: CircularProgressIndicator(
-                                          value: downloadProgress.progress),
-                                    ),
-                                  ),
-                                  errorWidget: (context, url, error) =>
-                                      Icon(Icons.error),
-                                ),
-                              ),
-                            );
-                          }),
-                    ),
-                  ],
-                ),
-              );
+              return BlocProvider(
+                  create: (context) => TabBloc(numberOfTabs: stash.tabs.length),
+                  child: TabItemsView(
+                    stash: stash,
+                  ));
             }
             if (state is StashLoadFailure) {
               return Center(
@@ -100,39 +64,6 @@ class StartScreen extends StatelessWidget {
           }),
         ],
       ),
-    );
-  }
-
-  Widget _topButtons(BuildContext context, StashLoadSuccess state) {
-    int stashIndex = state.stashTab.index;
-    String name = state.stashTab.name;
-
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        RaisedButton(
-            child: Text('Previous'),
-            color: Colors.amber,
-            onPressed: () => BlocProvider.of<StashBloc>(context).add(
-                StashRequested(
-                    sessionId: POE_SESSION_ID,
-                    accountName: POE_ACCOUNT_NAME,
-                    stashIndex: stashIndex == 0 || stashIndex == 2
-                        ? 0
-                        : stashIndex - 1))),
-        Text(
-          '$name',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-        ),
-        RaisedButton(
-            child: Text('Next'),
-            color: Colors.amber,
-            onPressed: () => BlocProvider.of<StashBloc>(context).add(
-                StashRequested(
-                    sessionId: POE_SESSION_ID,
-                    accountName: POE_ACCOUNT_NAME,
-                    stashIndex: stashIndex == 0 ? 2 : stashIndex + 1)))
-      ],
     );
   }
 }
