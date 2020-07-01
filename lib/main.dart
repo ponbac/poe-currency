@@ -2,20 +2,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
+import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/screens/start_screen.dart';
 
 void main() {
-  final StashApiClient stashApiClient =
-      StashApiClient();
+  final StashRepository stashRepository =
+      StashRepository(stashApiClient: new StashApiClient());
 
-  runApp(MyApp(stashApiClient: stashApiClient,));
+  runApp(MyApp(stashRepository: stashRepository,));
 }
 
 class MyApp extends StatelessWidget {
-  final StashApiClient stashApiClient;
+  final StashRepository stashRepository;
 
-  MyApp({Key key, @required this.stashApiClient})
-      : assert(stashApiClient != null),
+  MyApp({Key key, @required this.stashRepository})
+      : assert(stashRepository != null),
         super(key: key);
 
   @override
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: BlocProvider(
-        create: (context) => StashBloc(stashApiClient: stashApiClient),
+        create: (context) => StashBloc(stashRepository: stashRepository),
         child: StartScreen(),
       ),
     );

@@ -36,7 +36,7 @@ class StartScreen extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is StashLoadSuccess) {
-              final items = state.stashTab.items;
+              final items = state.stash.tabs[0].items;
 
               return Expanded(
                 child: Column(

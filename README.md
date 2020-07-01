@@ -21,3 +21,7 @@ Then:
 `flutter build web`
 
 `firebase deploy`
+
+## Extras
+
+`cp build/outputs/flutter-apk/app-release.apk build/web/app.apk`

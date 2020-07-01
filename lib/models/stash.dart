@@ -1,21 +1,21 @@
 import 'package:poe_currency/models/stash_tab.dart';
 
 class Stash {
-  List<StashTab> _stash;
+  List<StashTab> _tabs;
 
   Stash();
 
   void addStashTab(StashTab stashTab) {
-    if (stashTab == null) {
-      _stash = new List()..add(stashTab);
+    if (_tabs == null) {
+      _tabs = new List()..add(stashTab);
     } else {
-      if (!_stash.contains(stashTab)) {
-        _stash.add(stashTab);
+      if (!_tabs.contains(stashTab)) {
+        _tabs.add(stashTab);
       }
     }
   }
 
-  List<StashTab> get stash {
-    return _stash;
+  List<StashTab> get tabs {
+    return _tabs;
   }
 }

@@ -12,13 +12,13 @@ class StashInitial extends StashState {}
 class StashLoadInProgress extends StashState {}
 
 class StashLoadSuccess extends StashState {
-  final StashTab stashTab;
+  final Stash stash;
 
-  const StashLoadSuccess({@required this.stashTab})
-      : assert(stashTab != null);
+  const StashLoadSuccess({@required this.stash})
+      : assert(stash != null);
 
   @override
-  List<Object> get props => [stashTab];
+  List<Object> get props => [stash];
 }
 
 class StashLoadFailure extends StashState {

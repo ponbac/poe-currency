@@ -10,7 +10,7 @@ class StashApiClient {
 
   StashApiClient();
 
-  Future<StashTab> getStashTab(
+  Future<StashTab> fetchStashTab(
       String accountName, String sessionId, int stashIndex) async {
     final requestUrl =
         '$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
@@ -22,13 +22,24 @@ class StashApiClient {
 
     //print(rawData.body);
 
-    var name = jsonDecode(rawData.body)['tabs'][stashIndex]['n'];
-    var type = jsonDecode(rawData.body)['tabs'][stashIndex]['type'];
-    var items = (jsonDecode(rawData.body)['items'] as List)
-        .map((item) => Item.fromJson(item))
-        .toList();
+    var name, type, items;
+
+    try {
+      name = jsonDecode(rawData.body)['tabs'][stashIndex]['n'];
+      type = jsonDecode(rawData.body)['tabs'][stashIndex]['type'];
+      items = (jsonDecode(rawData.body)['items'] as List)
+          .map((item) => Item.fromJson(item))
+          .toList();
+    } catch (_) {
+      return null;
+    }
 
     return new StashTab(
         name: name, type: type, index: stashIndex, items: items);
   }
+}
+
+class OutOfStashTabsException implements Exception {
+  final String cause;
+  OutOfStashTabsException(this.cause);
 }

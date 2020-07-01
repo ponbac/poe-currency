@@ -7,9 +7,8 @@ abstract class StashEvent extends Equatable {
 class StashRequested extends StashEvent {
   final String sessionId;
   final String accountName;
-  final int stashIndex;
 
-  const StashRequested({@required this.sessionId, @required this.accountName, this.stashIndex})
+  const StashRequested({@required this.sessionId, @required this.accountName})
       : assert(sessionId != null && accountName != null);
 
   @override

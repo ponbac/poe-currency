@@ -3,17 +3,17 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
-import 'package:poe_currency/models/item.dart';
+import 'package:poe_currency/models/stash.dart';
 import 'package:poe_currency/models/stash_tab.dart';
-import 'package:poe_currency/repositories/stash_api_client.dart';
+import 'package:poe_currency/repositories/stash_repository.dart';
 
 part 'stash_event.dart';
 part 'stash_state.dart';
 
 class StashBloc extends Bloc<StashEvent, StashState> {
-  final StashApiClient stashApiClient;
+  final StashRepository stashRepository;
 
-  StashBloc({@required this.stashApiClient}) : assert(stashApiClient != null);
+  StashBloc({@required this.stashRepository}) : assert(stashRepository != null);
 
   @override
   StashState get initialState => StashInitial();
@@ -25,11 +25,9 @@ class StashBloc extends Bloc<StashEvent, StashState> {
     if (event is StashRequested) {
       yield StashLoadInProgress();
       try {
-        int stashIndex = event.stashIndex ?? 0;
-
-        final StashTab stashTab = await stashApiClient.getStashTab(
-            event.accountName, event.sessionId, stashIndex);
-        yield StashLoadSuccess(stashTab: stashTab);
+        final Stash stash = await stashRepository.getStash(
+            event.accountName, event.sessionId);
+        yield StashLoadSuccess(stash: stash);
       } catch (_) {
         yield StashLoadFailure(errorMessage: _.toString());
       }
