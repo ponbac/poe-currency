@@ -38,8 +38,9 @@ class StashApiClient {
         name: name, type: type, index: stashIndex, items: items);
   }
 
-  Future<StashTab> fetchStashTabWeb() async {
-    final requestUrl = 'https://poe-currency-ad0db.web.app/web-test.json';
+  Future<StashTab> fetchStashTabWeb(String accountName, int stashIndex) async {
+    final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/';
+    final requestUrl = '$proxyUrl$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
 
     //print(requestUrl);
 
@@ -59,7 +60,6 @@ class StashApiClient {
       return null;
     }
 
-    return new StashTab(
-        name: name, type: type, index: 0, items: items);
+    return new StashTab(name: name, type: type, index: stashIndex, items: items);
   }
 }
