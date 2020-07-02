@@ -17,8 +17,15 @@ class StashRepositoryWeb extends StashRepository {
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
 
-    StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(accountName, 0);
-    stash.addStashTab(currentStashTab);
+    int stashTabIndex = 0;
+    StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(
+        accountName, stashTabIndex);
+    while (currentStashTab != null) {
+      stash.addStashTab(currentStashTab);
+      stashTabIndex++;
+      currentStashTab = await stashApiClient.fetchStashTabWeb(
+          accountName, stashTabIndex);
+    }
 
     return stash;
   }

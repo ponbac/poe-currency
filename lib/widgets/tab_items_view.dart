@@ -19,13 +19,14 @@ class TabItemsView extends StatelessWidget {
     return BlocBuilder<TabBloc, TabState>(builder: (context, state) {
       if (state is TabInitial) {
         String tabName = stash.tabs[INITIAL_TAB_INDEX].name;
+        String tabType = stash.tabs[INITIAL_TAB_INDEX].type;
         List<Item> items = stash.tabs[INITIAL_TAB_INDEX].items;
 
         return Expanded(
           child: Column(
             children: [
               _topButtons(context, INITIAL_TAB_INDEX, tabName),
-              Text('Items in tab = ${items.length}'),
+              Text('$tabType\nItems in tab = ${items.length}', textAlign: TextAlign.center,),
               _itemBox(items, orientation)
             ],
           ),
@@ -34,13 +35,14 @@ class TabItemsView extends StatelessWidget {
       if (state is TabUpdated) {
         int tabIndex = state.tabIndex;
         String tabName = stash.tabs[tabIndex].name;
+        String tabType = stash.tabs[tabIndex].type;
         List<Item> items = stash.tabs[tabIndex].items;
 
         return Expanded(
           child: Column(
             children: [
               _topButtons(context, tabIndex, tabName),
-              Text('Items in tab = ${items.length}'),
+              Text('$tabType\nItems in tab = ${items.length}', textAlign: TextAlign.center,),
               _itemBox(items, orientation)
             ],
           ),

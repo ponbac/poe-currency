@@ -48,17 +48,21 @@ class StashApiClient {
 
     //print(rawData.body);
 
-    var name, type, items;
+    var name, type;
+    List<Item> items;
 
     try {
-      name = jsonDecode(rawData.body)['tabs'][0]['n'];
-      type = jsonDecode(rawData.body)['tabs'][0]['type'];
+      name = jsonDecode(rawData.body)['tabs'][stashIndex]['n'];
+      type = jsonDecode(rawData.body)['tabs'][stashIndex]['type'];
       items = (jsonDecode(rawData.body)['items'] as List)
           .map((item) => Item.fromJson(item))
           .toList();
     } catch (_) {
       return null;
     }
+
+    // Make icon request go through proxy as well
+    items.forEach((i) => i.icon = '$proxyUrl${i.icon}');
 
     return new StashTab(name: name, type: type, index: stashIndex, items: items);
   }
