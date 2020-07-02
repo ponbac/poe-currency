@@ -106,7 +106,7 @@ class TabItemsView extends StatelessWidget {
               ))),
       child: new Card(
         child: new GridTile(
-          footer: new Text('${item.typeLine}, ${item.stackSize}'),
+          footer: new Text('${item.typeLine}, ${item.stackSize}', textAlign: TextAlign.center,),
           child: CachedNetworkImage(
             imageUrl: item.icon,
             progressIndicatorBuilder: (context, url, downloadProgress) =>

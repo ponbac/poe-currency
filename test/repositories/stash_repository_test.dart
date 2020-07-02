@@ -11,7 +11,7 @@ void main() {
   test('Test if StashRepository returns a complete stash.', () async {
     var stashRepository = StashRepository(stashApiClient: new StashApiClient());
 
-    Stash stash = await stashRepository.getStash('Zedimus', POE_SESSION_ID);
+    Stash stash = await stashRepository.getStash('Zedimus', poeSessionId);
 
     /*int index = 0;
     items.forEach((item) {
@@ -26,7 +26,7 @@ void main() {
   test('Test if StashRepository returns a complete stash for web.', () async {
     var stashRepositoryWeb = StashRepositoryWeb(stashApiClient: new StashApiClient());
 
-    Stash stash = await stashRepositoryWeb.getStash('Zedimus', POE_SESSION_ID);
+    Stash stash = await stashRepositoryWeb.getStash('Zedimus', poeSessionId);
 
     /*int index = 0;
     items.forEach((item) {

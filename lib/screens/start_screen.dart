@@ -25,8 +25,8 @@ class StartScreen extends StatelessWidget {
                       color: Colors.amber,
                       onPressed: () => BlocProvider.of<StashBloc>(context).add(
                           StashRequested(
-                              sessionId: POE_SESSION_ID,
-                              accountName: POE_ACCOUNT_NAME))),
+                              sessionId: poeSessionId,
+                              accountName: poeAccountName))),
                   Center(child: Text('Press button, plz')),
                 ],
               );

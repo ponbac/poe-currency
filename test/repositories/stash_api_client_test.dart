@@ -4,12 +4,11 @@ import 'package:poe_currency/secrets.dart';
 import "package:test/test.dart";
 
 void main() {
-
   
   test('Test if the API returns a valid stash tab.', () async {
     var apiClient = StashApiClient();
 
-    StashTab stashTab = await apiClient.fetchStashTab('Zedimus', POE_SESSION_ID, 0);
+    StashTab stashTab = await apiClient.fetchStashTab('Zedimus', poeSessionId, 0);
 
     /*int index = 0;
     items.forEach((item) {
