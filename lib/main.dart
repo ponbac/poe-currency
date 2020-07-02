@@ -4,7 +4,6 @@ import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
 import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/repositories/stash_repository_web.dart';
-import 'package:poe_currency/screens/init_screen.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
 import 'screens/start_screen.dart';
@@ -40,7 +39,6 @@ class MyApp extends StatelessWidget {
       ),
       home: BlocProvider(
         create: (context) => StashBloc(stashRepository: stashRepository),
-        //child: InitScreen(),
         child: StartScreen(),
       ),
     );

@@ -23,7 +23,7 @@ void main() {
   test('Test if the API returns a valid stash tab for web.', () async {
     var apiClient = StashApiClient();
 
-    StashTab stashTab = await apiClient.fetchStashTabWeb('Zedimus', 0);
+    StashTab stashTab = await apiClient.fetchStashTabWeb('Zedimus', poeSessionId, 0);
 
     /*int index = 0;
     items.forEach((item) {

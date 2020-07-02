@@ -38,9 +38,9 @@ class StashApiClient {
         name: name, type: type, index: stashIndex, items: items);
   }
 
-  Future<StashTab> fetchStashTabWeb(String accountName, int stashIndex) async {
+  Future<StashTab> fetchStashTabWeb(String accountName, String sessionId, int stashIndex) async {
     final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/';
-    final requestUrl = '$proxyUrl$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
+    final requestUrl = '$proxyUrl$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName&POESESSID=$sessionId';
 
     //print(requestUrl);
 

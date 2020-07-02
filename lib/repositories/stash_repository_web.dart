@@ -19,12 +19,12 @@ class StashRepositoryWeb extends StashRepository {
 
     int stashTabIndex = 0;
     StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(
-        accountName, stashTabIndex);
+        accountName, sessionId, stashTabIndex);
     while (currentStashTab != null) {
       stash.addStashTab(currentStashTab);
       stashTabIndex++;
       currentStashTab = await stashApiClient.fetchStashTabWeb(
-          accountName, stashTabIndex);
+          accountName, sessionId, stashTabIndex);
     }
 
     return stash;

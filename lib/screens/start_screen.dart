@@ -7,6 +7,22 @@ import 'package:poe_currency/secrets.dart';
 import 'package:poe_currency/widgets/tab_items_view.dart';
 
 class StartScreen extends StatelessWidget {
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _sessionIdController = TextEditingController();
+
+  void _displayStash(BuildContext context) {
+    poeAccountName = _nameController.text;
+    poeSessionId = _sessionIdController.text;
+
+    BlocProvider.of<StashBloc>(context).add(
+        StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
+  }
+
+  void _displayStashTesting(BuildContext context) {
+    BlocProvider.of<StashBloc>(context).add(
+        StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,17 +34,37 @@ class StartScreen extends StatelessWidget {
           ),
           BlocBuilder<StashBloc, StashState>(builder: (context, state) {
             if (state is StashInitial) {
-              return Column(
-                children: [
-                  RaisedButton(
-                      child: Text('Grab data!'),
-                      color: Colors.amber,
-                      onPressed: () => BlocProvider.of<StashBloc>(context).add(
-                          StashRequested(
-                              sessionId: poeSessionId,
-                              accountName: poeAccountName))),
-                  Center(child: Text('Press button, plz')),
-                ],
+              return Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SizedBox(
+                      height: 200,
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: TextField(
+                          controller: _nameController,
+                          decoration: InputDecoration(hintText: 'Account name')),
+                    ),
+                    SizedBox(
+                      width: 200,
+                      child: TextField(
+                        controller: _sessionIdController,
+                        decoration: InputDecoration(hintText: 'Session ID'),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 25),
+                      child: RaisedButton(
+                          child: Text('GO!'),
+                          onPressed: () => _displayStash(context)),
+                    ),
+                    RaisedButton(
+                        child: Text('testing'),
+                        onPressed: () => _displayStashTesting(context))
+                  ],
+                ),
               );
             }
             if (state is StashLoadInProgress) {
