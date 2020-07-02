@@ -45,7 +45,8 @@ class StartScreen extends StatelessWidget {
                       width: 200,
                       child: TextField(
                           controller: _nameController,
-                          decoration: InputDecoration(hintText: 'Account name')),
+                          decoration:
+                              InputDecoration(hintText: 'Account name')),
                     ),
                     SizedBox(
                       width: 200,
@@ -81,9 +82,21 @@ class StartScreen extends StatelessWidget {
             }
             if (state is StashLoadFailure) {
               return Center(
-                child: Text(
-                  'Something went wrong!\n${state.errorMessage}',
-                  style: TextStyle(color: Colors.red),
+                child: Column(
+                  children: [
+                    Text(
+                      'Something went wrong:\n${state.errorMessage}',
+                      style: TextStyle(color: Colors.red),
+                      textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: RaisedButton(
+                        child: Text('Go back'),
+                          onPressed: () => BlocProvider.of<StashBloc>(context)
+                              .add(StashReset())),
+                    )
+                  ],
                 ),
               );
             }

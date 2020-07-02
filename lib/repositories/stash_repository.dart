@@ -24,6 +24,10 @@ class StashRepository {
           accountName, sessionId, stashTabIndex);
     }
 
+    if (stashTabIndex < 2) {
+      throw 'Could not fetch stash!\nControl that you entered a correct account name and session ID.';
+    }
+
     return stash;
   }
 }

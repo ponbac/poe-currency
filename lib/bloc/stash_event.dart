@@ -14,3 +14,8 @@ class StashRequested extends StashEvent {
   @override
   List<Object> get props => [sessionId, accountName];
 }
+
+class StashReset extends StashEvent {
+  @override
+  List<Object> get props => [];
+}
