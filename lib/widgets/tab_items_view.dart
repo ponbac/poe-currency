@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash.dart';
+import 'package:poe_currency/screens/detailed_item_view_screen.dart';
 
 class TabItemsView extends StatelessWidget {
   static const int INITIAL_TAB_INDEX = 0;
@@ -26,8 +27,11 @@ class TabItemsView extends StatelessWidget {
           child: Column(
             children: [
               _topButtons(context, INITIAL_TAB_INDEX, tabName),
-              Text('$tabType\nItems in tab = ${items.length}', textAlign: TextAlign.center,),
-              _itemBox(items, orientation)
+              Text(
+                '$tabType\nItems in tab = ${items.length}',
+                textAlign: TextAlign.center,
+              ),
+              _itemBox(context, items, orientation)
             ],
           ),
         );
@@ -42,8 +46,11 @@ class TabItemsView extends StatelessWidget {
           child: Column(
             children: [
               _topButtons(context, tabIndex, tabName),
-              Text('$tabType\nItems in tab = ${items.length}', textAlign: TextAlign.center,),
-              _itemBox(items, orientation)
+              Text(
+                '$tabType\nItems in tab = ${items.length}',
+                textAlign: TextAlign.center,
+              ),
+              _itemBox(context, items, orientation)
             ],
           ),
         );
@@ -74,36 +81,47 @@ class TabItemsView extends StatelessWidget {
       ],
     );
   }
-}
 
-Widget _itemBox(List<Item> items, Orientation screenOrientation) {
-  return Expanded(
-    child: GridView.builder(
-        itemCount: items.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount:
-                (screenOrientation == Orientation.portrait) ? 3 : 6),
-        itemBuilder: (BuildContext context, int index) {
-          final item = items[index];
+  Widget _itemBox(
+      BuildContext context, List<Item> items, Orientation screenOrientation) {
+    return Expanded(
+      child: GridView.builder(
+          itemCount: items.length,
+          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount:
+                  (screenOrientation == Orientation.portrait) ? 3 : 6),
+          itemBuilder: (BuildContext context, int index) {
+            final item = items[index];
 
-          return new Card(
-            child: new GridTile(
-              footer: new Text('${item.typeLine}, ${item.stackSize}'),
-              child: CachedNetworkImage(
-                imageUrl: item.icon,
-                progressIndicatorBuilder: (context, url, downloadProgress) =>
-                    Center(
-                  child: SizedBox(
-                    height: 20,
-                    width: 20,
-                    child: CircularProgressIndicator(
-                        value: downloadProgress.progress),
-                  ),
-                ),
-                errorWidget: (context, url, error) => Icon(Icons.error),
+            return _itemCard(context, item);
+          }),
+    );
+  }
+
+  Widget _itemCard(BuildContext context, Item item) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+          builder: (_) => DetailedItemViewScreen(
+                item: item,
+              ))),
+      child: new Card(
+        child: new GridTile(
+          footer: new Text('${item.typeLine}, ${item.stackSize}'),
+          child: CachedNetworkImage(
+            imageUrl: item.icon,
+            progressIndicatorBuilder: (context, url, downloadProgress) =>
+                Center(
+              child: SizedBox(
+                height: 20,
+                width: 20,
+                child:
+                    CircularProgressIndicator(value: downloadProgress.progress),
               ),
             ),
-          );
-        }),
-  );
+            errorWidget: (context, url, error) => Icon(Icons.error),
+          ),
+        ),
+      ),
+    );
+  }
 }
