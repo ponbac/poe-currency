@@ -15,10 +15,7 @@ class TabBloc extends Bloc<TabEvent, TabState> {
   
   final Stash stash;
 
-  TabBloc({@required this.stash}) : assert(stash != null);
-
-  @override
-  TabState get initialState => TabInitial(stashTab: stash.tabs[_INITIAL_TAB_INDEX]);
+  TabBloc({@required this.stash}) : assert(stash != null), super(TabInitial(stashTab: stash.tabs[_INITIAL_TAB_INDEX]));
 
   @override
   Stream<TabState> mapEventToState(

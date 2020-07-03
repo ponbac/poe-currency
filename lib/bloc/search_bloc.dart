@@ -12,10 +12,7 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final List<Item> allItems;
 
-  SearchBloc({@required this.allItems}) : assert(allItems != null);
-
-  @override
-  SearchState get initialState => SearchInitial();
+  SearchBloc({@required this.allItems}) : assert(allItems != null), super(SearchInitial());
 
   // Avoid spamming bloc when typing
   @override
