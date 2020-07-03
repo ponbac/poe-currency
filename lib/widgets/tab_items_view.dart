@@ -14,10 +14,9 @@ class TabItemsView extends StatelessWidget {
 
     return Expanded(
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Center(
-            child: _searchBox(context),
-          ),
+          Center(child: _searchBox(context)),
           BlocBuilder<TabBloc, TabState>(builder: (context, state) {
             if (state is TabInitial) {
               return _tab(context, state.stashTab, orientation);
@@ -39,20 +38,31 @@ class TabItemsView extends StatelessWidget {
     return BlocListener<SearchBloc, SearchState>(
       listener: (context, state) {
         if (state is SearchSuccess) {
-          BlocProvider.of<TabBloc>(context)
-                .add(CustomTabRequested(items: state.searchResult, tabName: 'Search results'));
+          BlocProvider.of<TabBloc>(context).add(CustomTabRequested(
+              items: state.searchResult, tabName: 'Search results'));
         }
       },
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          TextField(
-            controller: searchController,
-            decoration: InputDecoration(hintText: 'search something'),
+          SizedBox(
+            height: 30,
+            width: 160,
+            child: TextField(
+              controller: searchController,
+              decoration: InputDecoration(hintText: 'search something'),
+              onChanged: (text) => BlocProvider.of<SearchBloc>(context)
+                  .add(SearchRequested(searchString: searchController.text)),
+            ),
           ),
-          RaisedButton(
-              child: Text('GO!'),
-              onPressed: () => BlocProvider.of<SearchBloc>(context)
-                  .add(SearchRequested(searchString: searchController.text)))
+          SizedBox(
+            height: 30,
+            width: 60,
+            child: RaisedButton(
+                child: Text('GO!'),
+                onPressed: () => BlocProvider.of<SearchBloc>(context)
+                    .add(SearchRequested(searchString: searchController.text))),
+          )
         ],
       ),
     );
@@ -70,7 +80,7 @@ class TabItemsView extends StatelessWidget {
         children: [
           _topButtons(context, tabIndex, tabName),
           Text(
-            '$tabType\nItems in tab = ${items.length}',
+            '$tabType\nItems displayed = ${items.length}',
             textAlign: TextAlign.center,
           ),
           _itemBox(context, items, orientation)
@@ -126,7 +136,7 @@ class TabItemsView extends StatelessWidget {
       child: new Card(
         child: new GridTile(
           footer: new Text(
-            '${item.typeLine}, ${item.stackSize}',
+            '${item.typeLine}${item.stackSize == null ? '' : ',\nStack size: ' + item.stackSize.toString()}',
             textAlign: TextAlign.center,
           ),
           child: CachedNetworkImage(

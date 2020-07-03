@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
@@ -16,18 +17,31 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
   @override
   SearchState get initialState => SearchInitial();
 
+  // Avoid spamming bloc when typing
+  @override
+  Stream<Transition<SearchEvent, SearchState>> transformEvents(
+    Stream<SearchEvent> events,
+    TransitionFunction<SearchEvent, SearchState> transitionFn,
+  ) {
+    return super.transformEvents(
+      events.debounceTime(const Duration(milliseconds: 500)),
+      transitionFn,
+    );
+  }
+
   @override
   Stream<SearchState> mapEventToState(
     SearchEvent event,
   ) async* {
     if (event is SearchRequested) {
       List<Item> results;
+      String searchString = event.searchString.toLowerCase();
 
       yield SearchInProgress();
       results = allItems
           .where((item) => item.typeLine
               .toLowerCase()
-              .contains(event.searchString.toLowerCase()))
+              .contains(searchString.toLowerCase()))
           .toList();
 
       if (results.isNotEmpty) {
