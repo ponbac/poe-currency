@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/search_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash_tab.dart';
@@ -11,22 +12,57 @@ class TabItemsView extends StatelessWidget {
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
-    return BlocBuilder<TabBloc, TabState>(builder: (context, state) {
-      if (state is TabInitial) {
-        return _tab(context, state.stashTab, orientation);
-      }
-      if (state is TabUpdated) {
-        return _tab(context, state.stashTab, orientation);
-      }
+    return Expanded(
+      child: Column(
+        children: [
+          Center(
+            child: _searchBox(context),
+          ),
+          BlocBuilder<TabBloc, TabState>(builder: (context, state) {
+            if (state is TabInitial) {
+              return _tab(context, state.stashTab, orientation);
+            }
+            if (state is TabUpdated) {
+              return _tab(context, state.stashTab, orientation);
+            }
 
-      return Text('NO STATE');
-    });
+            return Text('NO STATE');
+          }),
+        ],
+      ),
+    );
   }
 
-  Widget _tab(BuildContext context, StashTab stashTab, Orientation orientation) {
+  Widget _searchBox(BuildContext context) {
+    TextEditingController searchController = TextEditingController();
+
+    return BlocListener<SearchBloc, SearchState>(
+      listener: (context, state) {
+        if (state is SearchSuccess) {
+          BlocProvider.of<TabBloc>(context)
+                .add(CustomTabRequested(items: state.searchResult, tabName: 'Search results'));
+        }
+      },
+      child: Row(
+        children: [
+          TextField(
+            controller: searchController,
+            decoration: InputDecoration(hintText: 'search something'),
+          ),
+          RaisedButton(
+              child: Text('GO!'),
+              onPressed: () => BlocProvider.of<SearchBloc>(context)
+                  .add(SearchRequested(searchString: searchController.text)))
+        ],
+      ),
+    );
+  }
+
+  Widget _tab(
+      BuildContext context, StashTab stashTab, Orientation orientation) {
     String tabName = stashTab.name;
-    String tabType = stashTab.type;
-    int tabIndex = stashTab.index;
+    String tabType = stashTab.type ?? 'Custom';
+    int tabIndex = stashTab.index ?? -1;
     List<Item> items = stashTab.items;
 
     return Expanded(
