@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash.dart';
 import 'package:poe_currency/models/stash_tab.dart';
 
@@ -37,6 +38,11 @@ class TabBloc extends Bloc<TabEvent, TabState> {
           currentTabIndex > 0 ? currentTabIndex - 1 : currentTabIndex;
 
       yield TabUpdated(stashTab: stash.tabs[newTabIndex]);
+    }
+    if (event is CustomTabRequested) {
+      StashTab customTab = new StashTab(name: event.tabName, items: event.items);
+
+      yield TabUpdated(stashTab: customTab);
     }
   }
 }

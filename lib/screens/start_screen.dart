@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/search_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
-import 'package:poe_currency/models/stash.dart';
 import 'package:poe_currency/secrets.dart';
 import 'package:poe_currency/widgets/tab_items_view.dart';
 

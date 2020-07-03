@@ -23,3 +23,14 @@ class TabPrevious extends TabEvent {
   @override
   List<Object> get props => [currentTabIndex];
 }
+
+class CustomTabRequested extends TabEvent {
+  final List<Item> items;
+  final String tabName;
+
+  const CustomTabRequested({@required this.items, @required this.tabName})
+      : assert(items != null && tabName != null);
+
+  @override
+  List<Object> get props => [items, tabName];
+}

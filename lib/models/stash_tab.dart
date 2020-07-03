@@ -10,5 +10,5 @@ class StashTab extends Equatable{
   StashTab({this.name, this.type, this.index, this.items});
 
   @override
-  List<Object> get props => [name, type, index, items];
+  List<Object> get props => [name, items];
 }
