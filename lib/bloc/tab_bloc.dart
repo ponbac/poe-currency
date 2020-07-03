@@ -3,17 +3,21 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poe_currency/models/stash.dart';
+import 'package:poe_currency/models/stash_tab.dart';
 
 part 'tab_event.dart';
 part 'tab_state.dart';
 
 class TabBloc extends Bloc<TabEvent, TabState> {
-  final int numberOfTabs;
+  static const _INITIAL_TAB_INDEX = 0;
+  
+  final Stash stash;
 
-  TabBloc({@required this.numberOfTabs}) : assert(numberOfTabs != null);
+  TabBloc({@required this.stash}) : assert(stash != null);
 
   @override
-  TabState get initialState => TabInitial();
+  TabState get initialState => TabInitial(stashTab: stash.tabs[_INITIAL_TAB_INDEX]);
 
   @override
   Stream<TabState> mapEventToState(
@@ -21,19 +25,18 @@ class TabBloc extends Bloc<TabEvent, TabState> {
   ) async* {
     if (event is TabNext) {
       int currentTabIndex = event.currentTabIndex;
-      int newTabIndex = currentTabIndex < numberOfTabs - 1
+      int newTabIndex = currentTabIndex < stash.tabs.length - 1
           ? currentTabIndex + 1
           : currentTabIndex;
 
-      yield TabUpdated(tabIndex: newTabIndex);
+      yield TabUpdated(stashTab: stash.tabs[newTabIndex]);
     }
     if (event is TabPrevious) {
       int currentTabIndex = event.currentTabIndex;
-      int newTabIndex = currentTabIndex > 0
-          ? currentTabIndex - 1
-          : currentTabIndex;
+      int newTabIndex =
+          currentTabIndex > 0 ? currentTabIndex - 1 : currentTabIndex;
 
-      yield TabUpdated(tabIndex: newTabIndex);
+      yield TabUpdated(stashTab: stash.tabs[newTabIndex]);
     }
   }
 }

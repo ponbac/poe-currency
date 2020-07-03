@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/search_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/stash.dart';
@@ -72,13 +73,13 @@ class StartScreen extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             }
             if (state is StashLoadSuccess) {
-              Stash stash = state.stash;
-
-              return BlocProvider(
-                  create: (context) => TabBloc(numberOfTabs: stash.tabs.length),
-                  child: TabItemsView(
-                    stash: stash,
-                  ));
+              return MultiBlocProvider(providers: [
+                BlocProvider<TabBloc>(
+                    create: (context) => TabBloc(stash: state.stash)),
+                BlocProvider<SearchBloc>(
+                    create: (context) =>
+                        SearchBloc(allItems: state.stash.allItems))
+              ], child: TabItemsView());
             }
             if (state is StashLoadFailure) {
               return Center(
@@ -92,7 +93,7 @@ class StartScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(top: 20),
                       child: RaisedButton(
-                        child: Text('Go back'),
+                          child: Text('Go back'),
                           onPressed: () => BlocProvider.of<StashBloc>(context)
                               .add(StashReset())),
                     )

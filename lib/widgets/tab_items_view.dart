@@ -3,61 +3,44 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
-import 'package:poe_currency/models/stash.dart';
+import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/screens/detailed_item_view_screen.dart';
 
 class TabItemsView extends StatelessWidget {
-  static const int INITIAL_TAB_INDEX = 0;
-
-  final Stash stash;
-
-  TabItemsView({@required this.stash});
-
   @override
   Widget build(BuildContext context) {
     final orientation = MediaQuery.of(context).orientation;
 
     return BlocBuilder<TabBloc, TabState>(builder: (context, state) {
       if (state is TabInitial) {
-        String tabName = stash.tabs[INITIAL_TAB_INDEX].name;
-        String tabType = stash.tabs[INITIAL_TAB_INDEX].type;
-        List<Item> items = stash.tabs[INITIAL_TAB_INDEX].items;
-
-        return Expanded(
-          child: Column(
-            children: [
-              _topButtons(context, INITIAL_TAB_INDEX, tabName),
-              Text(
-                '$tabType\nItems in tab = ${items.length}',
-                textAlign: TextAlign.center,
-              ),
-              _itemBox(context, items, orientation)
-            ],
-          ),
-        );
+        return _tab(context, state.stashTab, orientation);
       }
       if (state is TabUpdated) {
-        int tabIndex = state.tabIndex;
-        String tabName = stash.tabs[tabIndex].name;
-        String tabType = stash.tabs[tabIndex].type;
-        List<Item> items = stash.tabs[tabIndex].items;
-
-        return Expanded(
-          child: Column(
-            children: [
-              _topButtons(context, tabIndex, tabName),
-              Text(
-                '$tabType\nItems in tab = ${items.length}',
-                textAlign: TextAlign.center,
-              ),
-              _itemBox(context, items, orientation)
-            ],
-          ),
-        );
+        return _tab(context, state.stashTab, orientation);
       }
 
       return Text('NO STATE');
     });
+  }
+
+  Widget _tab(BuildContext context, StashTab stashTab, Orientation orientation) {
+    String tabName = stashTab.name;
+    String tabType = stashTab.type;
+    int tabIndex = stashTab.index;
+    List<Item> items = stashTab.items;
+
+    return Expanded(
+      child: Column(
+        children: [
+          _topButtons(context, tabIndex, tabName),
+          Text(
+            '$tabType\nItems in tab = ${items.length}',
+            textAlign: TextAlign.center,
+          ),
+          _itemBox(context, items, orientation)
+        ],
+      ),
+    );
   }
 
   Widget _topButtons(BuildContext context, int tabIndex, String tabName) {
@@ -106,7 +89,10 @@ class TabItemsView extends StatelessWidget {
               ))),
       child: new Card(
         child: new GridTile(
-          footer: new Text('${item.typeLine}, ${item.stackSize}', textAlign: TextAlign.center,),
+          footer: new Text(
+            '${item.typeLine}, ${item.stackSize}',
+            textAlign: TextAlign.center,
+          ),
           child: CachedNetworkImage(
             imageUrl: item.icon,
             progressIndicatorBuilder: (context, url, downloadProgress) =>

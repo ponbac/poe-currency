@@ -7,13 +7,21 @@ abstract class TabState extends Equatable {
   List<Object> get props => [];
 }
 
-class TabInitial extends TabState {}
+// TODO: Remove this state? Is it really needed?
+class TabInitial extends TabState {
+  final StashTab stashTab;
 
-class TabUpdated extends TabState {
-  final int tabIndex;
-
-  const TabUpdated({@required this.tabIndex}) : assert(tabIndex != null);
+  const TabInitial({@required this.stashTab}) : assert(stashTab != null);
 
   @override
-  List<Object> get props => [tabIndex];
+  List<Object> get props => [stashTab];
+}
+
+class TabUpdated extends TabState {
+  final StashTab stashTab;
+
+  const TabUpdated({@required this.stashTab}) : assert(stashTab != null);
+
+  @override
+  List<Object> get props => [stashTab];
 }
