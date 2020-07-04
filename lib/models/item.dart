@@ -17,6 +17,7 @@ class Item {
   int x;
   int y;
   String inventoryId;
+  String stashName;
 
   Item(
       {this.verified,

@@ -34,6 +34,9 @@ class StashApiClient {
       return null;
     }
 
+    // Add tab name as property of each item
+    items.forEach((item) => item.stashName = name);
+
     return new StashTab(
         name: name, type: type, index: stashIndex, items: items);
   }
@@ -60,6 +63,9 @@ class StashApiClient {
     } catch (_) {
       return null;
     }
+
+    // Add tab name as property of each item
+    items.forEach((item) => item.stashName = name);
 
     // Make icon request go through proxy as well
     items.forEach((i) => i.icon = '$proxyUrl${i.icon}');

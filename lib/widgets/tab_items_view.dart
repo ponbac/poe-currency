@@ -119,7 +119,7 @@ class TabItemsView extends StatelessWidget {
           itemCount: items.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:
-                  (screenOrientation == Orientation.portrait) ? 3 : 12),
+                  (screenOrientation == Orientation.portrait) ? 3 : 10),
           itemBuilder: (BuildContext context, int index) {
             final item = items[index];
 
@@ -128,7 +128,7 @@ class TabItemsView extends StatelessWidget {
     );
   }
 
-  Widget _oldItemCard(BuildContext context, Item item) {
+  /*Widget _oldItemCard(BuildContext context, Item item) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => DetailedItemViewScreen(
@@ -156,5 +156,5 @@ class TabItemsView extends StatelessWidget {
         ),
       ),
     );
-  }
+  }*/
 }
