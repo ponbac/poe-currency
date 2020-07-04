@@ -6,6 +6,7 @@ import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/screens/detailed_item_view_screen.dart';
+import 'package:poe_currency/widgets/item_card.dart';
 
 class TabItemsView extends StatelessWidget {
   @override
@@ -118,16 +119,16 @@ class TabItemsView extends StatelessWidget {
           itemCount: items.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:
-                  (screenOrientation == Orientation.portrait) ? 3 : 6),
+                  (screenOrientation == Orientation.portrait) ? 3 : 12),
           itemBuilder: (BuildContext context, int index) {
             final item = items[index];
 
-            return _itemCard(context, item);
+            return ItemCard(item: item);
           }),
     );
   }
 
-  Widget _itemCard(BuildContext context, Item item) {
+  Widget _oldItemCard(BuildContext context, Item item) {
     return GestureDetector(
       onTap: () => Navigator.of(context).push(MaterialPageRoute(
           builder: (_) => DetailedItemViewScreen(
@@ -146,8 +147,8 @@ class TabItemsView extends StatelessWidget {
               child: SizedBox(
                 height: 20,
                 width: 20,
-                child:
-                    CircularProgressIndicator(value: downloadProgress.progress),
+                child: CircularProgressIndicator(
+                    value: downloadProgress.progress),
               ),
             ),
             errorWidget: (context, url, error) => Icon(Icons.error),
