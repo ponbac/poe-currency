@@ -130,7 +130,7 @@ class TabItemsView extends StatelessWidget {
   }
 
   int _itemsPerRow(double screenWidth) {
-    print('Width: $screenWidth');
+    //print('Width: $screenWidth');
 
     if (screenWidth < 360) {
       return 1;
