@@ -114,18 +114,45 @@ class TabItemsView extends StatelessWidget {
 
   Widget _itemBox(
       BuildContext context, List<Item> items, Orientation screenOrientation) {
+    double width = MediaQuery.of(context).size.width;
+
     return Expanded(
       child: GridView.builder(
           itemCount: items.length,
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount:
-                  (screenOrientation == Orientation.portrait) ? 3 : 10),
+              crossAxisCount: _itemsPerRow(width)),
           itemBuilder: (BuildContext context, int index) {
             final item = items[index];
 
             return ItemCard(item: item);
           }),
     );
+  }
+
+  int _itemsPerRow(double screenWidth) {
+    print('Width: $screenWidth');
+
+    if (screenWidth < 360) {
+      return 1;
+    } else if (screenWidth < 500) {
+      return 2;
+    } else if (screenWidth < 600) {
+      return 3;
+    } else if (screenWidth < 800) {
+      return 4;
+    } else if (screenWidth < 1000) {
+      return 5;
+    } else if (screenWidth < 1200) {
+      return 6;
+    } else if (screenWidth < 1400) {
+      return 7;
+    } else if (screenWidth < 1600) {
+      return 8;
+    } else if (screenWidth < 1800) {
+      return 9;
+    }
+
+    return 10;
   }
 
   /*Widget _oldItemCard(BuildContext context, Item item) {
