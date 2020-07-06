@@ -102,10 +102,10 @@ class DetailedItemViewScreen extends StatelessWidget {
                       s = 'B, ';
                       c = Colors.blue;
                     } else if (socketColor == 'W') {
-                      s = 'G, ';
+                      s = 'W, ';
                       c = Colors.white;
                     } else {
-                      s = 'S';
+                      s = 'S, ';
                       c = Colors.black;
                     }
 
