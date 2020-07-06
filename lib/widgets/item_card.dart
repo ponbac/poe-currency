@@ -21,9 +21,9 @@ class ItemCard extends StatelessWidget {
               ))),
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.grey[300].withOpacity(0.5),
+          color: kPrimaryColor.withOpacity(0.5),
             border: Border.all(
-                color: Colors.grey[300].withOpacity(0.5), width: 3.0),
+                color: kThirdColor.withOpacity(0.5), width: 3.0),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         margin: EdgeInsets.only(
           left: kDefaultPadding / 2.5,
@@ -53,7 +53,7 @@ class ItemCard extends StatelessWidget {
               child: Container(
                 padding: EdgeInsets.all(kDefaultPadding / 2),
                 decoration: BoxDecoration(
-                  color: Colors.white,
+                  color: kBackgroundColor.withOpacity(0.8),
                   borderRadius: BorderRadius.only(
                     bottomLeft: Radius.circular(10),
                     bottomRight: Radius.circular(10),
@@ -75,11 +75,11 @@ class ItemCard extends StatelessWidget {
                         children: [
                           Text('${item.typeLine}'.toUpperCase(),
                               overflow: TextOverflow.ellipsis,
-                              style: Theme.of(context).textTheme.button),
+                              style: TextStyle(color: kThirdColor)),
                           Text('TAB: ${item.stashName}'.toUpperCase(),
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
-                                color: kPrimaryColor.withOpacity(0.5),
+                                color: kPrimaryColor.withOpacity(0.75),
                               ))
                         ],
                       ),

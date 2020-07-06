@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
 
 class DetailedItemViewScreen extends StatelessWidget {
@@ -11,30 +12,40 @@ class DetailedItemViewScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            _upperInfo(),
-            Container(
+      body: Container(
+        decoration: BoxDecoration(
+            image: DecorationImage(
+                image: AssetImage('assets/images/space.jpg'),
+                fit: BoxFit.cover)),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              _upperInfo(),
+              Container(
+                  margin: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                      color: kPrimaryColor.withOpacity(0.5),
+                      border: Border.all(color: Colors.black, width: 3.0),
+                      borderRadius: BorderRadius.all(Radius.circular(10))),
+                  height: 150,
+                  width: 150,
+                  child: _itemImage()),
+              Flexible(child: _modsBuilder()),
+              Text(
+                '${item.descrText ?? ''}',
+                textAlign: TextAlign.center,
+              ),
+              Container(
+                alignment: Alignment.topCenter,
                 margin: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                    border: Border.all(color: Colors.black, width: 3.0),
-                    borderRadius: BorderRadius.all(Radius.circular(10))),
-                height: 150,
-                width: 150,
-                child: _itemImage()),
-            Flexible(child: _modsBuilder()),
-            Text('${item.descrText ?? ''}', textAlign: TextAlign.center,),
-            Container(
-              alignment: Alignment.topCenter,
-              margin: EdgeInsets.all(10),
-              child: RaisedButton(
-                  child: Text('Back to stash'),
-                  onPressed: () => Navigator.pop(context)),
-            )
-          ],
+                child: RaisedButton(
+                    child: Text('Back to stash'),
+                    onPressed: () => Navigator.pop(context)),
+              )
+            ],
+          ),
         ),
       ),
     );

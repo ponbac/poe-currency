@@ -96,7 +96,6 @@ class TabItemsView extends StatelessWidget {
       children: [
         RaisedButton(
             child: Text('PREV'),
-            color: Colors.amber,
             onPressed: () => BlocProvider.of<TabBloc>(context)
                 .add(TabPrevious(currentTabIndex: tabIndex))),
         Text(
@@ -105,7 +104,6 @@ class TabItemsView extends StatelessWidget {
         ),
         RaisedButton(
             child: Text('NEXT'),
-            color: Colors.amber,
             onPressed: () => BlocProvider.of<TabBloc>(context)
                 .add(TabNext(currentTabIndex: tabIndex)))
       ],
