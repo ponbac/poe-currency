@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/search_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
+import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/screens/detailed_item_view_screen.dart';
@@ -51,16 +52,18 @@ class TabItemsView extends StatelessWidget {
             width: 160,
             child: TextField(
               controller: searchController,
-              decoration: InputDecoration(hintText: 'search something'),
+              decoration: InputDecoration(
+                  hintText: 'search something...',
+                  hintStyle: TextStyle(color: kPrimaryColor)),
               onChanged: (text) => BlocProvider.of<SearchBloc>(context)
                   .add(SearchRequested(searchString: searchController.text)),
             ),
           ),
           SizedBox(
             height: 30,
-            width: 60,
+            width: 70,
             child: RaisedButton(
-                child: Text('GO!'),
+                child: Text('GO'),
                 onPressed: () => BlocProvider.of<SearchBloc>(context)
                     .add(SearchRequested(searchString: searchController.text))),
           )
@@ -152,34 +155,4 @@ class TabItemsView extends StatelessWidget {
 
     return 10;
   }
-
-  /*Widget _oldItemCard(BuildContext context, Item item) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).push(MaterialPageRoute(
-          builder: (_) => DetailedItemViewScreen(
-                item: item,
-              ))),
-      child: new Card(
-        child: new GridTile(
-          footer: new Text(
-            '${item.typeLine}${item.stackSize == null ? '' : ',\nStack size: ' + item.stackSize.toString()}',
-            textAlign: TextAlign.center,
-          ),
-          child: CachedNetworkImage(
-            imageUrl: item.icon,
-            progressIndicatorBuilder: (context, url, downloadProgress) =>
-                Center(
-              child: SizedBox(
-                height: 20,
-                width: 20,
-                child: CircularProgressIndicator(
-                    value: downloadProgress.progress),
-              ),
-            ),
-            errorWidget: (context, url, error) => Icon(Icons.error),
-          ),
-        ),
-      ),
-    );
-  }*/
 }

@@ -12,7 +12,9 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final List<Item> allItems;
 
-  SearchBloc({@required this.allItems}) : assert(allItems != null), super(SearchInitial());
+  SearchBloc({@required this.allItems})
+      : assert(allItems != null),
+        super(SearchInitial());
 
   // Avoid spamming bloc when typing
   @override
@@ -36,9 +38,11 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
 
       yield SearchInProgress();
       results = allItems
-          .where((item) => item.typeLine
-              .toLowerCase()
-              .contains(searchString.toLowerCase()))
+          .where((item) =>
+              item.typeLine
+                  .toLowerCase()
+                  .contains(searchString.toLowerCase()) ||
+              item.name.toLowerCase().contains(searchString.toLowerCase()))
           .toList();
 
       if (results.isNotEmpty) {

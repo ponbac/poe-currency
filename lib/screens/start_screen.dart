@@ -6,6 +6,8 @@ import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/secrets.dart';
 import 'package:poe_currency/widgets/tab_items_view.dart';
 
+import '../constants.dart';
+
 class StartScreen extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _sessionIdController = TextEditingController();
@@ -49,13 +51,13 @@ class StartScreen extends StatelessWidget {
                         child: TextField(
                             controller: _nameController,
                             decoration:
-                                InputDecoration(hintText: 'Account name')),
+                                InputDecoration(hintText: 'Account name', hintStyle: TextStyle(color: kPrimaryColor))),
                       ),
                       SizedBox(
                         width: 200,
                         child: TextField(
                           controller: _sessionIdController,
-                          decoration: InputDecoration(hintText: 'Session ID'),
+                          decoration: InputDecoration(hintText: 'Session ID', hintStyle: TextStyle(color: kPrimaryColor)),
                         ),
                       ),
                       Padding(
