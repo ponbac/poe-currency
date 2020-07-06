@@ -26,7 +26,7 @@ class DetailedItemViewScreen extends StatelessWidget {
                 width: 150,
                 child: _itemImage()),
             Flexible(child: _modsBuilder()),
-            Text('${item.descrText ?? ''}'),
+            Text('${item.descrText ?? ''}', textAlign: TextAlign.center,),
             Container(
               alignment: Alignment.topCenter,
               margin: EdgeInsets.all(10),
@@ -82,7 +82,7 @@ class DetailedItemViewScreen extends StatelessWidget {
           ),
           Text('${item.typeLine ?? ''}', textAlign: TextAlign.center),
           Text('${item.socketLinks}-linked', textAlign: TextAlign.center),
-          Row(
+          /*Row(
             children: [
               ListView.builder(
                   itemCount: item.sockets.length,
@@ -111,15 +111,15 @@ class DetailedItemViewScreen extends StatelessWidget {
 
                     // Remove trailing comma and space
                     /*if (index == item.sockets.length - 1) {
-                      s = s.substring(-1, -3);
-                    }*/
+            s = s.substring(-1, -3);
+          }*/
 
                     return Text(s,
                         textAlign: TextAlign.center,
                         style: TextStyle(color: c));
                   })
             ],
-          )
+          )*/
         ],
       );
     }
