@@ -1,3 +1,5 @@
+import 'dart:math';
+
 class Item {
   bool verified;
   int w;
@@ -9,7 +11,9 @@ class Item {
   String typeLine;
   bool identified;
   int ilvl;
+  List<String> implicitMods;
   List<String> explicitMods;
+  List<Socket> sockets;
   String descrText;
   int frameType;
   int stackSize;
@@ -30,14 +34,31 @@ class Item {
       this.typeLine,
       this.identified,
       this.ilvl,
+      this.implicitMods,
       this.explicitMods,
+      this.sockets,
       this.descrText,
       this.frameType,
       this.stackSize,
       this.maxStackSize,
       this.x,
       this.y,
-      this.inventoryId});
+      this.inventoryId,
+      this.stashName});
+
+  int get socketLinks {
+    if (sockets == null) {
+      return 0;
+    }
+
+    List<int> socketGroups = [0, 0, 0, 0, 0, 0];
+
+    sockets.forEach((s) {
+      socketGroups[s.group]++;
+    });
+
+    return socketGroups.reduce(max);
+  }
 
   Item.fromJson(Map<String, dynamic> json) {
     verified = json['verified'];
@@ -50,7 +71,12 @@ class Item {
     typeLine = json['typeLine'];
     identified = json['identified'];
     ilvl = json['ilvl'];
+    implicitMods = json['implicitMods'] == null ? [''] : json['implicitMods'].cast<String>();
     explicitMods = json['explicitMods'] == null ? [''] : json['explicitMods'].cast<String>();
+    if (json['sockets'] != null) {
+			sockets = new List<Socket>();
+			json['sockets'].forEach((s) { sockets.add(new Socket.fromJson(s)); });
+		}
     descrText = json['descrText'];
     frameType = json['frameType'];
     stackSize = json['stackSize'];
@@ -72,7 +98,9 @@ class Item {
     data['typeLine'] = this.typeLine;
     data['identified'] = this.identified;
     data['ilvl'] = this.ilvl;
+    data['implicitMods'] = this.implicitMods;
     data['explicitMods'] = this.explicitMods;
+    data['sockets'] = this.sockets;
     data['descrText'] = this.descrText;
     data['frameType'] = this.frameType;
     data['stackSize'] = this.stackSize;
@@ -87,4 +115,26 @@ class Item {
     String toString() {
         return '$typeLine, amount: $stackSize';
     }
+}
+
+class Socket {
+	int group;
+	String attr;
+	String sColour;
+
+	Socket({this.group, this.attr, this.sColour});
+
+	Socket.fromJson(Map<String, dynamic> json) {
+		group = json['group'];
+		attr = json['attr'];
+		sColour = json['sColour'];
+	}
+
+	Map<String, dynamic> toJson() {
+		final Map<String, dynamic> data = new Map<String, dynamic>();
+		data['group'] = this.group;
+		data['attr'] = this.attr;
+		data['sColour'] = this.sColour;
+		return data;
+	}
 }

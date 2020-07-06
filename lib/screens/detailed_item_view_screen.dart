@@ -16,32 +16,19 @@ class DetailedItemViewScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
+            _upperInfo(),
             Container(
-              margin: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                  border: Border.all(color: Colors.black, width: 3.0),
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              height: 150,
-              width: 150,
-              child: FittedBox(
-                child: CachedNetworkImage(
-                  imageUrl: item.icon,
-                  progressIndicatorBuilder: (context, url, downloadProgress) =>
-                      Center(
-                    child: SizedBox(
-                      height: 20,
-                      width: 20,
-                      child: CircularProgressIndicator(
-                          value: downloadProgress.progress),
-                    ),
-                  ),
-                  errorWidget: (context, url, error) => Icon(Icons.error),
-                ),
-                fit: BoxFit.fitHeight,
-              ),
-            ),
-            Text('${item.explicitMods[0]}\n${item.descrText}', textAlign: TextAlign.center,),
+                margin: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black, width: 3.0),
+                    borderRadius: BorderRadius.all(Radius.circular(10))),
+                height: 150,
+                width: 150,
+                child: _itemImage()),
+            Flexible(child: _modsBuilder()),
+            Text('${item.descrText ?? ''}'),
             Container(
+              alignment: Alignment.topCenter,
               margin: EdgeInsets.all(10),
               child: RaisedButton(
                   child: Text('Back to stash'),
@@ -50,6 +37,101 @@ class DetailedItemViewScreen extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _itemImage() {
+    return FittedBox(
+      child: CachedNetworkImage(
+        imageUrl: item.icon,
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(value: downloadProgress.progress),
+          ),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+      fit: BoxFit.fitHeight,
+    );
+  }
+
+  Widget _modsBuilder() {
+    List<String> allMods = new List<String>()
+      ..addAll(item.implicitMods)
+      ..addAll(item.explicitMods);
+
+    return ListView.builder(
+        shrinkWrap: true,
+        itemCount: allMods.length ?? 0,
+        itemBuilder: (BuildContext context, int index) {
+          return Text('${allMods[index]}', textAlign: TextAlign.center);
+        });
+  }
+
+  Widget _upperInfo() {
+    bool itemHasSockets = item.socketLinks != 0;
+
+    if (itemHasSockets) {
+      return Column(
+        children: [
+          Text(
+            '${item.name ?? ''}',
+            textAlign: TextAlign.center,
+          ),
+          Text('${item.typeLine ?? ''}', textAlign: TextAlign.center),
+          Text('${item.socketLinks}-linked', textAlign: TextAlign.center),
+          Row(
+            children: [
+              ListView.builder(
+                  itemCount: item.sockets.length,
+                  shrinkWrap: true,
+                  itemBuilder: (BuildContext context, int index) {
+                    String socketColor = item.sockets[index].sColour;
+                    String s;
+                    Color c;
+
+                    if (socketColor == 'R') {
+                      s += 'R, ';
+                      c = Colors.red;
+                    } else if (socketColor == 'G') {
+                      s += 'G, ';
+                      c = Colors.green;
+                    } else if (socketColor == 'B') {
+                      s += 'B, ';
+                      c = Colors.blue;
+                    } else if (socketColor == 'W') {
+                      s += 'G, ';
+                      c = Colors.white;
+                    } else {
+                      s += 'S';
+                      c = Colors.black;
+                    }
+
+                    // Remove trailing comma and space
+                    /*if (index == item.sockets.length - 1) {
+                      s = s.substring(-1, -3);
+                    }*/
+
+                    return Text(s,
+                        textAlign: TextAlign.center,
+                        style: TextStyle(color: c));
+                  })
+            ],
+          )
+        ],
+      );
+    }
+
+    return Column(
+      children: [
+        Text(
+          '${item.name ?? ''}',
+          textAlign: TextAlign.center,
+        ),
+        Text('${item.typeLine ?? ''}', textAlign: TextAlign.center),
+      ],
     );
   }
 }
