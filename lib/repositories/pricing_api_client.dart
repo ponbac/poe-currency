@@ -9,7 +9,7 @@ class PricingApiClient {
 
   PricingApiClient();
 
-  // TODO: MAKE API PROXY CACHE PRICES
+  // TODO: MAKE API PROXY CACHE PRICES AND MERGE THESE TWO METHODS
 
   Future<List<PricedObject>> fetchCurrencyOverview(String category) async {
     final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/'; // TODO: CHECK IF NEEDED FOR WEB!
