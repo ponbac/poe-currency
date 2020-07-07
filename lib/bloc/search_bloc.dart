@@ -39,10 +39,9 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
       yield SearchInProgress();
       results = allItems
           .where((item) =>
-              item.typeLine
-                  .toLowerCase()
-                  .contains(searchString.toLowerCase()) ||
-              item.name.toLowerCase().contains(searchString.toLowerCase()))
+              item.typeLine.toLowerCase().contains(searchString) ||
+              item.name.toLowerCase().contains(searchString) ||
+              (searchString == '6-link' && item.socketLinks == 6))
           .toList();
 
       if (results.isNotEmpty) {

@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/search_bloc.dart';
@@ -6,7 +5,6 @@ import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/stash_tab.dart';
-import 'package:poe_currency/screens/detailed_item_view_screen.dart';
 import 'package:poe_currency/widgets/item_card.dart';
 
 class TabItemsView extends StatelessWidget {
