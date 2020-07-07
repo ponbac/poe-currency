@@ -2,15 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
+import 'package:poe_currency/repositories/pricing_api_client.dart';
+import 'package:poe_currency/repositories/pricing_repository.dart';
 import 'package:poe_currency/repositories/stash_api_client.dart';
 import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/repositories/stash_repository_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
+import 'bloc/pricing_bloc.dart';
 import 'screens/start_screen.dart';
 
 void main() {
   StashRepository stashRepository;
+  PricingRepository pricingRepository =
+      new PricingRepository(pricingApiClient: new PricingApiClient());
 
   if (kIsWeb) {
     stashRepository =
@@ -21,14 +26,16 @@ void main() {
 
   runApp(MyApp(
     stashRepository: stashRepository,
+    pricingRepository: pricingRepository,
   ));
 }
 
 class MyApp extends StatelessWidget {
   final StashRepository stashRepository;
+  final PricingRepository pricingRepository;
 
-  MyApp({Key key, @required this.stashRepository})
-      : assert(stashRepository != null),
+  MyApp({Key key, @required this.stashRepository, this.pricingRepository})
+      : assert(stashRepository != null && pricingRepository != null),
         super(key: key);
 
   @override
@@ -47,8 +54,14 @@ class MyApp extends StatelessWidget {
             textTheme: ButtonTextTheme
                 .primary, //  <-- this auto selects the right color
           )),
-      home: BlocProvider(
-        create: (context) => StashBloc(stashRepository: stashRepository),
+      home: MultiBlocProvider(
+        providers: [
+          BlocProvider<StashBloc>(
+              create: (context) => StashBloc(stashRepository: stashRepository)),
+          BlocProvider<PricingBloc>(
+              create: (context) =>
+                  PricingBloc(pricingRepository: pricingRepository))
+        ],
         child: StartScreen(),
       ),
     );

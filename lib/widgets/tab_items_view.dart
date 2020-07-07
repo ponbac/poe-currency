@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/search_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
@@ -22,6 +23,8 @@ class TabItemsView extends StatelessWidget {
               return _tab(context, state.stashTab, orientation);
             }
             if (state is TabUpdated) {
+              BlocProvider.of<PricingBloc>(context)
+                  .add(PricingRequested(itemsToPrice: state.stashTab.items));
               return _tab(context, state.stashTab, orientation);
             }
 
@@ -64,7 +67,7 @@ class TabItemsView extends StatelessWidget {
                 child: Text('GO'),
                 onPressed: () => BlocProvider.of<SearchBloc>(context)
                     .add(SearchRequested(searchString: searchController.text))),
-          )
+          ),
         ],
       ),
     );
@@ -72,15 +75,13 @@ class TabItemsView extends StatelessWidget {
 
   Widget _tab(
       BuildContext context, StashTab stashTab, Orientation orientation) {
-    String tabName = stashTab.name;
     String tabType = stashTab.type ?? 'Custom';
-    int tabIndex = stashTab.index ?? -1;
     List<Item> items = stashTab.items;
 
     return Expanded(
       child: Column(
         children: [
-          _topButtons(context, tabIndex, tabName),
+          _topButtons(context, stashTab),
           Text(
             '$tabType\nItems displayed = ${items.length}',
             textAlign: TextAlign.center,
@@ -91,7 +92,10 @@ class TabItemsView extends StatelessWidget {
     );
   }
 
-  Widget _topButtons(BuildContext context, int tabIndex, String tabName) {
+  Widget _topButtons(BuildContext context, StashTab stashTab) {
+    String tabName = stashTab.name;
+    int tabIndex = stashTab.index ?? -1;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -99,9 +103,20 @@ class TabItemsView extends StatelessWidget {
             child: Text('PREV'),
             onPressed: () => BlocProvider.of<TabBloc>(context)
                 .add(TabPrevious(currentTabIndex: tabIndex))),
-        Text(
-          '$tabName',
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+        BlocBuilder<PricingBloc, PricingState>(
+          builder: (context, state) {
+            if (state is PricingSuccess) {
+              return Text(
+                '$tabName, ${stashTab.totalValue} chaos',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              );
+            }
+
+            return Text(
+              '$tabName',
+              style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+            );
+          },
         ),
         RaisedButton(
             child: Text('NEXT'),

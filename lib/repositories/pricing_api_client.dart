@@ -10,7 +10,8 @@ class PricingApiClient {
   PricingApiClient();
 
   Future<List<PricedCurrency>> fetchCurrencyOverview() async {
-    final requestUrl = '$baseUrl/currencyoverview?league=Harvest&type=Currency';
+    final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/'; // TODO: CHECK IF NEEDED FOR WEB!
+    final requestUrl = '$proxyUrl$baseUrl/currencyoverview?league=Harvest&type=Currency';
 
     //print(requestUrl);
 

@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/screens/detailed_item_view_screen.dart';
 
@@ -21,9 +23,8 @@ class ItemCard extends StatelessWidget {
               ))),
       child: Container(
         decoration: BoxDecoration(
-          color: kPrimaryColor.withOpacity(0.5),
-            border: Border.all(
-                color: kThirdColor.withOpacity(0.5), width: 3.0),
+            color: kPrimaryColor.withOpacity(0.5),
+            border: Border.all(color: kThirdColor.withOpacity(0.5), width: 3.0),
             borderRadius: BorderRadius.all(Radius.circular(15))),
         margin: EdgeInsets.only(
           left: kDefaultPadding / 2.5,
@@ -66,38 +67,79 @@ class ItemCard extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text('${item.typeLine}'.toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(color: kThirdColor)),
-                          Text('TAB: ${item.stashName}'.toUpperCase(),
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: kPrimaryColor.withOpacity(0.75),
-                              ))
-                        ],
-                      ),
-                    ),
-                    Text(
-                      '${item.stackSize ?? ''}',
-                      style: Theme.of(context)
-                          .textTheme
-                          .button
-                          .copyWith(color: kPrimaryColor),
-                    )
-                  ],
+                child: BlocBuilder<PricingBloc, PricingState>(
+                  builder: (context, state) {
+                    if (state is PricingSuccess) {
+                      return _infoRow(context, true);
+                    }
+
+                    return _infoRow(context, false);
+                  },
                 ),
               ),
             )
           ],
         ),
       ),
+    );
+  }
+
+  // TODO: CLEAN!
+  Widget _infoRow(BuildContext context, bool showPrice) {
+    if (showPrice) {
+      return Row(
+        children: <Widget>[
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('${item.typeLine}'.toUpperCase(),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(color: kThirdColor)),
+                Text('TAB: ${item.stashName}, \$: ${item.totalValue == 0.0 ? 'NO MATCH' : item.totalValue.round()}'.toUpperCase(),
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      color: kPrimaryColor.withOpacity(0.75),
+                    ))
+              ],
+            ),
+          ),
+          Text(
+            '${item.stackSize ?? ''}',
+            style: Theme.of(context)
+                .textTheme
+                .button
+                .copyWith(color: kPrimaryColor),
+          )
+        ],
+      );
+    }
+
+    return Row(
+      children: <Widget>[
+        Expanded(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text('${item.typeLine}'.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(color: kThirdColor)),
+              Text('TAB: ${item.stashName}'.toUpperCase(),
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                    color: kPrimaryColor.withOpacity(0.75),
+                  ))
+            ],
+          ),
+        ),
+        Text(
+          '${item.stackSize ?? ''}',
+          style:
+              Theme.of(context).textTheme.button.copyWith(color: kPrimaryColor),
+        )
+      ],
     );
   }
 }

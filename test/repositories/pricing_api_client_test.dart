@@ -1,6 +1,5 @@
 import 'package:poe_currency/models/pricing/priced_currency.dart';
 import 'package:poe_currency/repositories/pricing_api_client.dart';
-import 'package:poe_currency/secrets.dart';
 import "package:test/test.dart";
 
 void main() {
