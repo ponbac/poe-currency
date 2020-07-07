@@ -9,8 +9,7 @@ class PricingApiClient {
 
   PricingApiClient();
 
-  Future<List<PricedCurrency>> fetchCurrencyOverview(
-      String accountName, String sessionId, int pricingIndex) async {
+  Future<List<PricedCurrency>> fetchCurrencyOverview() async {
     final requestUrl = '$baseUrl/currencyoverview?league=Harvest&type=Currency';
 
     //print(requestUrl);
@@ -19,16 +18,16 @@ class PricingApiClient {
 
     //print(rawData.body);
 
-    var items;
+    var prices;
 
     try {
-      items = (jsonDecode(rawData.body)['lines'] as List)
+      prices = (jsonDecode(rawData.body)['lines'] as List)
           .map((line) => PricedCurrency.fromJson(line))
           .toList();
     } catch (_) {
       return null;
     }
 
-    return items;
+    return prices;
   }
 }

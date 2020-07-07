@@ -8,4 +8,9 @@ class PricedCurrency {
     name = json['currencyTypeName'];
     value = json['chaosEquivalent'];
   }
+
+  @override
+  String toString() {
+    return '$name, value: $value';
+  }
 }
