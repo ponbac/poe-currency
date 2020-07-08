@@ -63,7 +63,7 @@ class Item {
   }
 
   double get totalValue {
-    return (value ?? 0.0) * (stackSize ?? 0);
+    return (value ?? 0.0) * (stackSize ?? 1);
   }
 
   Item.fromJson(Map<String, dynamic> json) {

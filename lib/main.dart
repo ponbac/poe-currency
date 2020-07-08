@@ -9,7 +9,6 @@ import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/repositories/stash_repository_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 
-import 'bloc/pricing_bloc.dart';
 import 'screens/start_screen.dart';
 
 void main() {
@@ -54,15 +53,11 @@ class MyApp extends StatelessWidget {
             textTheme: ButtonTextTheme
                 .primary, //  <-- this auto selects the right color
           )),
-      home: MultiBlocProvider(
-        providers: [
-          BlocProvider<StashBloc>(
-              create: (context) => StashBloc(stashRepository: stashRepository)),
-          BlocProvider<PricingBloc>(
-              create: (context) =>
-                  PricingBloc(pricingRepository: pricingRepository))
-        ],
-        child: StartScreen(),
+      home: BlocProvider<StashBloc>(
+        create: (context) => StashBloc(stashRepository: stashRepository),
+        child: StartScreen(
+          pricingRepository: pricingRepository,
+        ),
       ),
     );
   }

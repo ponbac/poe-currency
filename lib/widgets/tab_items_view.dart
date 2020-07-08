@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/pricing_bloc.dart';
-import 'package:poe_currency/bloc/search_bloc.dart';
+import 'package:poe_currency/bloc/filter_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
@@ -22,9 +22,8 @@ class TabItemsView extends StatelessWidget {
             if (state is TabInitial) {
               return _tab(context, state.stashTab, orientation);
             }
+            // TODO: This if-condition can be combined with the one above.
             if (state is TabUpdated) {
-              BlocProvider.of<PricingBloc>(context)
-                  .add(PricingRequested(itemsToPrice: state.stashTab.items));
               return _tab(context, state.stashTab, orientation);
             }
 
@@ -38,11 +37,11 @@ class TabItemsView extends StatelessWidget {
   Widget _searchBox(BuildContext context) {
     TextEditingController searchController = TextEditingController();
 
-    return BlocListener<SearchBloc, SearchState>(
+    return BlocListener<FilterBloc, FilterState>(
       listener: (context, state) {
-        if (state is SearchSuccess) {
+        if (state is FilterSuccess) {
           BlocProvider.of<TabBloc>(context).add(CustomTabRequested(
-              items: state.searchResult, tabName: 'Search results'));
+              items: state.filterResult, tabName: 'Search results'));
         }
       },
       child: Row(
@@ -56,8 +55,8 @@ class TabItemsView extends StatelessWidget {
               decoration: InputDecoration(
                   hintText: 'search something...',
                   hintStyle: TextStyle(color: kPrimaryColor)),
-              onChanged: (text) => BlocProvider.of<SearchBloc>(context)
-                  .add(SearchRequested(searchString: searchController.text)),
+              onChanged: (text) => BlocProvider.of<FilterBloc>(context).add(
+                  FilterSearchRequested(searchString: searchController.text)),
             ),
           ),
           SizedBox(
@@ -65,8 +64,20 @@ class TabItemsView extends StatelessWidget {
             width: 70,
             child: RaisedButton(
                 child: Text('GO'),
-                onPressed: () => BlocProvider.of<SearchBloc>(context)
-                    .add(SearchRequested(searchString: searchController.text))),
+                onPressed: () => BlocProvider.of<FilterBloc>(context).add(
+                    FilterSearchRequested(
+                        searchString: searchController.text))),
+          ),
+          Container(
+            margin: EdgeInsets.only(left: 10, right: 10),
+            child: SizedBox(
+              height: 30,
+              width: 140,
+              child: RaisedButton(
+                  child: Text('FILTER ALL'),
+                  onPressed: () => BlocProvider.of<FilterBloc>(context).add(
+                      FilterRequested(filterType: FilterType.MOST_EXPENSIVE))),
+            ),
           ),
         ],
       ),
