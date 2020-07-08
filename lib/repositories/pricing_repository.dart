@@ -43,12 +43,12 @@ class PricingRepository {
     var prices = new List<PricedObject>();
 
     for (String cc in currencyCategories) {
-      var results = await pricingApiClient.fetchCurrencyOverview(cc);
+      var results = await pricingApiClient.fetchPriceOverview(cc, PricingObjectType.CURRENCY);
       prices..addAll(results);
     }
 
     for (String ic in itemCategories) {
-      var results = await pricingApiClient.fetchItemOverview(ic);
+      var results = await pricingApiClient.fetchPriceOverview(ic, PricingObjectType.ITEM);
       prices..addAll(results);
     }
 
