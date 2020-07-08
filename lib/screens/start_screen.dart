@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/search_bloc.dart';
+import 'package:poe_currency/bloc/filter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/secrets.dart';
@@ -80,9 +80,9 @@ class StartScreen extends StatelessWidget {
                 return MultiBlocProvider(providers: [
                   BlocProvider<TabBloc>(
                       create: (context) => TabBloc(stash: state.stash)),
-                  BlocProvider<SearchBloc>(
+                  BlocProvider<FilterBloc>(
                       create: (context) =>
-                          SearchBloc(allItems: state.stash.allItems))
+                          FilterBloc(allItems: state.stash.allItems))
                 ], child: TabItemsView());
               }
               if (state is StashLoadFailure) {
