@@ -22,9 +22,8 @@ class TabItemsView extends StatelessWidget {
             if (state is TabInitial) {
               return _tab(context, state.stashTab, orientation);
             }
+            // TODO: This if-condition can be combined with the one above.
             if (state is TabUpdated) {
-              BlocProvider.of<PricingBloc>(context)
-                  .add(PricingRequested(itemsToPrice: state.stashTab.items));
               return _tab(context, state.stashTab, orientation);
             }
 

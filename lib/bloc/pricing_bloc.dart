@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
+import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
 
@@ -12,10 +13,18 @@ part 'pricing_state.dart';
 
 class PricingBloc extends Bloc<PricingEvent, PricingState> {
   final PricingRepository pricingRepository;
+  final StashBloc stashBloc;
+  StreamSubscription stashBlocSubscription;
 
-  PricingBloc({@required this.pricingRepository})
-      : assert(pricingRepository != null),
-        super(PricingInitial());
+  PricingBloc({@required this.pricingRepository, @required this.stashBloc})
+      : assert(pricingRepository != null && stashBloc != null),
+        super(PricingInitial()) {
+    stashBlocSubscription = stashBloc.listen((state) {
+      if (state is StashLoadSuccess) {
+        this.add(PricingRequested(itemsToPrice: state.stash.allItems));
+      }
+    });
+  }
 
   @override
   Stream<PricingState> mapEventToState(
@@ -47,5 +56,11 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
         yield PricingFailure();
       }
     }
+  }
+
+  @override
+  Future<void> close() {
+    stashBlocSubscription.cancel();
+    return super.close();
   }
 }
