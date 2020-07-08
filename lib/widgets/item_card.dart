@@ -97,7 +97,7 @@ class ItemCard extends StatelessWidget {
                 Text('${item.typeLine}'.toUpperCase(),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(color: kThirdColor)),
-                Text('TAB: ${item.stashName}, \$: ${item.totalValue == 0.0 ? 'NO MATCH' : item.totalValue.round()}'.toUpperCase(),
+                Text('TAB: ${item.stashName}, \$: ${item.totalValue == 0.0 ? '?' : item.totalValue.round()}'.toUpperCase(),
                     overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       color: kPrimaryColor.withOpacity(0.75),

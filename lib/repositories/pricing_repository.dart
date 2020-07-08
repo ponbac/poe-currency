@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:meta/meta.dart';
 import 'package:poe_currency/models/pricing/priced_object.dart';
@@ -38,7 +39,7 @@ class PricingRepository {
   PricingRepository({@required this.pricingApiClient})
       : assert(pricingApiClient != null);
 
-  Future<List<PricedObject>> getPricesForCurrency() async {
+  Future<HashMap<String, double>> getPricesForCurrency() async {
     var prices = new List<PricedObject>();
 
     for (String cc in currencyCategories) {
@@ -51,6 +52,7 @@ class PricingRepository {
       prices..addAll(results);
     }
 
-    return prices;
+    // Return HashMap for faster price lookup and also adds Chaos Orb since the API does not return it.
+    return HashMap.fromIterable(prices, key: (o) => o.name, value: (o) => o.value)..putIfAbsent('Chaos Orb', () => 1.0);
   }
 }

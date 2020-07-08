@@ -1,10 +1,10 @@
 import 'dart:async';
+import 'dart:collection';
 
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
 import 'package:poe_currency/models/item.dart';
-import 'package:poe_currency/models/pricing/priced_object.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
 
 part 'pricing_event.dart';
@@ -28,26 +28,20 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
       List<Item> pricedItems = new List<Item>();
 
       try {
-        List<PricedObject> currencyPrices =
+        HashMap<String, double> pricesMap =
             await pricingRepository.getPricesForCurrency();
 
-        // TODO: O(n^2), epic please fix maybe use hash map
-        // TODO: Give Chaos Orb value of 1
-        currencyPrices.forEach((price) {
-          itemsToPrice.forEach((item) {
-            if (price.name.toLowerCase() == item.typeLine.toLowerCase()) {
-              item.value = price.value;
+        itemsToPrice.forEach((item) {
+          item.value = pricesMap[item.typeLine];
 
-              pricedItems.add(item);
-            }
-          });
+          if (item.value == null) {
+            item.value = pricesMap[item.name] ?? 0.0;
+          }
+
+          pricedItems.add(item);
         });
 
-        if (pricedItems.length > 0) {
-          yield PricingSuccess(pricedItems: pricedItems);
-        } else {
-          yield PricingFailure();
-        }
+        yield PricingSuccess(pricedItems: pricedItems);
       } catch (_) {
         print(_.toString()); //TODO REMOVE AND MAKE PART OF UI RESPONSE
         yield PricingFailure();
