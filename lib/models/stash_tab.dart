@@ -11,4 +11,14 @@ class StashTab extends Equatable{
 
   @override
   List<Object> get props => [name, items];
+
+  int get totalValue {
+    double value = 0;
+
+    items.forEach((item) {
+      value += item.totalValue;
+    });
+
+    return value.round();
+  }
 }

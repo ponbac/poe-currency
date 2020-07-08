@@ -22,6 +22,7 @@ class Item {
   int y;
   String inventoryId;
   String stashName;
+  double value;
 
   Item(
       {this.verified,
@@ -44,7 +45,8 @@ class Item {
       this.x,
       this.y,
       this.inventoryId,
-      this.stashName});
+      this.stashName,
+      this.value});
 
   int get socketLinks {
     if (sockets == null) {
@@ -58,6 +60,10 @@ class Item {
     });
 
     return socketGroups.reduce(max);
+  }
+
+  double get totalValue {
+    return (value ?? 0.0) * (stackSize ?? 0);
   }
 
   Item.fromJson(Map<String, dynamic> json) {
