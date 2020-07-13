@@ -7,7 +7,12 @@ class MenuBar extends StatelessWidget {
     return Container(
       color: kThirdColor,
       child: Column(
-        
+        children: [
+          Text(
+            'STASH',
+            style: TextStyle(fontFamily: 'Naruto', fontSize: 40),
+          )
+        ],
       ),
     );
   }
