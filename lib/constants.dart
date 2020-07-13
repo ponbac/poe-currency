@@ -2,10 +2,10 @@
 import 'package:flutter/material.dart';
 
 // Colors that we use in our app
-const kPrimaryColor = Color(0xFF2A9D8F);
-const kSecondaryColor = Color(0xFFE76F51);
-const kThirdColor = Color(0xFFE9C46A);
-const kTextColor = Color(0xFFF4A261);
-const kBackgroundColor = Color(0xFF264653);
+const kPrimaryColor = Color(0xFFFCA311);
+const kSecondaryColor = Color(0xFF14213D);
+const kThirdColor = Color(0xFFE5E5E5);
+const kTextColor = Color(0xFFFFFFFF);
+const kBackgroundColor = Color(0xFF000000);
 
 const double kDefaultPadding = 20.0;
