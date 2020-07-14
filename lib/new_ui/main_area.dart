@@ -5,7 +5,7 @@ class MainArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: kSecondaryColor,
+      color: Colors.amber,
     );
   }
 }
