@@ -106,7 +106,7 @@ class ItemCard extends StatelessWidget {
             ),
           ),
           Text(
-            '${item.stackSize ?? ''}',
+            '${item.stackSize ?? ''}, ${item.level ?? '?'}',
             style: Theme.of(context)
                 .textTheme
                 .button

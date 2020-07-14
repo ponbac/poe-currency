@@ -11,6 +11,7 @@ class Item {
   String typeLine;
   bool identified;
   int ilvl;
+  int level;
   List<String> implicitMods;
   List<String> explicitMods;
   List<Socket> sockets;
@@ -35,6 +36,7 @@ class Item {
       this.typeLine,
       this.identified,
       this.ilvl,
+      this.level,
       this.implicitMods,
       this.explicitMods,
       this.sockets,
@@ -90,6 +92,13 @@ class Item {
     x = json['x'];
     y = json['y'];
     inventoryId = json['inventoryId'];
+
+    // TODO: THIS DOES NOT WORK!
+    try {
+      level = json['properties']['values'][0][0];
+    } catch(_) {
+      print(_.toString());
+    }
   }
 
   Map<String, dynamic> toJson() {

@@ -17,7 +17,7 @@ class Start extends StatelessWidget {
         children: [
           Expanded(flex: 1, child: MenuBar()),
           Expanded(
-            flex: 3,
+            flex: 5,
             child: Column(
               children: [
                 Expanded(flex: 1, child: TopBar()),
