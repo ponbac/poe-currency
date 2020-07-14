@@ -43,12 +43,12 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'PoE Stash Explorer',
       theme: ThemeData(
-          fontFamily: 'Ubuntu',
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: Theme.of(context).textTheme.apply(
                 bodyColor: kThirdColor,
                 displayColor: kThirdColor,
+                fontFamily: 'Ubuntu'
               ),
           buttonTheme: ButtonThemeData(
             buttonColor: kBackgroundColor, //  <-- dark color

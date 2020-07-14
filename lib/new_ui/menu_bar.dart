@@ -7,21 +7,75 @@ class MenuBar extends StatelessWidget {
     return Container(
       color: kBackgroundColor,
       child: Column(
-        children: [_UserInformation(), Spacer(), _NavigationList()],
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _UserInformation(
+            userName: 'Zedimus',
+            characterClass: 'Necromancer',
+            avatarPath: 'assets/images/test-avatar.png',
+          ),
+          Spacer(),
+          _NavigationList()
+        ],
       ),
     );
   }
 }
 
 class _UserInformation extends StatelessWidget {
-  const _UserInformation();
+  const _UserInformation(
+      {@required this.userName,
+      @required this.characterClass,
+      @required this.avatarPath})
+      : assert(userName != null),
+        assert(characterClass != null),
+        assert(avatarPath != null);
+
+  final String userName;
+  final String characterClass;
+  final String avatarPath;
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 1,
-      child: Column(children: [
-        Text('INFO!')
+      flex: 2,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        Padding(
+          padding: EdgeInsets.only(top: 25, left: 20),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Image(
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
+              image: AssetImage(avatarPath),
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 10, left: 20),
+          child: Text(
+            userName,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: 18,
+                fontFamily: 'Ubuntu',
+                fontWeight: FontWeight.w500,
+                color: kTextColor),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Text(
+            characterClass,
+            overflow: TextOverflow.ellipsis,
+            style: TextStyle(
+                fontSize: 14,
+                fontFamily: 'Ubuntu',
+                fontWeight: FontWeight.w500,
+                color: Colors.grey[600]),
+          ),
+        ),
       ]),
     );
   }
@@ -35,7 +89,7 @@ class _NavigationList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      flex: 4,
+      flex: 7,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -80,14 +134,16 @@ class _NavigationListLink extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 12),
+      margin: EdgeInsets.only(bottom: 12, left: 20),
       child: Text(
         linkText,
+        overflow: TextOverflow.ellipsis,
         style: TextStyle(
-            color: isActive ? kTextColor : Colors.grey[600],
-            fontSize: 30,
-            fontFamily: 'Ubuntu',
-            fontWeight: FontWeight.w500,),
+          color: isActive ? kTextColor : Colors.grey[600],
+          fontSize: 30,
+          fontFamily: 'Ubuntu',
+          fontWeight: FontWeight.w500,
+        ),
       ),
     );
   }
