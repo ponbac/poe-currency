@@ -132,16 +132,19 @@ class _NavigationListLink extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      margin: EdgeInsets.only(bottom: 12, left: 20),
-      child: Text(
-        linkText,
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(
-          color: isActive ? kTextColor : Colors.grey[600],
-          fontSize: 26,
-          fontFamily: 'Ubuntu',
-          fontWeight: FontWeight.w500,
+    return GestureDetector(
+      onTap: onLinkPressed,
+      child: Container(
+        margin: EdgeInsets.only(bottom: 12, left: 20),
+        child: Text(
+          linkText,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: isActive ? kTextColor : Colors.grey[600],
+            fontSize: 26,
+            fontFamily: 'Ubuntu',
+            fontWeight: FontWeight.w500,
+          ),
         ),
       ),
     );
