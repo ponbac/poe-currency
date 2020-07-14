@@ -24,6 +24,8 @@ void main() {
     stashRepository = new StashRepository(stashApiClient: new StashApiClient());
   }
 
+  StashBloc stashBloc = StashBloc(stashRepository: stashRepository);
+
   runApp(MyApp(
     stashRepository: stashRepository,
     pricingRepository: pricingRepository,
@@ -46,10 +48,9 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
           visualDensity: VisualDensity.adaptivePlatformDensity,
           textTheme: Theme.of(context).textTheme.apply(
-                bodyColor: kThirdColor,
-                displayColor: kThirdColor,
-                fontFamily: 'Ubuntu'
-              ),
+              bodyColor: kThirdColor,
+              displayColor: kThirdColor,
+              fontFamily: 'Ubuntu'),
           buttonTheme: ButtonThemeData(
             buttonColor: kBackgroundColor, //  <-- dark color
             textTheme: ButtonTextTheme
@@ -57,7 +58,7 @@ class MyApp extends StatelessWidget {
           )),
       home: BlocProvider<StashBloc>(
         create: (context) => StashBloc(stashRepository: stashRepository),
-        child: Start(),
+        child: Start(pricingRepository: pricingRepository,),
       ),
     );
   }

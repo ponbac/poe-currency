@@ -10,7 +10,7 @@ class MainArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.amber,
+        color: kBackgroundColor,
         // TODO: Add some kind of NavigationBloc.
         child: _StashView());
   }
@@ -94,7 +94,7 @@ class _ItemList extends StatelessWidget {
   Widget build(BuildContext context) {
     return ListView.separated(
         itemBuilder: (BuildContext context, int index) {
-          return Text(items[index].typeLine);
+          return Text('${items[index].typeLine}');
         },
         separatorBuilder: (BuildContext context, int index) {
           return Divider();

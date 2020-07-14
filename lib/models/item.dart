@@ -79,12 +79,18 @@ class Item {
     typeLine = json['typeLine'];
     identified = json['identified'];
     ilvl = json['ilvl'];
-    implicitMods = json['implicitMods'] == null ? [''] : json['implicitMods'].cast<String>();
-    explicitMods = json['explicitMods'] == null ? [''] : json['explicitMods'].cast<String>();
+    implicitMods = json['implicitMods'] == null
+        ? ['']
+        : json['implicitMods'].cast<String>();
+    explicitMods = json['explicitMods'] == null
+        ? ['']
+        : json['explicitMods'].cast<String>();
     if (json['sockets'] != null) {
-			sockets = new List<Socket>();
-			json['sockets'].forEach((s) { sockets.add(new Socket.fromJson(s)); });
-		}
+      sockets = new List<Socket>();
+      json['sockets'].forEach((s) {
+        sockets.add(new Socket.fromJson(s));
+      });
+    }
     descrText = json['descrText'];
     frameType = json['frameType'];
     stackSize = json['stackSize'];
@@ -94,11 +100,12 @@ class Item {
     inventoryId = json['inventoryId'];
 
     // TODO: THIS DOES NOT WORK!
-    try {
-      level = json['properties']['values'][0][0];
-    } catch(_) {
+    /*try {
+      level = int.parse(json['properties']['values'][0][0]);
+      print('Level of $typeLine: $level');
+    } catch (_) {
       print(_.toString());
-    }
+    }*/
   }
 
   Map<String, dynamic> toJson() {
@@ -127,29 +134,29 @@ class Item {
   }
 
   @override
-    String toString() {
-        return '$typeLine, amount: $stackSize';
-    }
+  String toString() {
+    return '$typeLine, amount: $stackSize';
+  }
 }
 
 class Socket {
-	int group;
-	String attr;
-	String sColour;
+  int group;
+  String attr;
+  String sColour;
 
-	Socket({this.group, this.attr, this.sColour});
+  Socket({this.group, this.attr, this.sColour});
 
-	Socket.fromJson(Map<String, dynamic> json) {
-		group = json['group'];
-		attr = json['attr'];
-		sColour = json['sColour'];
-	}
+  Socket.fromJson(Map<String, dynamic> json) {
+    group = json['group'];
+    attr = json['attr'];
+    sColour = json['sColour'];
+  }
 
-	Map<String, dynamic> toJson() {
-		final Map<String, dynamic> data = new Map<String, dynamic>();
-		data['group'] = this.group;
-		data['attr'] = this.attr;
-		data['sColour'] = this.sColour;
-		return data;
-	}
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['group'] = this.group;
+    data['attr'] = this.attr;
+    data['sColour'] = this.sColour;
+    return data;
+  }
 }

@@ -50,6 +50,7 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
           pricedItems.add(item);
         });
 
+        print('PRICING SUCCESS!');
         yield PricingSuccess(pricedItems: pricedItems);
       } catch (_) {
         print(_.toString()); //TODO REMOVE AND MAKE PART OF UI RESPONSE
