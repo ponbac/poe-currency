@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
+import 'package:poe_currency/secrets.dart';
 
 class MenuBar extends StatelessWidget {
   @override
@@ -94,8 +97,10 @@ class _NavigationList extends StatelessWidget {
       children: [
         _NavigationListLink(
           linkText: menuItems[0],
-          onLinkPressed: () => print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-          isActive: false,
+          onLinkPressed: () => BlocProvider.of<StashBloc>(context).add(
+              StashRequested(
+                  sessionId: poeSessionId, accountName: poeAccountName)),
+          isActive: true,
         ),
         _NavigationListLink(
           linkText: menuItems[1],
