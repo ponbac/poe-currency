@@ -108,16 +108,27 @@ class _ItemList extends StatelessWidget {
 
       return ListView.separated(
           itemBuilder: (BuildContext context, int index) {
-            Item item = items[index];
-
-            return isPriced
-                ? Text('${item.typeLine}, ${item.totalValue.round()}C')
-                : Text('${items[index].typeLine}');
+            return _ItemListItem(item: items[index], isPriced: isPriced);
           },
           separatorBuilder: (BuildContext context, int index) {
             return Divider();
           },
           itemCount: items.length);
     });
+  }
+}
+
+class _ItemListItem extends StatelessWidget {
+  const _ItemListItem({@required this.item, this.isPriced = false})
+      : assert(item != null);
+
+  final Item item;
+  final bool isPriced;
+
+  @override
+  Widget build(BuildContext context) {
+    return isPriced
+        ? Text('${item.typeLine}, ${item.totalValue.round()}C')
+        : Text('${item.typeLine}');
   }
 }
