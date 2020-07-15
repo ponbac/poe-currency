@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/filter_bloc.dart';
+import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
+import 'package:poe_currency/new_ui/top_bar.dart';
 
 class MainArea extends StatelessWidget {
   @override
@@ -28,12 +30,20 @@ class _StashView extends StatelessWidget {
         );
       }
       if (state is StashLoadSuccess) {
-        return MultiBlocProvider(providers: [
-          BlocProvider<TabBloc>(
-              create: (context) => TabBloc(stash: state.stash)),
-          BlocProvider<FilterBloc>(
-              create: (context) => FilterBloc(allItems: state.stash.allItems))
-        ], child: _TabView());
+        return MultiBlocProvider(
+            providers: [
+              BlocProvider<TabBloc>(
+                  create: (context) => TabBloc(stash: state.stash)),
+              BlocProvider<FilterBloc>(
+                  create: (context) =>
+                      FilterBloc(allItems: state.stash.allItems))
+            ],
+            child: Column(
+              children: [
+                Expanded(flex: 1, child: TopBar()),
+                Expanded(flex: 4, child: _TabView()),
+              ],
+            ));
       }
       if (state is StashLoadFailure) {
         return Center(child: Text('Stash load FAILED!'));
@@ -64,10 +74,7 @@ class _TabView extends StatelessWidget {
       },
       child: BlocBuilder<TabBloc, TabState>(builder: (context, state) {
         if (state is TabInitial) {
-          BlocProvider.of<FilterBloc>(context)
-              .add(FilterRequested(filterType: FilterType.MOST_EXPENSIVE));
-
-          return Center(child: CircularProgressIndicator());
+          return _ItemList(items: state.stashTab.items);
         }
         if (state is TabUpdated) {
           return _ItemList(items: state.stashTab.items);
@@ -92,13 +99,25 @@ class _ItemList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.separated(
-        itemBuilder: (BuildContext context, int index) {
-          return Text('${items[index].typeLine}');
-        },
-        separatorBuilder: (BuildContext context, int index) {
-          return Divider();
-        },
-        itemCount: items.length);
+    return BlocBuilder<PricingBloc, PricingState>(builder: (context, state) {
+      bool isPriced = false;
+
+      if (state is PricingSuccess) {
+        isPriced = true;
+      }
+
+      return ListView.separated(
+          itemBuilder: (BuildContext context, int index) {
+            Item item = items[index];
+
+            return isPriced
+                ? Text('${item.typeLine}, ${item.totalValue.round()}C')
+                : Text('${items[index].typeLine}');
+          },
+          separatorBuilder: (BuildContext context, int index) {
+            return Divider();
+          },
+          itemCount: items.length);
+    });
   }
 }

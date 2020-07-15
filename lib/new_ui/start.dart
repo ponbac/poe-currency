@@ -29,7 +29,6 @@ class Start extends StatelessWidget {
             flex: 5,
             child: Column(
               children: [
-                Expanded(flex: 1, child: TopBar()),
                 BlocProvider<PricingBloc>(
                     create: (context) => PricingBloc(
                         pricingRepository: pricingRepository,
