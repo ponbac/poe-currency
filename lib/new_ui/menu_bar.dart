@@ -15,8 +15,8 @@ class MenuBar extends StatelessWidget {
           Expanded(
             flex: 2,
             child: _UserInformation(
-              userName: 'Zedimus',
-              characterClass: 'Necromancer',
+              userName: poeAccountName,
+              characterClass: 'Weird dude',
               avatarPath: 'assets/images/test-avatar.png',
             ),
           ),
