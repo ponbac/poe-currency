@@ -24,8 +24,6 @@ void main() {
     stashRepository = new StashRepository(stashApiClient: new StashApiClient());
   }
 
-  StashBloc stashBloc = StashBloc(stashRepository: stashRepository);
-
   runApp(MyApp(
     stashRepository: stashRepository,
     pricingRepository: pricingRepository,

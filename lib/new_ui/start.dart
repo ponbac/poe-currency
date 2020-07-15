@@ -5,7 +5,6 @@ import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/new_ui/main_area.dart';
 import 'package:poe_currency/new_ui/menu_bar.dart';
-import 'package:poe_currency/new_ui/top_bar.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
 
 // Inspiration: https://dribbble.com/shots/11663910--Exploration-Bookmark-App

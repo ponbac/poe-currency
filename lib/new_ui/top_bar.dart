@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/filter_bloc.dart';
+import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
+
+import '../secrets.dart';
 
 // TODO: Merge with _StashView
 
@@ -16,13 +19,14 @@ class TopBar extends StatelessWidget {
         children: [
           Spacer(),
           Expanded(
-            flex: 4,
+            flex: 5,
             child: Row(
               children: [
                 _Title(
                   titleText: 'Stash',
                 ),
-                _FilterButton()
+                _FilterButton(),
+                _RefreshButton()
               ],
             ),
           ),
@@ -77,6 +81,21 @@ class _FilterButton extends StatelessWidget {
         ),
         onPressed: () => BlocProvider.of<FilterBloc>(context)
             .add(FilterRequested(filterType: FilterType.MOST_EXPENSIVE)));
+  }
+}
+
+class _RefreshButton extends StatelessWidget {
+  const _RefreshButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(
+          Icons.refresh,
+          color: kTextColor,
+        ),
+        onPressed: () => BlocProvider.of<StashBloc>(context).add(StashRequested(
+            sessionId: poeSessionId, accountName: poeAccountName)));
   }
 }
 
