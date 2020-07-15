@@ -17,6 +17,7 @@ class StashRepositoryWeb extends StashRepository {
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
 
+    // TODO: Possible to not use await and do this quicker?
     int stashTabIndex = 0;
     StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(
         accountName, sessionId, stashTabIndex);

@@ -4,13 +4,15 @@ A new Flutter project.
 
 ## TODO
 
-Add menu showing the name of every stash tab.
+Refactor bad code.
 
-Make the whole stash searchable, item names and properties.
+Solve TODOS...
 
-Add more item info, e.g. sockets, links and stats.
+Style everything more!
 
-Style everything!
+Add pages other than Stash.
+
+Implement leaderboard?
 
 ## Running web version on Gitpod
 
