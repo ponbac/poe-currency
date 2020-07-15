@@ -107,14 +107,63 @@ class _ItemList extends StatelessWidget {
         isPriced = true;
       }
 
-      return ListView.separated(
-          itemBuilder: (BuildContext context, int index) {
-            return _ItemListItem(item: items[index], isPriced: isPriced);
-          },
-          separatorBuilder: (BuildContext context, int index) {
-            return Divider();
-          },
-          itemCount: items.length);
+      return Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Expanded(
+                    flex: 1,
+                    child: Text(
+                      '',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    )),
+                Expanded(
+                    flex: 2,
+                    child: Text('Name',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Tab',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Links',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Level',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Quantity',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Price',
+                        style: TextStyle(fontWeight: FontWeight.bold))),
+                Expanded(
+                    flex: 1,
+                    child: Text('Total value',
+                        style: TextStyle(fontWeight: FontWeight.bold)))
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 10,
+            child: ListView.separated(
+                itemBuilder: (BuildContext context, int index) {
+                  return _ItemListItem(item: items[index], isPriced: isPriced);
+                },
+                separatorBuilder: (BuildContext context, int index) {
+                  return Divider();
+                },
+                itemCount: items.length),
+          ),
+        ],
+      );
     });
   }
 }
