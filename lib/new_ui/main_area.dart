@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/filter_bloc.dart';
@@ -127,8 +128,56 @@ class _ItemListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return isPriced
-        ? Text('${item.typeLine}, ${item.totalValue.round()}C')
-        : Text('${item.typeLine}');
+    final Text name = Text('${item.typeLine}', overflow: TextOverflow.ellipsis);
+    final Text tab = Text(
+      '${item.stashName}',
+      overflow: TextOverflow.ellipsis,
+    );
+    final Text links =
+        item.socketLinks != 0 ? Text('${item.socketLinks}') : Text('N/A');
+    final Text level = Text('${item.level ?? 'N/A'}');
+    final Text quantity = Text('${item.stackSize ?? '1'}');
+    final Text price = isPriced ? Text('${item.value.round()}') : Text('N/A');
+    final Text totalValue =
+        isPriced ? Text('${item.totalValue.round()}') : Text('N/A');
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(flex: 1, child: _ItemIcon(iconUrl: item.icon)),
+        Expanded(flex: 2, child: name),
+        Expanded(flex: 1, child: tab),
+        Expanded(flex: 1, child: links),
+        Expanded(flex: 1, child: level),
+        Expanded(flex: 1, child: quantity),
+        Expanded(flex: 1, child: price),
+        Expanded(flex: 1, child: totalValue)
+      ],
+    );
+  }
+}
+
+class _ItemIcon extends StatelessWidget {
+  const _ItemIcon({@required this.iconUrl}) : assert(iconUrl != null);
+
+  final String iconUrl;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 40,
+      width: 40,
+      child: CachedNetworkImage(
+        imageUrl: iconUrl,
+        progressIndicatorBuilder: (context, url, downloadProgress) => Center(
+          child: SizedBox(
+            height: 20,
+            width: 20,
+            child: CircularProgressIndicator(value: downloadProgress.progress),
+          ),
+        ),
+        errorWidget: (context, url, error) => Icon(Icons.error),
+      ),
+    );
   }
 }
