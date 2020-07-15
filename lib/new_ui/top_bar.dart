@@ -57,11 +57,17 @@ class _Title extends StatelessWidget {
         String tabName = state.stashTab.name;
         String tabValue = state.stashTab.totalValue.toString();
 
-        return Text(
-          '$tabName${tabValue != null ? ', ' + tabValue + 'C' : ''}',
-          style: titleStyle.copyWith(fontSize: 30),
-          overflow: TextOverflow.ellipsis,
-        );
+        return RichText(
+            overflow: TextOverflow.ellipsis,
+            text: TextSpan(
+                text: '$tabName',
+                style: titleStyle.copyWith(fontSize: 30),
+                children: <TextSpan>[
+                  TextSpan(
+                      text: '${tabValue != null ? ' ' + tabValue + 'C' : ''}',
+                      style: titleStyle.copyWith(
+                          fontSize: 30, color: kPrimaryColor))
+                ]));
       }
 
       return Text(titleText, style: titleStyle);

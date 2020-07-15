@@ -111,45 +111,7 @@ class _ItemList extends StatelessWidget {
         children: [
           Expanded(
             flex: 1,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Text(
-                      '',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    )),
-                Expanded(
-                    flex: 2,
-                    child: Text('Name',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Tab',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Links',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Level',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Quantity',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Price',
-                        style: TextStyle(fontWeight: FontWeight.bold))),
-                Expanded(
-                    flex: 1,
-                    child: Text('Total value',
-                        style: TextStyle(fontWeight: FontWeight.bold)))
-              ],
-            ),
+            child: _ItemListHeader(),
           ),
           Expanded(
             flex: 10,
@@ -168,6 +130,51 @@ class _ItemList extends StatelessWidget {
   }
 }
 
+class _ItemListHeader extends StatelessWidget {
+  const _ItemListHeader();
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        Expanded(
+            flex: 1,
+            child: Text(
+              '',
+              style: TextStyle(fontWeight: FontWeight.bold),
+            )),
+        Expanded(
+            flex: 2,
+            child: Text('Name', style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text('Tab', style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child:
+                Text('Links', style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child:
+                Text('Level', style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text('Quantity',
+                style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child:
+                Text('Price', style: TextStyle(fontWeight: FontWeight.bold))),
+        Expanded(
+            flex: 1,
+            child: Text('Total value',
+                style: TextStyle(fontWeight: FontWeight.bold)))
+      ],
+    );
+  }
+}
+
 class _ItemListItem extends StatelessWidget {
   const _ItemListItem({@required this.item, this.isPriced = false})
       : assert(item != null);
@@ -177,7 +184,9 @@ class _ItemListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Text name = Text('${item.typeLine}', overflow: TextOverflow.ellipsis);
+    final Text name = Text('${item.typeLine}',
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(color: kPrimaryColor));
     final Text tab = Text(
       '${item.stashName}',
       overflow: TextOverflow.ellipsis,
@@ -186,9 +195,14 @@ class _ItemListItem extends StatelessWidget {
         item.socketLinks != 0 ? Text('${item.socketLinks}') : Text('N/A');
     final Text level = Text('${item.level ?? 'N/A'}');
     final Text quantity = Text('${item.stackSize ?? '1'}');
-    final Text price = isPriced ? Text('${item.value.round()}') : Text('N/A');
-    final Text totalValue =
-        isPriced ? Text('${item.totalValue.round()}') : Text('N/A');
+    final Text price = isPriced
+        ? Text('${double.parse((item.value).toStringAsFixed(2))}',
+            style: TextStyle(color: kPrimaryColor))
+        : Text('N/A');
+    final Text totalValue = isPriced
+        ? Text('${double.parse((item.totalValue).toStringAsFixed(2))}',
+            style: TextStyle(color: kPrimaryColor))
+        : Text('N/A');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
