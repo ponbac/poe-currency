@@ -18,9 +18,6 @@ class StashView extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<StashBloc, StashState>(builder: (context, state) {
       if (state is StashInitial) {
-        BlocProvider.of<StashBloc>(context).add(StashRequested(
-            sessionId: poeSessionId, accountName: poeAccountName));
-
         return Text('Grabbing stash...');
       }
       if (state is StashLoadInProgress) {

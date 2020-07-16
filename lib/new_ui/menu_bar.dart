@@ -23,7 +23,8 @@ class MenuBar extends StatelessWidget {
             ),
           ),
           Spacer(),
-          Expanded(flex: 7, child: _NavigationList())
+          Expanded(flex: 7, child: _NavigationList()),
+          Expanded(flex: 1, child: _LogOutButton())
         ],
       ),
     );
@@ -159,5 +160,20 @@ class _NavigationListLink extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+class _LogOutButton extends StatelessWidget {
+  const _LogOutButton();
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+        icon: Icon(
+          Icons.exit_to_app,
+          color: kTextColor,
+        ),
+        onPressed: () => BlocProvider.of<NavigationBloc>(context)
+            .add(PageRequested(page: NavPage.LOGIN)));
   }
 }

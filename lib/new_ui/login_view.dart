@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
+import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/models/nav_page.dart';
 
 import '../constants.dart';
@@ -14,8 +15,14 @@ class LoginView extends StatelessWidget {
     poeAccountName = _nameController.text;
     poeSessionId = _sessionIdController.text;
 
+    if (poeAccountName.length > 1 && poeSessionId.length > 6) {
     BlocProvider.of<NavigationBloc>(context)
         .add(PageRequested(page: NavPage.STASH));
+    BlocProvider.of<StashBloc>(context).add(
+        StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
+    } else {
+      print('Non-valid credentials!');
+    }
   }
 
   @override
@@ -57,8 +64,8 @@ class _TopImage extends StatelessWidget {
         width: 100,
         color: kBackgroundColor,
         child: Image(
-          height: 80,
-          width: 80,
+          height: 90,
+          width: 90,
           image: image,
         ),
       ),
@@ -82,7 +89,8 @@ class _LoginField extends StatelessWidget {
           controller: textController,
           style: TextStyle(color: kBackgroundColor),
           decoration: InputDecoration(
-              hintText: hint, hintStyle: TextStyle(color: kBackgroundColor.withOpacity(0.5)))),
+              hintText: hint,
+              hintStyle: TextStyle(color: kBackgroundColor.withOpacity(0.5)))),
     );
   }
 }
@@ -99,7 +107,12 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
-      child: RaisedButton(child: Text(text, style: TextStyle(color: kPrimaryColor),), onPressed: onPressed),
+      child: RaisedButton(
+          child: Text(
+            text,
+            style: TextStyle(color: kPrimaryColor),
+          ),
+          onPressed: onPressed),
     );
   }
 }
