@@ -25,9 +25,13 @@ class LoginView extends StatelessWidget {
         height: 400,
         width: 400,
         decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: Colors.blue),
+            borderRadius: BorderRadius.circular(20), color: kPrimaryColor),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
+            _TopImage(
+              image: AssetImage('assets/images/chaos-orb.png'),
+            ),
             _LoginField(textController: _nameController, hint: 'Account name'),
             _LoginField(
                 textController: _sessionIdController, hint: 'Session ID'),
@@ -39,8 +43,31 @@ class LoginView extends StatelessWidget {
   }
 }
 
+class _TopImage extends StatelessWidget {
+  const _TopImage({@required this.image}) : assert(image != null);
+
+  final AssetImage image;
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(100.0),
+      child: Container(
+        height: 100,
+        width: 100,
+        color: kBackgroundColor,
+        child: Image(
+          height: 80,
+          width: 80,
+          image: image,
+        ),
+      ),
+    );
+  }
+}
+
 class _LoginField extends StatelessWidget {
-  const _LoginField({this.textController, this.hint})
+  const _LoginField({@required this.textController, @required this.hint})
       : assert(textController != null),
         assert(hint != null);
 
@@ -53,14 +80,15 @@ class _LoginField extends StatelessWidget {
       width: 200,
       child: TextField(
           controller: textController,
+          style: TextStyle(color: kBackgroundColor),
           decoration: InputDecoration(
-              hintText: hint, hintStyle: TextStyle(color: kPrimaryColor))),
+              hintText: hint, hintStyle: TextStyle(color: kBackgroundColor.withOpacity(0.5)))),
     );
   }
 }
 
 class _SubmitButton extends StatelessWidget {
-  const _SubmitButton({this.text, this.onPressed})
+  const _SubmitButton({@required this.text, @required this.onPressed})
       : assert(text != null),
         assert(onPressed != null);
 
@@ -71,7 +99,7 @@ class _SubmitButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 25),
-      child: RaisedButton(child: Text(text), onPressed: onPressed),
+      child: RaisedButton(child: Text(text, style: TextStyle(color: kPrimaryColor),), onPressed: onPressed),
     );
   }
 }
