@@ -86,6 +86,7 @@ class _UserInformation extends StatelessWidget {
   }
 }
 
+// TODO: Fix highlighting of selected link!
 class _NavigationList extends StatelessWidget {
   const _NavigationList();
 

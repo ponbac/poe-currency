@@ -26,18 +26,20 @@ class Start extends StatelessWidget {
       body: BlocProvider<NavigationBloc>(
         create: (context) => NavigationBloc(),
         child: Row(children: [
-          Expanded(flex: 1, child: MenuBar()),
+          BlocBuilder<NavigationBloc, NavPage>(builder: (context, state) {
+            if (state == NavPage.LOGIN) {
+              return Container(); // Give MainArea all space
+            }
+
+            return Expanded(flex: 1, child: MenuBar());
+          }),
           Expanded(
             flex: 5,
-            child: Column(
-              children: [
-                BlocProvider<PricingBloc>(
-                    create: (context) => PricingBloc(
-                        pricingRepository: pricingRepository,
-                        stashBloc: BlocProvider.of<StashBloc>(context)),
-                    child: Expanded(flex: 4, child: MainArea()))
-              ],
-            ),
+            child: BlocProvider<PricingBloc>(
+                create: (context) => PricingBloc(
+                    pricingRepository: pricingRepository,
+                    stashBloc: BlocProvider.of<StashBloc>(context)),
+                child: MainArea()),
           )
         ]),
       ),
