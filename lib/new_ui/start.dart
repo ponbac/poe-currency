@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
+import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/new_ui/main_area.dart';
 import 'package:poe_currency/new_ui/menu_bar.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
@@ -21,8 +23,9 @@ class Start extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
-      body: Row(
-        children: [
+      body: BlocProvider<NavigationBloc>(
+        create: (context) => NavigationBloc(),
+        child: Row(children: [
           Expanded(flex: 1, child: MenuBar()),
           Expanded(
             flex: 5,
@@ -36,7 +39,7 @@ class Start extends StatelessWidget {
               ],
             ),
           )
-        ],
+        ]),
       ),
     );
   }

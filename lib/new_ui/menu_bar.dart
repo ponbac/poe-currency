@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
+import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/secrets.dart';
 
 class MenuBar extends StatelessWidget {
@@ -91,28 +93,36 @@ class _NavigationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        _NavigationListLink(
-          linkText: menuItems[0],
-          onLinkPressed: () => BlocProvider.of<StashBloc>(context).add(
-              StashRequested(
-                  sessionId: poeSessionId, accountName: poeAccountName)),
-          isActive: true,
-        ),
-        _NavigationListLink(
-          linkText: menuItems[1],
-          onLinkPressed: () => print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-          isActive: false,
-        ),
-        _NavigationListLink(
-          linkText: menuItems[2],
-          onLinkPressed: () => print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-          isActive: false,
-        )
-      ],
+    NavPage currentPage;
+
+    return BlocListener<NavigationBloc, NavPage>(
+      listener: (context, state) {
+        currentPage = state;
+      },
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _NavigationListLink(
+            linkText: menuItems[0],
+            onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
+                .add(PageRequested(page: NavPage.STASH)),
+            isActive: currentPage == NavPage.STASH ? true : false,
+          ),
+          _NavigationListLink(
+            linkText: menuItems[1],
+            onLinkPressed: () =>
+                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
+            isActive: currentPage == NavPage.CHARACTER ? true : false,
+          ),
+          _NavigationListLink(
+            linkText: menuItems[2],
+            onLinkPressed: () =>
+                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
+            isActive: currentPage == NavPage.SETTINGS ? true : false,
+          )
+        ],
+      ),
     );
   }
 }

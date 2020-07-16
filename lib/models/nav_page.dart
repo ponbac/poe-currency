@@ -1,0 +1,1 @@
+enum NavPage {LOGIN, STASH, CHARACTER, SETTINGS}

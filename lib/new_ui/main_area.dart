@@ -2,20 +2,31 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/filter_bloc.dart';
+import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
+import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';
+
+import '../secrets.dart';
 
 class MainArea extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
         color: kBackgroundColor,
-        // TODO: Add some kind of NavigationBloc.
-        child: _StashView());
+        child: BlocBuilder<NavigationBloc, NavPage>(
+          builder: (context, state) {
+            if (state == NavPage.STASH) {
+              return _StashView();
+            }
+
+            return Text('NO VALID NAV STATE!');
+          },
+        ));
   }
 }
 
@@ -25,6 +36,12 @@ class _StashView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<StashBloc, StashState>(builder: (context, state) {
+      if (state is StashInitial) {
+        BlocProvider.of<StashBloc>(context).add(StashRequested(
+            sessionId: poeSessionId, accountName: poeAccountName));
+
+        return Text('Grabbing stash...');
+      }
       if (state is StashLoadInProgress) {
         return Center(
           child: CircularProgressIndicator(),
@@ -53,7 +70,7 @@ class _StashView extends StatelessWidget {
       // default case
       return Center(
         child: Text(
-          'Something went wrong, no state in StashView!',
+          'Something went wrong, no state in StashView! State = ${state.toString()}',
           style: TextStyle(color: Colors.red),
         ),
       );
