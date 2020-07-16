@@ -16,13 +16,20 @@ class LoginView extends StatelessWidget {
     poeSessionId = _sessionIdController.text;
 
     if (poeAccountName.length > 1 && poeSessionId.length > 6) {
+      BlocProvider.of<NavigationBloc>(context)
+          .add(PageRequested(page: NavPage.STASH));
+      BlocProvider.of<StashBloc>(context).add(
+          StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
+    } else {
+      print('Non-valid credentials!');
+    }
+  }
+
+  void _displayStashTesting(BuildContext context) {
     BlocProvider.of<NavigationBloc>(context)
         .add(PageRequested(page: NavPage.STASH));
     BlocProvider.of<StashBloc>(context).add(
         StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
-    } else {
-      print('Non-valid credentials!');
-    }
   }
 
   @override
@@ -43,6 +50,9 @@ class LoginView extends StatelessWidget {
             _LoginField(
                 textController: _sessionIdController, hint: 'Session ID'),
             _SubmitButton(text: 'GO!', onPressed: () => _displayStash(context)),
+            _SubmitButton(
+                text: 'testing',
+                onPressed: () => _displayStashTesting(context)),
           ],
         ),
       ),

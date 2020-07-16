@@ -91,8 +91,6 @@ class _UserInformation extends StatelessWidget {
 class _NavigationList extends StatelessWidget {
   const _NavigationList();
 
-  static const menuItems = ['Stash', 'Character', 'Settings'];
-
   @override
   Widget build(BuildContext context) {
     NavPage currentPage;
@@ -106,19 +104,19 @@ class _NavigationList extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _NavigationListLink(
-            linkText: menuItems[0],
+            navPage: NavPage.STASH,
             onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
                 .add(PageRequested(page: NavPage.STASH)),
             isActive: currentPage == NavPage.STASH ? true : false,
           ),
           _NavigationListLink(
-            linkText: menuItems[1],
+            navPage: NavPage.CHARACTER,
             onLinkPressed: () =>
                 print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
             isActive: currentPage == NavPage.CHARACTER ? true : false,
           ),
           _NavigationListLink(
-            linkText: menuItems[2],
+            navPage: NavPage.SETTINGS,
             onLinkPressed: () =>
                 print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
             isActive: currentPage == NavPage.SETTINGS ? true : false,
@@ -131,32 +129,57 @@ class _NavigationList extends StatelessWidget {
 
 class _NavigationListLink extends StatelessWidget {
   const _NavigationListLink(
-      {@required this.linkText,
+      {@required this.navPage,
       @required this.onLinkPressed,
       @required this.isActive})
-      : assert(linkText != null),
+      : assert(navPage != null),
         assert(onLinkPressed != null),
         assert(isActive != null);
 
-  final String linkText;
+  final NavPage navPage;
   final Function onLinkPressed;
   final bool isActive;
 
+  final TextStyle textStyle = const TextStyle(
+    color: Colors.grey,
+    fontSize: 26,
+    fontFamily: 'Ubuntu',
+    fontWeight: FontWeight.w500,
+  );
+
+  // TODO: UGLY! REMAKE!
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onLinkPressed,
       child: Container(
         margin: EdgeInsets.only(bottom: 12, left: 20),
-        child: Text(
-          linkText,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-            color: isActive ? kTextColor : Colors.grey[600],
-            fontSize: 26,
-            fontFamily: 'Ubuntu',
-            fontWeight: FontWeight.w500,
-          ),
+        child: BlocBuilder<NavigationBloc, NavPage>(
+          builder: (context, state) {
+            if (navPage == NavPage.STASH) {
+              return Text('Stash',
+                  overflow: TextOverflow.ellipsis,
+                  style: state == NavPage.STASH
+                      ? textStyle.copyWith(color: kTextColor)
+                      : textStyle.copyWith(color: Colors.grey[600]));
+            }
+            if (navPage == NavPage.CHARACTER) {
+              return Text('Character',
+                  overflow: TextOverflow.ellipsis,
+                  style: state == NavPage.CHARACTER
+                      ? textStyle.copyWith(color: kTextColor)
+                      : textStyle.copyWith(color: Colors.grey[600]));
+            }
+            if (navPage == NavPage.SETTINGS) {
+              return Text('Settings',
+                  overflow: TextOverflow.ellipsis,
+                  style: state == NavPage.SETTINGS
+                      ? textStyle.copyWith(color: kTextColor)
+                      : textStyle.copyWith(color: Colors.grey[600]));
+            }
+
+            return Text('NO WORKING BUTTON STATE!');
+          },
         ),
       ),
     );
