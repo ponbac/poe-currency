@@ -19,18 +19,27 @@ class TopBar extends StatelessWidget {
         children: [
           Spacer(),
           Expanded(
-            flex: 5,
+            flex: 6,
             child: Row(
               children: [
-                _Title(
-                  titleText: 'Stash',
+                Flexible(
+                  flex: 4,
+                  child: _Title(
+                    titleText: 'Stash',
+                  ),
                 ),
-                _FilterButton(),
-                _RefreshButton()
+                Flexible(
+                  child: Row(
+                    children: [
+                      Flexible(child: _FilterButton()),
+                      Flexible(child: _RefreshButton())
+                    ],
+                  ),
+                ),
               ],
             ),
           ),
-          Spacer(flex: 4),
+          Spacer(flex: 3),
           Expanded(flex: 2, child: _SearchField()),
           Spacer()
         ],
@@ -58,7 +67,7 @@ class _Title extends StatelessWidget {
         String tabValue = state.stashTab.totalValue.toString();
 
         return RichText(
-            overflow: TextOverflow.ellipsis,
+            overflow: TextOverflow.visible,
             text: TextSpan(
                 text: '$tabName',
                 style: titleStyle.copyWith(fontSize: 30),

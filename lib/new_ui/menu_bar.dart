@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/secrets.dart';
@@ -47,40 +46,54 @@ class _UserInformation extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-      Padding(
-        padding: EdgeInsets.only(top: 25, left: 20),
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(12.0),
-          child: Image(
-            height: 70,
-            width: 70,
-            fit: BoxFit.cover,
-            image: AssetImage(avatarPath),
+      Expanded(
+        flex: 4,
+        child: Padding(
+          padding: EdgeInsets.only(top: 25, left: 20, bottom: 10),
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(12.0),
+            child: Image(
+              height: 70,
+              width: 70,
+              fit: BoxFit.cover,
+              image: AssetImage(avatarPath),
+            ),
           ),
         ),
       ),
-      Padding(
-        padding: EdgeInsets.only(top: 10, left: 20),
-        child: Text(
-          userName,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              fontSize: 18,
-              fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.w500,
-              color: kTextColor),
-        ),
-      ),
-      Padding(
-        padding: EdgeInsets.only(left: 20),
-        child: Text(
-          characterClass,
-          overflow: TextOverflow.ellipsis,
-          style: TextStyle(
-              fontSize: 14,
-              fontFamily: 'Ubuntu',
-              fontWeight: FontWeight.w500,
-              color: Colors.grey[600]),
+      Expanded(
+        flex: 3,
+        child: Padding(
+          padding: EdgeInsets.only(left: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Flexible(
+                flex: 2,
+                child: Text(
+                  userName,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w500,
+                      color: kTextColor),
+                ),
+              ),
+              Flexible(
+                child: Text(
+                  characterClass,
+                  overflow: TextOverflow.ellipsis,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: 'Ubuntu',
+                      fontWeight: FontWeight.w500,
+                      color: Colors.grey[600]),
+                ),
+              )
+            ],
+          ),
         ),
       ),
     ]);
