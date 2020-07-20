@@ -8,6 +8,30 @@ import '../constants.dart';
 import '../secrets.dart';
 
 class LoginView extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+          height: 400,
+          width: 400,
+          decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(20), color: kPrimaryColor),
+          child:
+              BlocBuilder<NavigationBloc, NavPage>(builder: (context, state) {
+            if (state == NavPage.LOGIN) {
+              return _Login();
+            }
+            if (state == NavPage.REGISTER) {
+              return _Register();
+            }
+
+            return Text('Invalid state: ${state.toString()}');
+          })),
+    );
+  }
+}
+
+class _Login extends StatelessWidget {
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _sessionIdController = TextEditingController();
 
@@ -32,30 +56,97 @@ class LoginView extends StatelessWidget {
         StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
   }
 
+  void _showSignUpPage(BuildContext context) {
+    BlocProvider.of<NavigationBloc>(context)
+        .add(PageRequested(page: NavPage.REGISTER));
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        height: 400,
-        width: 400,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(20), color: kPrimaryColor),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _TopImage(
-              image: AssetImage('assets/images/chaos-orb.png'),
-            ),
-            _LoginField(textController: _nameController, hint: 'Account name'),
-            _LoginField(
-                textController: _sessionIdController, hint: 'Session ID'),
-            _SubmitButton(text: 'GO!', onPressed: () => _displayStash(context)),
-            _SubmitButton(
-                text: 'testing',
-                onPressed: () => _displayStashTesting(context)),
-          ],
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Expanded(
+          child: _TopImage(
+            image: AssetImage('assets/images/chaos-orb.png'),
+          ),
         ),
-      ),
+        Flexible(
+            child: _LoginField(
+                textController: _nameController, hint: 'Account name')),
+        Flexible(
+            child: _LoginField(
+                textController: _sessionIdController, hint: 'Session ID')),
+        Flexible(
+            child: _SubmitButton(
+                text: 'GO!', onPressed: () => _displayStash(context))),
+        Flexible(
+          child: _SubmitButton(
+              text: 'testing', onPressed: () => _displayStashTesting(context)),
+        ),
+        Flexible(
+          child: _SubmitButton(
+              text: 'Register', onPressed: () => _showSignUpPage(context)),
+        )
+      ],
+    );
+  }
+}
+
+class _Register extends StatelessWidget {
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _accountNameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _sessionIdController = TextEditingController();
+
+  void _toLogin(BuildContext context) {
+    BlocProvider.of<NavigationBloc>(context)
+        .add(PageRequested(page: NavPage.LOGIN));
+  }
+
+  void _signUp(BuildContext context, String username, String password,
+      String accountName, String poesessid) {
+    print(
+        'Signing up with info:\nUsername: $username\nPassword: $password\nAccount name: $accountName\nSession ID: $poesessid\n');
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Expanded(
+          child: _TopImage(
+            image: AssetImage('assets/images/chaos-orb.png'),
+          ),
+        ),
+        Flexible(
+            child: _LoginField(
+                textController: _usernameController, hint: 'Username')),
+        Flexible(
+            child: _LoginField(
+                textController: _passwordController, hint: 'Password')),
+        Flexible(
+          child: _LoginField(
+              textController: _accountNameController, hint: 'PoE Account Name'),
+        ),
+        Flexible(
+            child: _LoginField(
+                textController: _sessionIdController, hint: 'Session ID')),
+        Flexible(
+          child: _SubmitButton(
+              text: 'Register',
+              onPressed: () => _signUp(
+                  context,
+                  _usernameController.text,
+                  _passwordController.text,
+                  _accountNameController.text,
+                  _sessionIdController.text)),
+        ),
+        Flexible(
+            child: _SubmitButton(
+                text: 'Back', onPressed: () => _toLogin(context))),
+      ],
     );
   }
 }

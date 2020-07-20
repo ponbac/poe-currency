@@ -27,7 +27,7 @@ class Start extends StatelessWidget {
         create: (context) => NavigationBloc(),
         child: Row(children: [
           BlocBuilder<NavigationBloc, NavPage>(builder: (context, state) {
-            if (state == NavPage.LOGIN) {
+            if (state == NavPage.LOGIN || state == NavPage.REGISTER) {
               return Container(); // Give MainArea all space
             }
 

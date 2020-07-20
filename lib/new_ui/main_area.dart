@@ -15,7 +15,7 @@ class MainArea extends StatelessWidget {
         color: kBackgroundColor,
         child: BlocBuilder<NavigationBloc, NavPage>(
           builder: (context, state) {
-            if (state == NavPage.LOGIN) {
+            if (state == NavPage.LOGIN || state == NavPage.REGISTER) {
               return LoginView();
             }
             if (state == NavPage.STASH) {
