@@ -4,20 +4,13 @@ import 'dart:convert';
 import 'package:poe_currency/models/pricing/priced_object.dart';
 import 'package:http/http.dart' as http;
 
-enum PricingObjectType {
-  CURRENCY,
-  ITEM
-}
-
 class PricingApiClient {
-  static const baseUrl = 'https://poe.ninja/api/data';
+  static const baseUrl = 'https://poe-api-proxy.herokuapp.com/pricing';
 
   PricingApiClient();
 
-  Future<List<PricedObject>> fetchPriceOverview(String category, PricingObjectType type) async {
-    final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/';
-    final typeString = type == PricingObjectType.CURRENCY ? 'currencyoverview' : 'itemoverview';
-    final requestUrl = '$proxyUrl$baseUrl/$typeString?league=Harvest&type=$category';
+  Future<List<PricedObject>> fetchPriceOverview(String category) async {
+    final requestUrl = '$baseUrl?league=Harvest&type=$category';
 
     //print(requestUrl);
 
