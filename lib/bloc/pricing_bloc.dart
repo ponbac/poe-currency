@@ -19,6 +19,12 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
   PricingBloc({@required this.pricingRepository, @required this.stashBloc})
       : assert(pricingRepository != null && stashBloc != null),
         super(PricingInitial()) {
+    // TODO: Solve this in a better way? https://github.com/felangel/bloc/issues/1512
+    if (stashBloc.state is StashLoadSuccess) {
+      StashLoadSuccess successState = stashBloc.state;
+      this.add(PricingRequested(itemsToPrice: successState.stash.allItems));
+    }
+
     stashBlocSubscription = stashBloc.listen((state) {
       if (state is StashLoadSuccess) {
         this.add(PricingRequested(itemsToPrice: state.stash.allItems));
@@ -32,6 +38,8 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
   ) async* {
     if (event is PricingRequested) {
       yield PricingInProgress();
+
+      //print('Pricing in progress!');
 
       List<Item> itemsToPrice = event.itemsToPrice;
       List<Item> pricedItems = new List<Item>();
@@ -50,7 +58,6 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
           pricedItems.add(item);
         });
 
-        print('PRICING SUCCESS!');
         yield PricingSuccess(pricedItems: pricedItems);
       } catch (_) {
         print(_.toString()); //TODO REMOVE AND MAKE PART OF UI RESPONSE
