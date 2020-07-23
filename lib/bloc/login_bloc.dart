@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
-import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/user.dart';
 import 'package:poe_currency/repositories/user_repository.dart';
 
@@ -15,7 +14,9 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
   LoginBloc({@required this.userRepository})
       : assert(userRepository != null),
-        super(LoginInitial());
+        super(LoginInitial()) {
+    this.add(LoginWithTokenRequested());
+  }
 
   @override
   Stream<LoginState> mapEventToState(
@@ -35,14 +36,17 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
     if (event is LoginWithTokenRequested) {
-      yield LoginInProgress();
+      if (await userRepository.hasToken()) {
+        yield LoginInProgress();
+        User user = await userRepository.fetchCurrentUser();
 
-      User user = await userRepository.fetchCurrentUser();
-
-      if (user == null) {
-        yield LoginFailure();
+        if (user == null) {
+          yield LoginFailure();
+        } else {
+          yield LoginSuccess(user: user);
+        }
       } else {
-        yield LoginSuccess(user: user);
+        yield LoginInitial();
       }
     }
     if (event is LogoutRequested) {

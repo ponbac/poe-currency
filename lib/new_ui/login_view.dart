@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/login_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/models/nav_page.dart';
@@ -32,18 +33,17 @@ class LoginView extends StatelessWidget {
 }
 
 class _Login extends StatelessWidget {
-  final TextEditingController _nameController = TextEditingController();
-  final TextEditingController _sessionIdController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   void _displayStash(BuildContext context) {
-    poeAccountName = _nameController.text;
-    poeSessionId = _sessionIdController.text;
+    String username = _usernameController.text;
+    String password = _passwordController.text;
 
-    if (poeAccountName.length > 1 && poeSessionId.length > 6) {
+    if (username.length > 1 && password.length > 6) {
+      BlocProvider.of<LoginBloc>(context).add(LoginRequested(username: username, password: password));
       BlocProvider.of<NavigationBloc>(context)
           .add(PageRequested(page: NavPage.STASH));
-      BlocProvider.of<StashBloc>(context).add(
-          StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
     } else {
       print('Non-valid credentials!');
     }
@@ -73,10 +73,10 @@ class _Login extends StatelessWidget {
         ),
         Flexible(
             child: _LoginField(
-                textController: _nameController, hint: 'Account name')),
+                textController: _usernameController, hint: 'Username')),
         Flexible(
             child: _LoginField(
-                textController: _sessionIdController, hint: 'Session ID')),
+                textController: _passwordController, hint: 'Password')),
         Flexible(
             child: _SubmitButton(
                 text: 'GO!', onPressed: () => _displayStash(context))),

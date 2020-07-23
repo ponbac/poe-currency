@@ -6,13 +6,16 @@ import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
+import 'package:poe_currency/models/user.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';
 
 import '../constants.dart';
 import '../secrets.dart';
 
 class StashView extends StatelessWidget {
-  const StashView();
+  final User currentUser;
+
+  const StashView({@required this.currentUser}) : assert(currentUser != null);
 
   @override
   Widget build(BuildContext context) {

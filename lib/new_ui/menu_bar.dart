@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/login_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
+import 'package:poe_currency/models/user.dart';
 import 'package:poe_currency/secrets.dart';
 
 class MenuBar extends StatelessWidget {
+  final User currentUser;
+
+  const MenuBar({@required this.currentUser}) : assert(currentUser != null);
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -16,7 +22,7 @@ class MenuBar extends StatelessWidget {
           Expanded(
             flex: 2,
             child: _UserInformation(
-              userName: poeAccountName,
+              userName: currentUser.accountname,
               characterClass: 'Weird dude',
               avatarPath: 'assets/images/test-avatar.png',
             ),
@@ -209,7 +215,10 @@ class _LogOutButton extends StatelessWidget {
           Icons.exit_to_app,
           color: kTextColor,
         ),
-        onPressed: () => BlocProvider.of<NavigationBloc>(context)
-            .add(PageRequested(page: NavPage.LOGIN)));
+        onPressed: () {
+          BlocProvider.of<NavigationBloc>(context)
+              .add(PageRequested(page: NavPage.LOGIN));
+          BlocProvider.of<LoginBloc>(context).add(LogoutRequested());
+        });
   }
 }
