@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
+import 'package:poe_currency/models/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
@@ -14,6 +15,7 @@ class UserRepository {
   }) async {
     final url = 'https://poe-api-proxy.herokuapp.com/token';
     var map = new Map<String, dynamic>();
+    var token;
 
     map['grant_type'] = '';
     map['client_id'] = '';
@@ -26,7 +28,31 @@ class UserRepository {
       body: map,
     );
 
-    return jsonDecode(response.body)['access_token'];
+    try {
+      token = jsonDecode(response.body)['access_token'];
+    } catch(_) {
+      print(_.toString());
+      return null;
+    }
+
+    return token;
+  }
+
+  Future<User> fetchCurrentUser() async {
+    if (!await hasToken()) {
+      return null;
+    }
+
+    var prefs = await _prefs;
+    var token = prefs.getString(tokenId);
+
+    final requestUrl =
+        'https://poe-api-proxy.herokuapp.com/users/me';
+
+    var rawData =
+        await http.get(requestUrl, headers: {'Authorization': 'Bearer ' +  token});
+
+    return User.fromJson(jsonDecode(rawData.body));
   }
 
   Future<void> deleteToken() async {

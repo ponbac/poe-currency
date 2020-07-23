@@ -13,12 +13,12 @@ class LoginInitial extends LoginState {}
 class LoginInProgress extends LoginState {}
 
 class LoginSuccess extends LoginState {
-  final List<Item> loginResult;
+  final User user;
 
-  const LoginSuccess({@required this.loginResult}) : assert(loginResult != null);
+  const LoginSuccess({@required this.user}) : assert(user != null);
 
   @override
-  List<Object> get props => [loginResult];
+  List<Object> get props => [user];
 }
 
 class LoginFailure extends LoginState {}

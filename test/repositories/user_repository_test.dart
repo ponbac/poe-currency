@@ -1,3 +1,4 @@
+import 'package:poe_currency/models/user.dart';
 import 'package:poe_currency/repositories/user_repository.dart';
 import "package:test/test.dart";
 
@@ -34,5 +35,16 @@ void main() {
 
     bool tokenAfter = await userRepository.hasToken();
     expect(tokenAfter, isFalse);
+  });
+
+  test('Test fetching current user.', () async {
+    String token = await userRepository.authenticate(
+        username: username, password: password);
+    await userRepository.persistToken(token);
+    
+    User user = await userRepository.fetchCurrentUser();
+    //print(user);
+
+    expect(user.username, equals(username));
   });
 }

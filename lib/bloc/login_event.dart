@@ -1,26 +1,27 @@
 part of 'login_bloc.dart';
 
-enum LoginType { MOST_EXPENSIVE }
-
 abstract class LoginEvent extends Equatable {
   const LoginEvent();
 }
 
-class LoginSearchRequested extends LoginEvent {
-  final String searchString;
+class LoginRequested extends LoginEvent {
+  final String username;
+  final String password;
 
-  const LoginSearchRequested({@required this.searchString})
-      : assert(searchString != null);
+  const LoginRequested({@required this.username, @required this.password})
+      : assert(username != null),
+        assert(password != null);
 
   @override
-  List<Object> get props => [searchString];
+  List<Object> get props => [username, password];
 }
 
-class LoginRequested extends LoginEvent {
-  final LoginType loginType;
+class LoginWithTokenRequested extends LoginEvent {
+  @override
+  List<Object> get props => [];
+}
 
-  const LoginRequested({@required this.loginType})
-      : assert(loginType != null);
-
-  List<Object> get props => [loginType];
+class LogoutRequested extends LoginEvent {
+  @override
+  List<Object> get props => [];
 }
