@@ -75,7 +75,9 @@ class _Login extends StatelessWidget {
                 textController: _usernameController, hint: 'Username')),
         Flexible(
             child: _LoginField(
-                textController: _passwordController, hint: 'Password')),
+                textController: _passwordController,
+                hint: 'Password',
+                isPassword: true)),
         Flexible(
             child: _SubmitButton(
                 text: 'GO!', onPressed: () => _displayStash(context))),
@@ -101,8 +103,11 @@ class _Register extends StatelessWidget {
 
   void _signUp(BuildContext context, String username, String password,
       String accountName, String poesessid) {
-    print(
-        'Signing up with info:\nUsername: $username\nPassword: $password\nAccount name: $accountName\nSession ID: $poesessid\n');
+    BlocProvider.of<LoginBloc>(context).add(SignUpRequested(
+        username: username,
+        password: password,
+        accountname: accountName,
+        poesessid: poesessid));
   }
 
   @override
@@ -120,7 +125,9 @@ class _Register extends StatelessWidget {
                 textController: _usernameController, hint: 'Username')),
         Flexible(
             child: _LoginField(
-                textController: _passwordController, hint: 'Password')),
+                textController: _passwordController,
+                hint: 'Password',
+                isPassword: true)),
         Flexible(
           child: _LoginField(
               textController: _accountNameController, hint: 'PoE Account Name'),

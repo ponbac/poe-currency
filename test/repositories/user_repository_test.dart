@@ -17,6 +17,7 @@ void main() {
   });
 
   test('Test persist token.', () async {
+    await userRepository.deleteToken();
     bool tokenBefore = await userRepository.hasToken();
     expect(tokenBefore, isFalse);
 
@@ -46,5 +47,14 @@ void main() {
     //print(user);
 
     expect(user.username, equals(username));
+  });
+
+  test('Test register user.', () async {
+    User user = await userRepository.register(
+        username: 'testing', password: 'test123', accountname: 'brabra', poesessid: 'brasdaon2d');
+
+    print(user);
+
+    expect(user, isNotNull);
   });
 }

@@ -53,5 +53,15 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       await userRepository.deleteToken();
       yield LoginInitial();
     }
+    if (event is SignUpRequested) {
+      yield LoginInProgress();
+      User user = await userRepository.register(username: event.username, password: event.password, accountname: event.accountname, poesessid: event.poesessid);
+
+      if (user == null) {
+        yield LoginFailure();
+      } else {
+        yield SignUpSuccess(user: user);
+      }
+    }
   }
 }

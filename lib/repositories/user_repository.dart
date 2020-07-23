@@ -38,6 +38,39 @@ class UserRepository {
     return token;
   }
 
+  Future<User> register({
+    @required String username,
+    @required String password,
+    @required String accountname,
+    @required String poesessid
+  }) async {
+    final url = 'https://poe-api-proxy.herokuapp.com/register';
+    var map = new Map<String, dynamic>();
+    var user;
+
+    map['username'] = username;
+    map['password'] = password;
+    map['accountname'] = accountname;
+    map['poesessid'] = poesessid;
+
+    http.Response response = await http.post(
+      url,
+      body: map,
+    );
+
+    try {
+      user = User.fromJson(jsonDecode(response.body));
+      if (user.username == null) {
+        return null;
+      }
+    } catch(_) {
+      print(_.toString());
+      return null;
+    }
+
+    return user;
+  }
+
   Future<User> fetchCurrentUser() async {
     if (!await hasToken()) {
       return null;

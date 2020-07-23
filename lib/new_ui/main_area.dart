@@ -32,7 +32,9 @@ class MainArea extends StatelessWidget {
             ],
           );
         }
-        if (state is LoginInitial || state is LoginFailure) {
+        if (state is LoginInitial ||
+            state is LoginFailure ||
+            state is SignUpSuccess) {
           return LoginView();
         }
         if (state is LoginInProgress) {

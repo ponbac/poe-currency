@@ -21,4 +21,13 @@ class LoginSuccess extends LoginState {
   List<Object> get props => [user];
 }
 
+class SignUpSuccess extends LoginState {
+  final User user;
+
+  const SignUpSuccess({@required this.user}) : assert(user != null);
+
+  @override
+  List<Object> get props => [user];
+}
+
 class LoginFailure extends LoginState {}
