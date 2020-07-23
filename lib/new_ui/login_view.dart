@@ -108,6 +108,8 @@ class _Register extends StatelessWidget {
         password: password,
         accountname: accountName,
         poesessid: poesessid));
+
+    _toLogin(context);
   }
 
   @override
