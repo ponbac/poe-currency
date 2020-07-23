@@ -6,21 +6,21 @@ import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
 import 'package:poe_currency/models/item.dart';
 
-part 'filter_event.dart';
-part 'filter_state.dart';
+part 'login_event.dart';
+part 'login_state.dart';
 
-class FilterBloc extends Bloc<FilterEvent, FilterState> {
+class LoginBloc extends Bloc<LoginEvent, LoginState> {
   final List<Item> allItems;
 
-  FilterBloc({@required this.allItems})
+  LoginBloc({@required this.allItems})
       : assert(allItems != null),
-        super(FilterInitial());
+        super(LoginInitial());
 
   // Avoid spamming bloc when typing
   @override
-  Stream<Transition<FilterEvent, FilterState>> transformEvents(
-    Stream<FilterEvent> events,
-    TransitionFunction<FilterEvent, FilterState> transitionFn,
+  Stream<Transition<LoginEvent, LoginState>> transformEvents(
+    Stream<LoginEvent> events,
+    TransitionFunction<LoginEvent, LoginState> transitionFn,
   ) {
     return super.transformEvents(
       events.debounceTime(const Duration(milliseconds: 200)),
@@ -29,14 +29,14 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
   }
 
   @override
-  Stream<FilterState> mapEventToState(
-    FilterEvent event,
+  Stream<LoginState> mapEventToState(
+    LoginEvent event,
   ) async* {
-    if (event is FilterSearchRequested) {
+    if (event is LoginSearchRequested) {
       List<Item> results;
       String searchString = event.searchString.toLowerCase();
 
-      yield FilterInProgress();
+      yield LoginInProgress();
       results = allItems
           .where((item) =>
               item.typeLine.toLowerCase().contains(searchString) ||
@@ -45,24 +45,24 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           .toList();
 
       if (results.isNotEmpty) {
-        yield FilterSuccess(filterResult: results);
+        yield LoginSuccess(loginResult: results);
       } else {
-        yield FilterFailure();
+        yield LoginFailure();
       }
     }
-    if (event is FilterRequested) {
+    if (event is LoginRequested) {
       List<Item> results = new List<Item>.from(allItems);
-      FilterType filterType = event.filterType;
+      LoginType loginType = event.loginType;
 
-      yield FilterInProgress();
-      if (filterType == FilterType.MOST_EXPENSIVE) {
+      yield LoginInProgress();
+      if (loginType == LoginType.MOST_EXPENSIVE) {
         results.sort((a, b) => b.totalValue.compareTo(a.totalValue));
       }
 
       if (results.isNotEmpty) {
-        yield FilterSuccess(filterResult: results);
+        yield LoginSuccess(loginResult: results);
       } else {
-        yield FilterFailure();
+        yield LoginFailure();
       }
     }
   }
