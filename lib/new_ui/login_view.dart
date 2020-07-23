@@ -41,9 +41,8 @@ class _Login extends StatelessWidget {
     String password = _passwordController.text;
 
     if (username.length > 1 && password.length > 6) {
-      BlocProvider.of<LoginBloc>(context).add(LoginRequested(username: username, password: password));
-      BlocProvider.of<NavigationBloc>(context)
-          .add(PageRequested(page: NavPage.STASH));
+      BlocProvider.of<LoginBloc>(context)
+          .add(LoginRequested(username: username, password: password));
     } else {
       print('Non-valid credentials!');
     }
@@ -80,10 +79,6 @@ class _Login extends StatelessWidget {
         Flexible(
             child: _SubmitButton(
                 text: 'GO!', onPressed: () => _displayStash(context))),
-        Flexible(
-          child: _SubmitButton(
-              text: 'testing', onPressed: () => _displayStashTesting(context)),
-        ),
         Flexible(
           child: _SubmitButton(
               text: 'Register', onPressed: () => _showSignUpPage(context)),
@@ -175,18 +170,23 @@ class _TopImage extends StatelessWidget {
 }
 
 class _LoginField extends StatelessWidget {
-  const _LoginField({@required this.textController, @required this.hint})
+  const _LoginField(
+      {@required this.textController,
+      @required this.hint,
+      this.isPassword = false})
       : assert(textController != null),
         assert(hint != null);
 
   final TextEditingController textController;
   final String hint;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
       child: TextField(
+          obscureText: isPassword,
           controller: textController,
           style: TextStyle(color: kBackgroundColor),
           decoration: InputDecoration(
