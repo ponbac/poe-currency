@@ -61,13 +61,15 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
           .toList();
 
       if (results.isNotEmpty) {
-        yield FilterSuccess(filterResult: results);
+        this.add(FilterRequested(filterType: FilterType.MOST_EXPENSIVE, itemsToFilter: results));
       } else {
         yield FilterFailure();
       }
     }
     if (event is FilterRequested) {
-      List<Item> results = new List<Item>.from(allItems); // TODO: I should not filter all items every time, really stupid.
+      List<Item> results = event.itemsToFilter ??
+          new List<Item>.from(
+              allItems); // TODO: Should I ever filter all items? Do I need to store them here, maybe pass items to filter every time?
       FilterType filterType = event.filterType;
 
       yield FilterInProgress();

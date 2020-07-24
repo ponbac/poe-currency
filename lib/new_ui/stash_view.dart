@@ -65,7 +65,7 @@ class StashView extends StatelessWidget {
               return Column(
                 children: [
                   Expanded(flex: 1, child: TopBar()),
-                  Expanded(flex: 4, child: _TabView()),
+                  Expanded(flex: 5, child: _TabView()),
                 ],
               );
             }));
@@ -94,7 +94,7 @@ class _TabView extends StatelessWidget {
       listener: (context, state) {
         if (state is FilterSuccess) {
           BlocProvider.of<TabBloc>(context).add(CustomTabRequested(
-              items: state.filterResult, tabName: 'Filtered Results'));
+              items: state.filterResult, tabName: 'Items')); // TODO: Should this be done in the BLOC with a listener?
         }
       },
       child: BlocBuilder<TabBloc, TabState>(builder: (context, state) {

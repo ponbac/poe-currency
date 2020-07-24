@@ -25,7 +25,7 @@ class TopBar extends StatelessWidget {
                 Flexible(
                   flex: 4,
                   child: _Title(
-                    titleText: 'Stash',
+                    titleText: 'Items',
                   ),
                 ),
                 Flexible(
@@ -70,12 +70,11 @@ class _Title extends StatelessWidget {
             overflow: TextOverflow.visible,
             text: TextSpan(
                 text: '$tabName',
-                style: titleStyle.copyWith(fontSize: 30),
+                style: titleStyle,
                 children: <TextSpan>[
                   TextSpan(
                       text: '${tabValue != null ? ' ' + tabValue + 'C' : ''}',
-                      style: titleStyle.copyWith(
-                          fontSize: 30, color: kPrimaryColor))
+                      style: titleStyle.copyWith(color: kPrimaryColor))
                 ]));
       }
 
