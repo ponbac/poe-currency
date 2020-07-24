@@ -22,7 +22,7 @@ class Item {
   int x;
   int y;
   String inventoryId;
-  List<String> tabs;
+  List<String> tabs = new List<String>();
   double value;
 
   Item(

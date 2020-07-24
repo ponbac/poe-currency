@@ -71,7 +71,7 @@ class StashView extends StatelessWidget {
             }));
       }
       if (state is StashLoadFailure) {
-        return Center(child: Text('Stash load FAILED!'));
+        return Center(child: Text('Stash load FAILED!\n${state.errorMessage}'));
       }
 
       // default case
@@ -94,7 +94,9 @@ class _TabView extends StatelessWidget {
       listener: (context, state) {
         if (state is FilterSuccess) {
           BlocProvider.of<TabBloc>(context).add(CustomTabRequested(
-              items: state.filterResult, tabName: 'Items')); // TODO: Should this be done in the BLOC with a listener?
+              items: state.filterResult,
+              tabName:
+                  'Items')); // TODO: Should this be done in the BLOC with a listener?
         }
       },
       child: BlocBuilder<TabBloc, TabState>(builder: (context, state) {
@@ -212,7 +214,7 @@ class _ItemListItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(color: kPrimaryColor));
     final Text tab = Text(
-      '${item.tabs}',
+      '${item.tabs.toString().replaceFirst('[', '').replaceFirst(']', '')}',
       overflow: TextOverflow.ellipsis,
     );
     final Text links =

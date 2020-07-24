@@ -34,9 +34,14 @@ class Stash {
         String uniqueKey = _getUniqueItemIdentifier(item);
 
         if (_idItemMap.containsKey(uniqueKey)) {
-          _idItemMap[uniqueKey].stackSize += item.stackSize;
-          _idItemMap[uniqueKey].tabs.add(item.tabs[0]);
-          _allItems.removeWhere((i) => _getUniqueItemIdentifier(i) == uniqueKey);
+          if (_idItemMap[uniqueKey].stackSize != null) {
+            _idItemMap[uniqueKey].stackSize += item.stackSize;
+          }
+          if (!_idItemMap[uniqueKey].tabs.contains(item.tabs[0])) {
+            _idItemMap[uniqueKey].tabs.add(item.tabs[0]);
+          }
+          _allItems
+              .removeWhere((i) => _getUniqueItemIdentifier(i) == uniqueKey);
           _allItems.add(_idItemMap[uniqueKey]);
         } else {
           _allItems.add(item);
