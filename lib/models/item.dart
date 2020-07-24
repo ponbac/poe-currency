@@ -22,7 +22,7 @@ class Item {
   int x;
   int y;
   String inventoryId;
-  String stashName;
+  List<String> tabs;
   double value;
 
   Item(
@@ -47,7 +47,7 @@ class Item {
       this.x,
       this.y,
       this.inventoryId,
-      this.stashName,
+      this.tabs,
       this.value});
 
   int get socketLinks {

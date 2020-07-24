@@ -173,7 +173,7 @@ class _ItemListHeader extends StatelessWidget {
             child: Text('Name', style: TextStyle(fontWeight: FontWeight.bold))),
         Expanded(
             flex: 1,
-            child: Text('Tab', style: TextStyle(fontWeight: FontWeight.bold))),
+            child: Text('Tabs', style: TextStyle(fontWeight: FontWeight.bold))),
         Expanded(
             flex: 1,
             child:
@@ -212,7 +212,7 @@ class _ItemListItem extends StatelessWidget {
         overflow: TextOverflow.ellipsis,
         style: TextStyle(color: kPrimaryColor));
     final Text tab = Text(
-      '${item.stashName}',
+      '${item.tabs}',
       overflow: TextOverflow.ellipsis,
     );
     final Text links =
