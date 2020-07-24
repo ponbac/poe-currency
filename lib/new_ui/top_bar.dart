@@ -109,7 +109,7 @@ class _RefreshButton extends StatelessWidget {
           color: kTextColor,
         ),
         onPressed: () => BlocProvider.of<StashBloc>(context).add(StashRequested(
-            sessionId: poeSessionId, accountName: poeAccountName)));
+            sessionId: poeSessionId, accountName: poeAccountName))); // TODO: REMOVE!
   }
 }
 
