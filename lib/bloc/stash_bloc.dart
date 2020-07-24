@@ -22,13 +22,13 @@ class StashBloc extends Bloc<StashEvent, StashState> {
   ) async* {
     if (event is StashRequested) {
       yield StashLoadInProgress();
-      //try {
+      try {
         final Stash stash =
             await stashRepository.getStash(event.accountName, event.sessionId);
         yield StashLoadSuccess(stash: stash);
-      //} /*catch (_) {
-        //yield StashLoadFailure(errorMessage: _.toString());
-      //}*/
+      } catch (_) {
+        yield StashLoadFailure(errorMessage: _.toString());
+      }
     }
     if (event is StashReset) {
       yield StashInitial();
