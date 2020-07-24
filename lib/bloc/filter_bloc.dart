@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc/bloc.dart';
@@ -12,9 +13,24 @@ part 'filter_state.dart';
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
   final List<Item> allItems;
 
-  FilterBloc({@required this.allItems})
+  final PricingBloc pricingBloc;
+  StreamSubscription pricingBlocSubscription;
+
+  FilterBloc({@required this.allItems, @required this.pricingBloc})
       : assert(allItems != null),
-        super(FilterInitial());
+        assert(pricingBloc != null),
+        super(FilterInitial()) {
+    // TODO: Solve this in a better way? https://github.com/felangel/bloc/issues/1512
+    if (pricingBloc.state is PricingSuccess) {
+      this.add(FilterRequested(filterType: FilterType.MOST_EXPENSIVE));
+    }
+
+    pricingBlocSubscription = pricingBloc.listen((state) {
+      if (state is PricingSuccess) {
+        this.add(FilterRequested(filterType: FilterType.MOST_EXPENSIVE));
+      }
+    });
+  }
 
   // Avoid spamming bloc when typing
   @override
@@ -51,7 +67,7 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
       }
     }
     if (event is FilterRequested) {
-      List<Item> results = new List<Item>.from(allItems);
+      List<Item> results = new List<Item>.from(allItems); // TODO: I should not filter all items every time, really stupid.
       FilterType filterType = event.filterType;
 
       yield FilterInProgress();
@@ -65,5 +81,11 @@ class FilterBloc extends Bloc<FilterEvent, FilterState> {
         yield FilterFailure();
       }
     }
+  }
+
+  @override
+  Future<void> close() {
+    pricingBlocSubscription.cancel();
+    return super.close();
   }
 }

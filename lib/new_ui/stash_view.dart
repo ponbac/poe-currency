@@ -10,7 +10,6 @@ import 'package:poe_currency/models/user.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';
 
 import '../constants.dart';
-import '../secrets.dart';
 
 class StashView extends StatelessWidget {
   final User currentUser;
@@ -25,7 +24,15 @@ class StashView extends StatelessWidget {
       }
       if (state is StashLoadInProgress) {
         return Center(
-          child: CircularProgressIndicator(),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                  padding: EdgeInsets.all(15),
+                  child: CircularProgressIndicator()),
+              Text('Fetching your stash...')
+            ],
+          ),
         );
       }
       if (state is StashLoadSuccess) {
@@ -34,15 +41,34 @@ class StashView extends StatelessWidget {
               BlocProvider<TabBloc>(
                   create: (context) => TabBloc(stash: state.stash)),
               BlocProvider<FilterBloc>(
-                  create: (context) =>
-                      FilterBloc(allItems: state.stash.allItems))
+                  create: (context) => FilterBloc(
+                      allItems: state.stash.allItems,
+                      pricingBloc: BlocProvider.of<PricingBloc>(context)))
             ],
-            child: Column(
-              children: [
-                Expanded(flex: 1, child: TopBar()),
-                Expanded(flex: 4, child: _TabView()),
-              ],
-            ));
+            child: BlocBuilder<PricingBloc, PricingState>(
+                builder: (context, state) {
+              if (state is PricingInitial || state is PricingInProgress) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Padding(
+                          padding: EdgeInsets.all(15),
+                          child: CircularProgressIndicator()),
+                      Text('Fetching pricing data...')
+                    ],
+                  ),
+                );
+              }
+
+              // When done pricing items or pricing failed
+              return Column(
+                children: [
+                  Expanded(flex: 1, child: TopBar()),
+                  Expanded(flex: 4, child: _TabView()),
+                ],
+              );
+            }));
       }
       if (state is StashLoadFailure) {
         return Center(child: Text('Stash load FAILED!'));

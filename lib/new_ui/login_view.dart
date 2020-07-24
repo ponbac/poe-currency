@@ -2,11 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/login_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/models/nav_page.dart';
 
 import '../constants.dart';
-import '../secrets.dart';
 
 class LoginView extends StatelessWidget {
   @override
@@ -46,13 +44,6 @@ class _Login extends StatelessWidget {
     } else {
       print('Non-valid credentials!');
     }
-  }
-
-  void _displayStashTesting(BuildContext context) {
-    BlocProvider.of<NavigationBloc>(context)
-        .add(PageRequested(page: NavPage.STASH));
-    BlocProvider.of<StashBloc>(context).add(
-        StashRequested(sessionId: poeSessionId, accountName: poeAccountName));
   }
 
   void _showSignUpPage(BuildContext context) {

@@ -12,7 +12,6 @@ import 'package:poe_currency/repositories/stash_repository_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:poe_currency/repositories/user_repository.dart';
 
-import 'screens/start_screen.dart';
 
 void main() {
   StashRepository stashRepository;

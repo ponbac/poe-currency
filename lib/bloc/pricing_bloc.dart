@@ -13,6 +13,7 @@ part 'pricing_state.dart';
 
 class PricingBloc extends Bloc<PricingEvent, PricingState> {
   final PricingRepository pricingRepository;
+  
   final StashBloc stashBloc;
   StreamSubscription stashBlocSubscription;
 
