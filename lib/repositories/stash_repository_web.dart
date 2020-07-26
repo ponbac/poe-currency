@@ -12,26 +12,41 @@ class StashRepositoryWeb extends StashRepository {
   StashRepositoryWeb({@required this.stashApiClient})
       : super(stashApiClient: stashApiClient);
 
-
   @override
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
+    List<StashTab> completedTabs = new List<StashTab>();
 
-    // TODO: Possible to not use await and do this quicker?
+    print('getStash');
+
+    int nmbrOfTabs = 23;
     int stashTabIndex = 0;
-    StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(
-        accountName, sessionId, stashTabIndex);
-    while (currentStashTab != null) {
-      stash.addStashTab(currentStashTab);
+    while (stashTabIndex < nmbrOfTabs) {
+      stashApiClient
+          .fetchStashTabWeb(accountName, sessionId, stashTabIndex)
+          .then((tab) {
+        completedTabs.add(tab);
+        print('Added: ${tab.items.length}');
+      });
       stashTabIndex++;
-      currentStashTab = await stashApiClient.fetchStashTabWeb(
-          accountName, sessionId, stashTabIndex);
     }
 
-    if (stashTabIndex < 2) {
-      throw 'Could not fetch stash!\nControl that you entered a correct account name and session ID.';
-    }
+    return await Future.delayed(const Duration(seconds: 10), () {
+      print(
+          'Entering delayed future! completedTabs.length = ${completedTabs.length}');
 
-    return stash;
+      completedTabs.forEach((tab) {
+        if (tab == null || tab.items.length == 0) {
+          //print('Tab is empty or null!');
+        } else {
+          stash.addStashTab(tab);
+          print('Added tab: ${tab.name} to stash!');
+        }
+      });
+
+      print('After for each!');
+
+      return stash;
+    });
   }
 }

@@ -14,6 +14,8 @@ import 'package:poe_currency/repositories/user_repository.dart';
 
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+
   StashRepository stashRepository;
   PricingRepository pricingRepository =
       new PricingRepository(pricingApiClient: new PricingApiClient());

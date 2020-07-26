@@ -41,9 +41,11 @@ class StashApiClient {
         name: name, type: type, index: stashIndex, items: items);
   }
 
-  Future<StashTab> fetchStashTabWeb(String accountName, String sessionId, int stashIndex) async {
+  Future<StashTab> fetchStashTabWeb(
+      String accountName, String sessionId, int stashIndex) async {
     final proxyUrl = 'https://poe-api-proxy.herokuapp.com';
-    final requestUrl = '$proxyUrl/stash?league=Harvest&tab=$stashIndex&account=$accountName&sessid=$sessionId';
+    final requestUrl =
+        '$proxyUrl/stash?league=Harvest&tab=$stashIndex&account=$accountName&sessid=$sessionId';
 
     //print(requestUrl);
 
@@ -70,6 +72,7 @@ class StashApiClient {
     // Make icon request go through proxy as well
     items.forEach((i) => i.icon = '$proxyUrl/image?path=${i.icon}');
 
-    return new StashTab(name: name, type: type, index: stashIndex, items: items);
+    return new StashTab(
+        name: name, type: type, index: stashIndex, items: items);
   }
 }
