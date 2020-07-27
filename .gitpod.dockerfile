@@ -44,3 +44,6 @@ RUN npm install -g firebase-tools
 
 # Env
 RUN echo 'export PATH=${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${FLUTTER_HOME}/bin:${FLUTTER_HOME}/bin/cache/dart-sdk/bin:${PUB_CACHE}/bin:${FLUTTER_HOME}/.pub-cache/bin:$PATH' >>~/.bashrc
+
+# Upgrade flutter
+RUN flutter upgrade
