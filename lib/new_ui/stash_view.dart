@@ -64,7 +64,7 @@ class StashView extends StatelessWidget {
               // When done pricing items or pricing failed
               return Column(
                 children: [
-                  Expanded(flex: 1, child: TopBar()),
+                  Expanded(flex: 1, child: TopBar(user: currentUser)),
                   Expanded(flex: 5, child: _TabView()),
                 ],
               );

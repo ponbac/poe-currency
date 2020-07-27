@@ -1,15 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:meta/meta.dart';
 import 'package:poe_currency/bloc/filter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
-
-import '../secrets.dart';
+import 'package:poe_currency/models/user.dart';
 
 // TODO: Merge with _StashView
 
 class TopBar extends StatelessWidget {
+  const TopBar({@required this.user}) : assert(user != null);
+
+  final User user;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,7 +36,7 @@ class TopBar extends StatelessWidget {
                   child: Row(
                     children: [
                       Flexible(child: _FilterButton()),
-                      Flexible(child: _RefreshButton())
+                      Flexible(child: _RefreshButton(user: user))
                     ],
                   ),
                 ),
@@ -99,7 +103,9 @@ class _FilterButton extends StatelessWidget {
 }
 
 class _RefreshButton extends StatelessWidget {
-  const _RefreshButton();
+  const _RefreshButton({@required this.user}) : assert(user != null);
+
+  final User user;
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +115,7 @@ class _RefreshButton extends StatelessWidget {
           color: kTextColor,
         ),
         onPressed: () => BlocProvider.of<StashBloc>(context).add(StashRequested(
-            sessionId: poeSessionId, accountName: poeAccountName))); // TODO: REMOVE!
+            sessionId: user.poeSessionId, accountName: user.accountname)));
   }
 }
 
