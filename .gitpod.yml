@@ -10,6 +10,7 @@ tasks:
       sdk i kotlin
       sdkmanager --update
       yes | sdkmanager --licenses
+      flutter upgrade
       flutter pub get
       flutter run -d web-server --no-resident
     command: >

@@ -40,19 +40,45 @@ class PricingRepository {
       : assert(pricingApiClient != null);
 
   Future<HashMap<String, double>> getPricesForCurrency() async {
-    var prices = new List<PricedObject>();
+    var completedPrices = new List<PricedObject>();
+    int categoriesLoaded = 0;
+    int totalNmbrOfCategories =
+        currencyCategories.length + itemCategories.length;
 
     for (String cc in currencyCategories) {
-      var results = await pricingApiClient.fetchPriceOverview(cc, PricingObjectType.CURRENCY);
-      prices..addAll(results);
+      pricingApiClient.fetchPriceOverview(cc).then((prices) {
+        completedPrices..addAll(prices);
+        categoriesLoaded++;
+      });
     }
 
     for (String ic in itemCategories) {
-      var results = await pricingApiClient.fetchPriceOverview(ic, PricingObjectType.ITEM);
-      prices..addAll(results);
+      pricingApiClient.fetchPriceOverview(ic).then((prices) {
+        completedPrices..addAll(prices);
+        categoriesLoaded++;
+      });
     }
 
+    await _waitWhile(() => categoriesLoaded != totalNmbrOfCategories);
+
     // Return HashMap for faster price lookup and also adds Chaos Orb since the API does not return it.
-    return HashMap.fromIterable(prices, key: (o) => o.name, value: (o) => o.value)..putIfAbsent('Chaos Orb', () => 1.0);
+    return HashMap.fromIterable(completedPrices,
+        key: (o) => o.name, value: (o) => o.value)
+      ..putIfAbsent('Chaos Orb', () => 1.0);
+  }
+
+  // TODO: Code duplication here, this function is also in StashRepo
+  Future _waitWhile(bool test(), [Duration pollInterval = Duration.zero]) {
+    var completer = new Completer();
+    check() {
+      if (!test()) {
+        completer.complete();
+      } else {
+        new Timer(pollInterval, check);
+      }
+    }
+
+    check();
+    return completer.future;
   }
 }

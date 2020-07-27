@@ -17,6 +17,8 @@ class TabBloc extends Bloc<TabEvent, TabState> {
 
   TabBloc({@required this.stash}) : assert(stash != null), super(TabInitial(stashTab: stash.tabs[_INITIAL_TAB_INDEX]));
 
+
+  // TODO: Remake this BLOC, no longer any need for browsing between tabs.
   @override
   Stream<TabState> mapEventToState(
     TabEvent event,

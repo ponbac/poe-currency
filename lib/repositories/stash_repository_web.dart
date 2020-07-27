@@ -12,25 +12,55 @@ class StashRepositoryWeb extends StashRepository {
   StashRepositoryWeb({@required this.stashApiClient})
       : super(stashApiClient: stashApiClient);
 
-
   @override
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
+    List<StashTab> completedTabs = new List<StashTab>();
 
-    int stashTabIndex = 0;
-    StashTab currentStashTab = await stashApiClient.fetchStashTabWeb(
-        accountName, sessionId, stashTabIndex);
-    while (currentStashTab != null) {
-      stash.addStashTab(currentStashTab);
+    print('getStash');
+    // Fetch first tab to get total number of tabs to fetch.
+    StashTab initialTab =
+        await stashApiClient.fetchStashTabWeb(accountName, sessionId, 0);
+    completedTabs.add(initialTab);
+
+    int nmbrOfTabs = initialTab.totalNmbrOfTabs;
+    int stashTabIndex = 1;
+    while (stashTabIndex < nmbrOfTabs) {
+      stashApiClient
+          .fetchStashTabWeb(accountName, sessionId, stashTabIndex)
+          .then((tab) {
+        completedTabs.add(tab);
+        print('Added: ${tab.items.length}');
+      });
       stashTabIndex++;
-      currentStashTab = await stashApiClient.fetchStashTabWeb(
-          accountName, sessionId, stashTabIndex);
     }
 
-    if (stashTabIndex < 2) {
-      throw 'Could not fetch stash!\nControl that you entered a correct account name and session ID.';
-    }
+    // Wait until all tabs are loaded
+    await _waitWhile(() => completedTabs.length != nmbrOfTabs);
+
+    completedTabs.forEach((tab) {
+      if (tab == null || tab.items.length == 0) {
+        //print('Tab is empty or null!');
+      } else {
+        stash.addStashTab(tab);
+        print('Added tab: ${tab.name} to stash!');
+      }
+    });
 
     return stash;
+  }
+
+  Future _waitWhile(bool test(), [Duration pollInterval = Duration.zero]) {
+    var completer = new Completer();
+    check() {
+      if (!test()) {
+        completer.complete();
+      } else {
+        new Timer(pollInterval, check);
+      }
+    }
+
+    check();
+    return completer.future;
   }
 }

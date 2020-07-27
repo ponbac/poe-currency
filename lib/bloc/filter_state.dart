@@ -1,6 +1,5 @@
 part of 'filter_bloc.dart';
 
-// TODO: Maybe make everything filter with search being one filter type
 
 abstract class FilterState extends Equatable {
   const FilterState();

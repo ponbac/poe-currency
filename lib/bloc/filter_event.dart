@@ -18,8 +18,9 @@ class FilterSearchRequested extends FilterEvent {
 
 class FilterRequested extends FilterEvent {
   final FilterType filterType;
+  final List<Item> itemsToFilter;
 
-  const FilterRequested({@required this.filterType})
+  const FilterRequested({@required this.filterType, this.itemsToFilter})
       : assert(filterType != null);
 
   List<Object> get props => [filterType];

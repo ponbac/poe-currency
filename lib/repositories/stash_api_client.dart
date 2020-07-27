@@ -35,15 +35,17 @@ class StashApiClient {
     }
 
     // Add tab name as property of each item
-    items.forEach((item) => item.stashName = name);
+    items.forEach((item) => item.tabs.add(name));
 
     return new StashTab(
         name: name, type: type, index: stashIndex, items: items);
   }
 
-  Future<StashTab> fetchStashTabWeb(String accountName, String sessionId, int stashIndex) async {
-    final proxyUrl = 'https://poe-api-proxy.herokuapp.com/get/';
-    final requestUrl = '$proxyUrl$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName&POESESSID=$sessionId';
+  Future<StashTab> fetchStashTabWeb(
+      String accountName, String sessionId, int stashIndex) async {
+    final proxyUrl = 'https://poe-api-proxy.herokuapp.com';
+    final requestUrl =
+        '$proxyUrl/stash?league=Harvest&tab=$stashIndex&account=$accountName&sessid=$sessionId';
 
     //print(requestUrl);
 
@@ -51,12 +53,13 @@ class StashApiClient {
 
     //print(rawData.body);
 
-    var name, type;
+    var name, type, nmbrOfTabs;
     List<Item> items;
 
     try {
       name = jsonDecode(rawData.body)['tabs'][stashIndex]['n'];
       type = jsonDecode(rawData.body)['tabs'][stashIndex]['type'];
+      nmbrOfTabs = jsonDecode(rawData.body)['numTabs'];
       items = (jsonDecode(rawData.body)['items'] as List)
           .map((item) => Item.fromJson(item))
           .toList();
@@ -65,11 +68,12 @@ class StashApiClient {
     }
 
     // Add tab name as property of each item
-    items.forEach((item) => item.stashName = name);
+    items.forEach((item) => item.tabs.add(name));
 
     // Make icon request go through proxy as well
-    items.forEach((i) => i.icon = '$proxyUrl${i.icon}');
+    items.forEach((i) => i.icon = '$proxyUrl/image?path=${i.icon}');
 
-    return new StashTab(name: name, type: type, index: stashIndex, items: items);
+    return new StashTab(
+        name: name, type: type, index: stashIndex, items: items, totalNmbrOfTabs: nmbrOfTabs);
   }
 }

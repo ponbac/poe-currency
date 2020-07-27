@@ -12,7 +12,9 @@ part 'stash_state.dart';
 class StashBloc extends Bloc<StashEvent, StashState> {
   final StashRepository stashRepository;
 
-  StashBloc({@required this.stashRepository}) : assert(stashRepository != null), super(StashInitial());
+  StashBloc({@required this.stashRepository})
+      : assert(stashRepository != null),
+        super(StashInitial());
 
   @override
   Stream<StashState> mapEventToState(

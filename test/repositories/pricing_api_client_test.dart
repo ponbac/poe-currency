@@ -7,7 +7,7 @@ void main() {
   test('Test if the poeninja API returns prices.', () async {
     var apiClient = PricingApiClient();
 
-    List<PricedObject> prices = await apiClient.fetchPriceOverview('Currency', PricingObjectType.CURRENCY);
+    List<PricedObject> prices = await apiClient.fetchPriceOverview('Currency');
 
     /*int index = 0;
     prices.forEach((price) {
