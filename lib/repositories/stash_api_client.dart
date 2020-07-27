@@ -53,12 +53,13 @@ class StashApiClient {
 
     //print(rawData.body);
 
-    var name, type;
+    var name, type, nmbrOfTabs;
     List<Item> items;
 
     try {
       name = jsonDecode(rawData.body)['tabs'][stashIndex]['n'];
       type = jsonDecode(rawData.body)['tabs'][stashIndex]['type'];
+      nmbrOfTabs = jsonDecode(rawData.body)['numTabs'];
       items = (jsonDecode(rawData.body)['items'] as List)
           .map((item) => Item.fromJson(item))
           .toList();
@@ -73,6 +74,6 @@ class StashApiClient {
     items.forEach((i) => i.icon = '$proxyUrl/image?path=${i.icon}');
 
     return new StashTab(
-        name: name, type: type, index: stashIndex, items: items);
+        name: name, type: type, index: stashIndex, items: items, totalNmbrOfTabs: nmbrOfTabs);
   }
 }
