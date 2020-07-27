@@ -35,7 +35,8 @@ class StashRepositoryWeb extends StashRepository {
       stashTabIndex++;
     }
 
-    await waitWhile(() => completedTabs.length != nmbrOfTabs);
+    // Wait until all tabs are loaded
+    await _waitWhile(() => completedTabs.length != nmbrOfTabs);
 
     completedTabs.forEach((tab) {
       if (tab == null || tab.items.length == 0) {
@@ -49,7 +50,7 @@ class StashRepositoryWeb extends StashRepository {
     return stash;
   }
 
-  Future waitWhile(bool test(), [Duration pollInterval = Duration.zero]) {
+  Future _waitWhile(bool test(), [Duration pollInterval = Duration.zero]) {
     var completer = new Completer();
     check() {
       if (!test()) {
