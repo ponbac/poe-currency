@@ -111,52 +111,36 @@ class _NavigationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NavPage currentPage;
-
-    return BlocListener<NavigationBloc, NavPage>(
-      listener: (context, state) {
-        currentPage = state;
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _NavigationListLink(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _NavigationListLink(
             navPage: NavPage.STASH,
             onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
-                .add(PageRequested(page: NavPage.STASH)),
-            isActive: currentPage == NavPage.STASH ? true : false,
-          ),
-          _NavigationListLink(
-            navPage: NavPage.CHARACTER,
+                .add(PageRequested(page: NavPage.STASH))),
+        _NavigationListLink(
+            navPage: NavPage.FRIENDS,
             onLinkPressed: () =>
-                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-            isActive: currentPage == NavPage.CHARACTER ? true : false,
-          ),
-          _NavigationListLink(
+                BlocProvider.of<NavigationBloc>(context)
+                .add(PageRequested(page: NavPage.FRIENDS))),
+        _NavigationListLink(
             navPage: NavPage.SETTINGS,
             onLinkPressed: () =>
-                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-            isActive: currentPage == NavPage.SETTINGS ? true : false,
-          )
-        ],
-      ),
+                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'))
+      ],
     );
   }
 }
 
 class _NavigationListLink extends StatelessWidget {
   const _NavigationListLink(
-      {@required this.navPage,
-      @required this.onLinkPressed,
-      @required this.isActive})
+      {@required this.navPage, @required this.onLinkPressed})
       : assert(navPage != null),
-        assert(onLinkPressed != null),
-        assert(isActive != null);
+        assert(onLinkPressed != null);
 
   final NavPage navPage;
   final Function onLinkPressed;
-  final bool isActive;
 
   final TextStyle textStyle = const TextStyle(
     color: Colors.grey,
@@ -181,10 +165,10 @@ class _NavigationListLink extends StatelessWidget {
                       ? textStyle.copyWith(color: kTextColor)
                       : textStyle.copyWith(color: Colors.grey[600]));
             }
-            if (navPage == NavPage.CHARACTER) {
-              return Text('Character',
+            if (navPage == NavPage.FRIENDS) {
+              return Text('Friends',
                   overflow: TextOverflow.ellipsis,
-                  style: state == NavPage.CHARACTER
+                  style: state == NavPage.FRIENDS
                       ? textStyle.copyWith(color: kTextColor)
                       : textStyle.copyWith(color: Colors.grey[600]));
             }

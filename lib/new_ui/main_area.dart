@@ -28,7 +28,16 @@ class MainArea extends StatelessWidget {
           return Row(
             children: [
               Expanded(child: MenuBar(currentUser: user)),
-              Expanded(flex: 5, child: StashView(currentUser: user)),
+              BlocBuilder<NavigationBloc, NavPage>(
+                builder: (context, state) {
+                  if (state == NavPage.STASH) {
+                    return Expanded(
+                        flex: 5, child: StashView(currentUser: user));
+                  }
+
+                  return Text('Not implemented state: $state');
+                },
+              )
             ],
           );
         }

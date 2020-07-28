@@ -28,10 +28,7 @@ class StashRepositoryWeb extends StashRepository {
     while (stashTabIndex < nmbrOfTabs) {
       stashApiClient
           .fetchStashTabWeb(accountName, sessionId, stashTabIndex)
-          .then((tab) {
-        completedTabs.add(tab);
-        print('Added: ${tab.items.length}');
-      });
+          .then((tab) => completedTabs.add(tab));
       stashTabIndex++;
     }
 
