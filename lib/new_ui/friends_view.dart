@@ -8,6 +8,10 @@ class FriendsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.amberAccent);
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      children: [Text('Cool, cool friends!')],
+    );
   }
 }

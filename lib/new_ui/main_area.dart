@@ -6,6 +6,7 @@ import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/new_ui/friends_view.dart';
 import 'package:poe_currency/new_ui/login_view.dart';
 import 'package:poe_currency/new_ui/menu_bar.dart';
 import 'package:poe_currency/new_ui/stash_view.dart';
@@ -33,6 +34,10 @@ class MainArea extends StatelessWidget {
                   if (state == NavPage.STASH) {
                     return Expanded(
                         flex: 5, child: StashView(currentUser: user));
+                  }
+                  if (state == NavPage.FRIENDS) {
+                    return Expanded(
+                        flex: 5, child: FriendsView(currentUser: user));
                   }
 
                   return Text('Not implemented state: $state');
