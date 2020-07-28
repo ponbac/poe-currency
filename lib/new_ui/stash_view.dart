@@ -6,7 +6,7 @@ import 'package:poe_currency/bloc/pricing_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';
 
 import '../constants.dart';

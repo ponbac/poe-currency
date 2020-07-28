@@ -4,7 +4,7 @@ import 'package:poe_currency/bloc/login_bloc.dart';
 import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 
 class MenuBar extends StatelessWidget {
   final User currentUser;

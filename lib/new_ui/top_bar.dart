@@ -5,7 +5,7 @@ import 'package:poe_currency/bloc/filter_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/bloc/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 
 // TODO: Merge with _StashView
 

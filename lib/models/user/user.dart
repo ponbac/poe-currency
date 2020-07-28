@@ -6,7 +6,7 @@ class User {
   String poeSessionId;
   bool disabled;
 
-  User({@required this.username, @required this.accountname, @required this.poeSessionId, this.disabled});
+  User({@required this.username, this.accountname, this.poeSessionId, this.disabled});
 
   User.fromJson(Map<String, dynamic> json) {
     username = json['username'];

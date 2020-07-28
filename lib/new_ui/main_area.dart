@@ -5,7 +5,7 @@ import 'package:poe_currency/bloc/navigation_bloc.dart';
 import 'package:poe_currency/bloc/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 import 'package:poe_currency/new_ui/friends_view.dart';
 import 'package:poe_currency/new_ui/login_view.dart';
 import 'package:poe_currency/new_ui/menu_bar.dart';

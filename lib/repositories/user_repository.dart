@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:meta/meta.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 
