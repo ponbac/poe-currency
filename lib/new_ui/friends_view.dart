@@ -11,7 +11,7 @@ class FriendsView extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Text('Cool, cool friends!'), _FriendsList()],
+      children: [Text('Cool, cool friends!'), /*_FriendsList(friends: currentUser.friends)*/],
     );
   }
 }
@@ -19,17 +19,11 @@ class FriendsView extends StatelessWidget {
 /*class _FriendsList extends StatelessWidget {
   const _FriendsList({this.friends});
 
-  final List<User> friends;
+  final List<String> friends;
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PricingBloc, PricingState>(builder: (context, state) {
-      bool isPriced = false;
-
-      if (state is PricingSuccess) {
-        isPriced = true;
-      }
-
       return Column(
         children: [
           Expanded(
@@ -108,4 +102,5 @@ class _ItemListItem extends StatelessWidget {
       ],
     );
   }
-}*/
+}
+*/
