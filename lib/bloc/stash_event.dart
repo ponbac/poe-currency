@@ -5,14 +5,18 @@ abstract class StashEvent extends Equatable {
 }
 
 class StashRequested extends StashEvent {
+  final String username;
   final String sessionId;
   final String accountName;
 
-  const StashRequested({@required this.sessionId, @required this.accountName})
-      : assert(sessionId != null && accountName != null);
+  const StashRequested(
+      {@required this.username,
+      @required this.sessionId,
+      @required this.accountName})
+      : assert(username != null && sessionId != null && accountName != null);
 
   @override
-  List<Object> get props => [sessionId, accountName];
+  List<Object> get props => [username, sessionId, accountName];
 }
 
 class StashReset extends StashEvent {

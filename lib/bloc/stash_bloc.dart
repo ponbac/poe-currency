@@ -25,6 +25,8 @@ class StashBloc extends Bloc<StashEvent, StashState> {
       try {
         final Stash stash =
             await stashRepository.getStash(event.accountName, event.sessionId);
+        stash.owner = event.username;
+        
         yield StashLoadSuccess(stash: stash);
       } catch (_) {
         yield StashLoadFailure(errorMessage: _.toString());

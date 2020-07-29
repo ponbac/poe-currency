@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/snapshot_bloc.dart';
+import 'package:poe_currency/models/user/snapshot.dart';
 import 'package:poe_currency/models/user/user.dart';
+
+import '../constants.dart';
 
 class FriendsView extends StatelessWidget {
   final User currentUser;
@@ -8,47 +13,56 @@ class FriendsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    BlocProvider.of<SnapshotBloc>(context)
+        .add(LatestSnapshotRequested(userList: currentUser.friends));
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       crossAxisAlignment: CrossAxisAlignment.center,
-      children: [Text('Cool, cool friends!'), /*_FriendsList(friends: currentUser.friends)*/],
+      children: [Expanded(child: _FriendsList())],
     );
   }
 }
 
-/*class _FriendsList extends StatelessWidget {
-  const _FriendsList({this.friends});
-
-  final List<String> friends;
+class _FriendsList extends StatelessWidget {
+  const _FriendsList();
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PricingBloc, PricingState>(builder: (context, state) {
-      return Column(
-        children: [
-          Expanded(
-            flex: 1,
-            child: _ItemListHeader(),
-          ),
-          Expanded(
-            flex: 10,
-            child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return _ItemListItem(item: items[index], isPriced: isPriced);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
-                },
-                itemCount: items.length),
-          ),
-        ],
-      );
+    return BlocBuilder<SnapshotBloc, SnapshotState>(builder: (context, state) {
+      if (state is SnapshotListLoadSuccess) {
+        List<Snapshot> snapshots = state.snapshots;
+
+        //print(snapshots);
+
+        return Column(
+          children: [
+            Expanded(
+              flex: 1,
+              child: _FriendsListHeader(),
+            ),
+            Expanded(
+              flex: 10,
+              child: ListView.separated(
+                  itemBuilder: (BuildContext context, int index) {
+                    return _FriendsListItem(item: snapshots[index]);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider();
+                  },
+                  itemCount: snapshots.length),
+            ),
+          ],
+        );
+      }
+
+      return Center(child: CircularProgressIndicator());
     });
   }
 }
 
-class _ItemListHeader extends StatelessWidget {
-  const _ItemListHeader();
+class _FriendsListHeader extends StatelessWidget {
+  const _FriendsListHeader();
 
   @override
   Widget build(BuildContext context) {
@@ -74,33 +88,34 @@ class _ItemListHeader extends StatelessWidget {
   }
 }
 
-class _ItemListItem extends StatelessWidget {
-  const _ItemListItem({@required this.item, this.isPriced = false})
-      : assert(item != null);
+class _FriendsListItem extends StatelessWidget {
+  const _FriendsListItem({@required this.item}) : assert(item != null);
 
-  final Item item;
-  final bool isPriced;
+  final Snapshot item;
 
   @override
   Widget build(BuildContext context) {
-    final Text name = Text('${item.typeLine}',
-        overflow: TextOverflow.ellipsis,
-        style: TextStyle(color: kPrimaryColor));
-    final Text tab = Text(
-      '${item.tabs.toString().replaceFirst('[', '').replaceFirst(']', '')}',
+    //print('${item.username}, ${item.value}');
+
+    final Text username = Text(
+      '${item.username}',
       overflow: TextOverflow.ellipsis,
     );
-    final Text links =
-        item.socketLinks != 0 ? Text('${item.socketLinks}') : Text('N/A');
+    final Text value = Text(
+      '${item.value}',
+      style: TextStyle(color: kPrimaryColor),
+      overflow: TextOverflow.ellipsis,
+    );
+    final String formattedDate = item.date.toString().split('.')[0];
+    final Text lastUpdated = Text('$formattedDate');
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(flex: 1, child: _ItemIcon(iconUrl: item.icon)),
-        Expanded(flex: 1, child: name),
-        Expanded(flex: 1, child: tab),
+        Expanded(flex: 1, child: username),
+        Expanded(flex: 1, child: value),
+        Expanded(flex: 1, child: lastUpdated),
       ],
     );
   }
 }
-*/

@@ -3,6 +3,7 @@ import 'dart:collection';
 
 import 'package:meta/meta.dart';
 import 'package:poe_currency/models/pricing/priced_object.dart';
+import 'package:poe_currency/models/user/snapshot.dart';
 import 'package:poe_currency/repositories/pricing_api_client.dart';
 
 class PricingRepository {
@@ -65,6 +66,34 @@ class PricingRepository {
     return HashMap.fromIterable(completedPrices,
         key: (o) => o.name, value: (o) => o.value)
       ..putIfAbsent('Chaos Orb', () => 1.0);
+  }
+
+  Future<Snapshot> getLatestSnapshot(String username) async {
+    return await pricingApiClient.fetchLatestSnapshot(username);
+  }
+
+  Future<List<Snapshot>> getLatestSnapshotsFromList(
+      List<String> userList) async {
+    var completedSnapshots = new List<Snapshot>();
+    int snapshotsLoaded = 0;
+    int totalNmbrOfSnapshots = userList.length;
+
+    for (String username in userList) {
+      pricingApiClient.fetchLatestSnapshot(username).then((snapshot) {
+        completedSnapshots.add(snapshot);
+        snapshotsLoaded++;
+      });
+    }
+
+    await _waitWhile(() => snapshotsLoaded != totalNmbrOfSnapshots);
+
+    //print('Loaded: $snapshotsLoaded, Snapshots: $completedSnapshots, Snapshots.length: ${completedSnapshots.length}');
+
+    return completedSnapshots;
+  }
+
+  Future<bool> saveSnapshot(String username, int value) async {
+    return await pricingApiClient.postSnapshot(username, value);
   }
 
   // TODO: Code duplication here, this function is also in StashRepo

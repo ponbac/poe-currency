@@ -17,8 +17,6 @@ class User {
         ? ['']
         : json['friends'].cast<String>();
     disabled = json['disabled'];
-
-    print('$friends');
   }
 
   @override

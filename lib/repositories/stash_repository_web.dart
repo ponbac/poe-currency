@@ -40,7 +40,7 @@ class StashRepositoryWeb extends StashRepository {
         //print('Tab is empty or null!');
       } else {
         stash.addStashTab(tab);
-        print('Added tab: ${tab.name} to stash!');
+        //print('Added tab: ${tab.name} to stash!');
       }
     });
 

@@ -13,7 +13,7 @@ part 'pricing_state.dart';
 
 class PricingBloc extends Bloc<PricingEvent, PricingState> {
   final PricingRepository pricingRepository;
-  
+
   final StashBloc stashBloc;
   StreamSubscription stashBlocSubscription;
 
@@ -23,12 +23,15 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
     // TODO: Solve this in a better way? https://github.com/felangel/bloc/issues/1512
     if (stashBloc.state is StashLoadSuccess) {
       StashLoadSuccess successState = stashBloc.state;
-      this.add(PricingRequested(itemsToPrice: successState.stash.allItems));
+      this.add(PricingRequested(
+          username: successState.stash.owner,
+          itemsToPrice: successState.stash.allItems));
     }
 
     stashBlocSubscription = stashBloc.listen((state) {
       if (state is StashLoadSuccess) {
-        this.add(PricingRequested(itemsToPrice: state.stash.allItems));
+        this.add(PricingRequested(
+            username: state.stash.owner, itemsToPrice: state.stash.allItems));
       }
     });
   }
@@ -44,6 +47,7 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
 
       List<Item> itemsToPrice = event.itemsToPrice;
       List<Item> pricedItems = new List<Item>();
+      double totalValue = 0;
 
       try {
         HashMap<String, double> pricesMap =
@@ -56,9 +60,12 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
             item.value = pricesMap[item.name] ?? 0.0;
           }
 
+          totalValue += item.totalValue;
           pricedItems.add(item);
         });
 
+        pricingRepository.saveSnapshot(
+            event.username, totalValue.round()); // Save snapshot in DB!
         yield PricingSuccess(pricedItems: pricedItems);
       } catch (_) {
         print(_.toString()); //TODO REMOVE AND MAKE PART OF UI RESPONSE

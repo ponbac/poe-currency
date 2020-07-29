@@ -22,7 +22,9 @@ class MainArea extends StatelessWidget {
           User user = state.user;
 
           BlocProvider.of<StashBloc>(context).add(StashRequested(
-              sessionId: user.poeSessionId, accountName: user.accountname));
+              username: user.username,
+              sessionId: user.poeSessionId,
+              accountName: user.accountname));
           BlocProvider.of<NavigationBloc>(context)
               .add(PageRequested(page: NavPage.STASH));
 

@@ -4,6 +4,7 @@ import 'package:poe_currency/models/stash_tab.dart';
 import 'package:poe_currency/models/item.dart';
 
 class Stash {
+  String owner;
   List<StashTab> _tabs;
   List<Item> _allItems;
   HashMap<String, Item> _idItemMap;
