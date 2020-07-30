@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:poe_currency/models/user/snapshot.dart';
 
 class PricingApiClient {
-  static const baseUrl = 'https://poe-api-proxy.herokuapp.com';
+  static const baseUrl = 'https://poe-currency-api.herokuapp.com';
 
   PricingApiClient();
 

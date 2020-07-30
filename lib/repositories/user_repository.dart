@@ -13,7 +13,7 @@ class UserRepository {
     @required String username,
     @required String password,
   }) async {
-    final url = 'https://poe-api-proxy.herokuapp.com/token';
+    final url = 'https://poe-currency-api.herokuapp.com/token';
     var map = new Map<String, dynamic>();
     var token;
 
@@ -44,7 +44,7 @@ class UserRepository {
     @required String accountname,
     @required String poesessid
   }) async {
-    final url = 'https://poe-api-proxy.herokuapp.com/register';
+    final url = 'https://poe-currency-api.herokuapp.com/register';
     var map = new Map<String, dynamic>();
     var user;
 
@@ -80,7 +80,7 @@ class UserRepository {
     var token = prefs.getString(tokenId);
 
     final requestUrl =
-        'https://poe-api-proxy.herokuapp.com/users/me';
+        'https://poe-currency-api.herokuapp.com/users/me';
 
     var rawData =
         await http.get(requestUrl, headers: {'Authorization': 'Bearer ' +  token});
