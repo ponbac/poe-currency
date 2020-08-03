@@ -17,6 +17,15 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
   Stream<FriendsState> mapEventToState(
     FriendsEvent event,
   ) async* {
-    // TODO: implement mapEventToState
+    if (event is AddFriendRequested) {
+      yield FriendsInProgress();
+
+      try {
+        await userRepository.addFriend(userToAdd: event.usernameToAdd);
+        yield AddFriendSuccess();
+      } catch (_) {
+        yield AddFriendFailure(errorMessage: _.toString());
+      }
+    }
   }
 }
