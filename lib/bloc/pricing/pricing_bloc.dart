@@ -4,7 +4,7 @@ import 'dart:collection';
 import 'package:bloc/bloc.dart';
 import 'package:flutter/widgets.dart';
 import 'package:equatable/equatable.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
 

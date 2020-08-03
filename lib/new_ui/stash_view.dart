@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/filter_bloc.dart';
-import 'package:poe_currency/bloc/pricing_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
-import 'package:poe_currency/bloc/tab_bloc.dart';
+import 'package:poe_currency/bloc/filter/filter_bloc.dart';
+import 'package:poe_currency/bloc/pricing/pricing_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
+import 'package:poe_currency/bloc/tab/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:poe_currency/models/user/user.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';

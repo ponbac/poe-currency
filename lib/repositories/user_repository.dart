@@ -8,12 +8,13 @@ import 'package:http/http.dart' as http;
 class UserRepository {
   final Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
   final String tokenId = 'access_token';
+  final String apiUrl = 'https://poe-currency-api.herokuapp.com';
 
   Future<String> authenticate({
     @required String username,
     @required String password,
   }) async {
-    final url = 'https://poe-currency-api.herokuapp.com/token';
+    final url = '$apiUrl/token';
     var map = new Map<String, dynamic>();
     var token;
 
@@ -30,7 +31,7 @@ class UserRepository {
 
     try {
       token = jsonDecode(response.body)['access_token'];
-    } catch(_) {
+    } catch (_) {
       print(_.toString());
       return null;
     }
@@ -38,13 +39,12 @@ class UserRepository {
     return token;
   }
 
-  Future<User> register({
-    @required String username,
-    @required String password,
-    @required String accountname,
-    @required String poesessid
-  }) async {
-    final url = 'https://poe-currency-api.herokuapp.com/register';
+  Future<User> register(
+      {@required String username,
+      @required String password,
+      @required String accountname,
+      @required String poesessid}) async {
+    final url = '$apiUrl/register';
     var map = new Map<String, dynamic>();
     var user;
 
@@ -63,7 +63,7 @@ class UserRepository {
       if (user.username == null) {
         return null;
       }
-    } catch(_) {
+    } catch (_) {
       print(_.toString());
       return null;
     }
@@ -79,13 +79,44 @@ class UserRepository {
     var prefs = await _prefs;
     var token = prefs.getString(tokenId);
 
-    final requestUrl =
-        'https://poe-currency-api.herokuapp.com/users/me';
+    final requestUrl = '$apiUrl/users/me';
 
-    var rawData =
-        await http.get(requestUrl, headers: {'Authorization': 'Bearer ' +  token});
+    var rawData = await http
+        .get(requestUrl, headers: {'Authorization': 'Bearer ' + token});
 
     return User.fromJson(jsonDecode(rawData.body));
+  }
+
+  Future<User> addFriend({@required String userToAdd}) async {
+    if (!await hasToken()) {
+      return null;
+    }
+
+    var prefs = await _prefs;
+    var token = prefs.getString(tokenId);
+    final url = '$apiUrl/users/me/friends/add';
+    var map = new Map<String, dynamic>();
+    var user;
+
+    map['user_to_add'] = userToAdd;
+
+    http.Response response = await http.post(
+      url,
+      body: map,
+      headers: {'Authorization': 'Bearer ' + token}
+    );
+
+    try {
+      user = User.fromJson(jsonDecode(response.body));
+      if (user.username == null) {
+        return null;
+      }
+    } catch (_) {
+      print(_.toString());
+      return null;
+    }
+
+    return user;
   }
 
   Future<void> deleteToken() async {

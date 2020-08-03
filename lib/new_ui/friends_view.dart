@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/snapshot_bloc.dart';
+import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
 import 'package:poe_currency/models/user/snapshot.dart';
 import 'package:poe_currency/models/user/user.dart';
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/navigation_bloc.dart';
-import 'package:poe_currency/bloc/pricing_bloc.dart';
-import 'package:poe_currency/bloc/snapshot_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/navigation/navigation_bloc.dart';
+import 'package:poe_currency/bloc/pricing/pricing_bloc.dart';
+import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/new_ui/main_area.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';

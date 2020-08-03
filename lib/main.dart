@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/login_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/login/login_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/new_ui/start.dart';
 import 'package:poe_currency/repositories/pricing_api_client.dart';
