@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
 import 'package:poe_currency/models/user/snapshot.dart';
 import 'package:poe_currency/models/user/user.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 import '../constants.dart';
 
@@ -48,7 +50,57 @@ class _AddFriendButton extends StatelessWidget {
           Icons.add,
           color: kTextColor,
         ),
-        onPressed: () => print('Add friend dialog to pop up!'));
+        onPressed: () => _AddFriendDialog().showDialog(context));
+  }
+}
+
+// TODO: Make text black when highlighted!
+class _AddFriendDialog {
+  final alertStyle = AlertStyle(
+      animationType: AnimationType.grow,
+      isCloseButton: true,
+      isOverlayTapDismiss: true,
+      backgroundColor: kPrimaryColor,
+      descStyle: TextStyle(fontWeight: FontWeight.bold),
+      animationDuration: Duration(milliseconds: 400),
+      alertBorder: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15.0),
+        side: BorderSide(
+          color: kBackgroundColor,
+        ),
+      ),
+      titleStyle: TextStyle(
+        color: kBackgroundColor,
+      ),
+    );
+
+  void showDialog(BuildContext context) {
+    Alert(
+        context: context,
+        title: "ADD FRIEND",
+        style: alertStyle,
+        content: Column(
+          children: <Widget>[
+            TextField(
+              style: TextStyle(color: kBackgroundColor),
+              decoration: InputDecoration(
+                fillColor: kBackgroundColor,
+                icon: Icon(Icons.account_circle),
+                labelText: "Friend's username",
+              ),
+            ),
+          ],
+        ),
+        buttons: [
+          DialogButton(
+            color: kBackgroundColor,
+            onPressed: () => Navigator.pop(context),
+            child: Text(
+              "ADD",
+              style: TextStyle(color: kPrimaryColor, fontSize: 20),
+            ),
+          )
+        ]).show();
   }
 }
 
