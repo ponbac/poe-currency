@@ -28,7 +28,7 @@ dependencies:
   flutter_bloc: ^6.0.1
   cached_network_image: ^2.2.0+1
   meta: ^1.2.2
-  shared_preferences: ^0.5.8
+  hive: ^1.4.4
   rflutter_alert: ^1.0.3
 
 
