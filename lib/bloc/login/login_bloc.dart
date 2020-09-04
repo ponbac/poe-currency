@@ -50,7 +50,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
       }
     }
     if (event is LogoutRequested) {
-      await userRepository.deleteToken();
+      userRepository.deleteToken();
+      userRepository.deleteUser();
       yield LoginInitial();
     }
     if (event is SignUpRequested) {

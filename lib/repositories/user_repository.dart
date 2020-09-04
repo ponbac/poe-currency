@@ -6,6 +6,10 @@ import 'package:poe_currency/models/user/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
+  UserRepository() {
+    
+  }
+
   final String boxName = 'mainBox';
   final String tokenId = 'access_token';
   final String currentUserId = 'current_user';
@@ -13,6 +17,7 @@ class UserRepository {
 
   Future<Box> getOpenBox() async {
     if (!Hive.isBoxOpen(boxName)) {
+      Hive.registerAdapter(UserAdapter());
       return await Hive.openBox(boxName);
     }
 

@@ -1,6 +1,8 @@
 import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
 
+part 'user.g.dart';
+
 @HiveType(typeId: 0)
 class User extends HiveObject {
   @HiveField(0)
@@ -14,15 +16,18 @@ class User extends HiveObject {
   @HiveField(4)
   bool disabled;
 
-  User({@required this.username, this.accountname, this.poeSessionId, this.friends, this.disabled});
+  User(
+      {@required this.username,
+      this.accountname,
+      this.poeSessionId,
+      this.friends,
+      this.disabled});
 
   User.fromJson(Map<String, dynamic> json) {
     username = json['username'];
     accountname = json['accountname'];
     poeSessionId = json['poesessid'];
-    friends = json['friends'] == null
-        ? ['']
-        : json['friends'].cast<String>();
+    friends = json['friends'] == null ? [''] : json['friends'].cast<String>();
     disabled = json['disabled'];
   }
 
