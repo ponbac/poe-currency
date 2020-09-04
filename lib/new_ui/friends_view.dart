@@ -1,6 +1,7 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:poe_currency/bloc/friends/friends_bloc.dart';
 import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
 import 'package:poe_currency/models/user/snapshot.dart';
 import 'package:poe_currency/models/user/user.dart';
@@ -56,33 +57,43 @@ class _AddFriendButton extends StatelessWidget {
 
 // TODO: Make text black when highlighted!
 class _AddFriendDialog {
-  final alertStyle = AlertStyle(
-      animationType: AnimationType.grow,
-      isCloseButton: true,
-      isOverlayTapDismiss: true,
-      backgroundColor: kPrimaryColor,
-      descStyle: TextStyle(fontWeight: FontWeight.bold),
-      animationDuration: Duration(milliseconds: 400),
-      alertBorder: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
-        side: BorderSide(
-          color: kBackgroundColor,
-        ),
-      ),
-      titleStyle: TextStyle(
+  final _alertStyle = AlertStyle(
+    animationType: AnimationType.grow,
+    isCloseButton: true,
+    isOverlayTapDismiss: true,
+    backgroundColor: kPrimaryColor,
+    descStyle: TextStyle(fontWeight: FontWeight.bold),
+    animationDuration: Duration(milliseconds: 400),
+    alertBorder: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(15.0),
+      side: BorderSide(
         color: kBackgroundColor,
       ),
-    );
+    ),
+    titleStyle: TextStyle(
+      color: kBackgroundColor,
+    ),
+  );
+
+  TextEditingController _addFriendController = TextEditingController();
+
+  void _addFriend(BuildContext context) {
+    BlocProvider.of<FriendsBloc>(context)
+        .add(AddFriendRequested(usernameToAdd: _addFriendController.text));
+
+        Navigator.pop(context);
+  }
 
   void showDialog(BuildContext context) {
     Alert(
         context: context,
         title: "ADD FRIEND",
-        style: alertStyle,
+        style: _alertStyle,
         content: Column(
           children: <Widget>[
             TextField(
               style: TextStyle(color: kBackgroundColor),
+              controller: _addFriendController,
               decoration: InputDecoration(
                 fillColor: kBackgroundColor,
                 icon: Icon(Icons.account_circle),
@@ -94,7 +105,7 @@ class _AddFriendDialog {
         buttons: [
           DialogButton(
             color: kBackgroundColor,
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => _addFriend(context),
             child: Text(
               "ADD",
               style: TextStyle(color: kPrimaryColor, fontSize: 20),

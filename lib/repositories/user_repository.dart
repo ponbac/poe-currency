@@ -106,6 +106,7 @@ class UserRepository {
       headers: {'Authorization': 'Bearer ' + token}
     );
 
+    // TODO: Should throw error instead of returning null!
     try {
       user = User.fromJson(jsonDecode(response.body));
       if (user.username == null) {

@@ -21,8 +21,13 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
       yield FriendsInProgress();
 
       try {
-        await userRepository.addFriend(userToAdd: event.usernameToAdd);
-        yield AddFriendSuccess();
+        var responseUser =
+            await userRepository.addFriend(userToAdd: event.usernameToAdd);
+        if (responseUser == null) {
+          yield AddFriendFailure(errorMessage: 'Could not add friend!');
+        } else {
+          yield AddFriendSuccess();
+        }
       } catch (_) {
         yield AddFriendFailure(errorMessage: _.toString());
       }
