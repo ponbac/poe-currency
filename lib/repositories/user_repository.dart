@@ -6,9 +6,7 @@ import 'package:poe_currency/models/user/user.dart';
 import 'package:http/http.dart' as http;
 
 class UserRepository {
-  UserRepository() {
-    
-  }
+  UserRepository() {}
 
   final String boxName = 'mainBox';
   final String tokenId = 'access_token';
@@ -138,18 +136,11 @@ class UserRepository {
     http.Response response = await http
         .post(url, body: map, headers: {'Authorization': 'Bearer ' + token});
 
-    // TODO: Should throw error instead of returning null!
-    try {
-      user = User.fromJson(jsonDecode(response.body));
-      if (user.username == null) {
-        return null;
-      }
-    } catch (_) {
-      print(_.toString());
-      return null;
+    if (response.statusCode != 200) {
+      throw Exception(response.body);
     }
 
-    return user;
+    return User.fromJson(jsonDecode(response.body));
   }
 
   void deleteUser() async {

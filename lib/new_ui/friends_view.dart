@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:poe_currency/bloc/friends/friends_bloc.dart';
 import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
 import 'package:poe_currency/models/user/snapshot.dart';
@@ -9,28 +10,49 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import '../constants.dart';
 
 class FriendsView extends StatelessWidget {
-  final User currentUser;
-
-  const FriendsView({@required this.currentUser}) : assert(currentUser != null);
-
   @override
   Widget build(BuildContext context) {
-    BlocProvider.of<SnapshotBloc>(context)
-        .add(LatestSnapshotRequested(userList: currentUser.friends));
+    return BlocBuilder<FriendsBloc, FriendsState>(builder: (context, state) {
+      if (state is AddFriendSuccess || state is FriendsInitial) {
+        var box = Hive.box('mainBox');
+        User currentUser = box.get('current_user');
 
-    return BlocBuilder<SnapshotBloc, SnapshotState>(builder: (context, state) {
-      if (state is SnapshotListLoadSuccess) {
+        BlocProvider.of<SnapshotBloc>(context)
+            .add(LatestSnapshotRequested(userList: currentUser.friends));
+
+        return BlocBuilder<SnapshotBloc, SnapshotState>(
+            builder: (context, state) {
+          if (state is SnapshotListLoadSuccess) {
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Spacer(),
+                _AddFriendButton(),
+                Expanded(
+                    child: _FriendsList(
+                  snapshots: state.snapshots,
+                )),
+                Spacer()
+              ],
+            );
+          }
+
+          return Center(child: CircularProgressIndicator());
+        });
+      }
+      if (state is AddFriendFailure) {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Spacer(),
-            _AddFriendButton(),
-            Expanded(
-                child: _FriendsList(
-              snapshots: state.snapshots,
-            )),
-            Spacer()
+            Text(
+              'Something went wrong: \n${state.errorMessage}',
+              textAlign: TextAlign.center,
+            ),
+            IconButton(
+                icon: Icon(Icons.backspace, color: kPrimaryColor),
+                onPressed: () =>
+                    BlocProvider.of<FriendsBloc>(context).add(ResetFriends()))
           ],
         );
       }
@@ -80,7 +102,7 @@ class _AddFriendDialog {
     BlocProvider.of<FriendsBloc>(context)
         .add(AddFriendRequested(usernameToAdd: _addFriendController.text));
 
-        Navigator.pop(context);
+    Navigator.pop(context);
   }
 
   void showDialog(BuildContext context) {

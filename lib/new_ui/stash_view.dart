@@ -12,9 +12,7 @@ import 'package:poe_currency/new_ui/top_bar.dart';
 import '../constants.dart';
 
 class StashView extends StatelessWidget {
-  final User currentUser;
-
-  const StashView({@required this.currentUser}) : assert(currentUser != null);
+  const StashView();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +62,7 @@ class StashView extends StatelessWidget {
               // When done pricing items or pricing failed
               return Column(
                 children: [
-                  Expanded(flex: 1, child: TopBar(user: currentUser)),
+                  Expanded(flex: 1, child: TopBar()),
                   Expanded(flex: 5, child: _TabView()),
                 ],
               );

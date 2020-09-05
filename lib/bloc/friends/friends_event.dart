@@ -13,3 +13,8 @@ class AddFriendRequested extends FriendsEvent {
   @override
   List<Object> get props => [usernameToAdd];
 }
+
+class ResetFriends extends FriendsEvent {
+  @override
+  List<Object> get props => [];
+}

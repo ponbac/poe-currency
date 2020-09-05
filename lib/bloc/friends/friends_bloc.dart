@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/widgets.dart';
+import 'package:poe_currency/models/user/user.dart';
 import 'package:poe_currency/repositories/user_repository.dart';
 
 part 'friends_event.dart';
@@ -21,9 +22,9 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
       yield FriendsInProgress();
 
       try {
-        var responseUser =
-            await userRepository.addFriend(userToAdd: event.usernameToAdd);
-        if (responseUser == null) {
+        await userRepository.addFriend(userToAdd: event.usernameToAdd);
+        User updatedUser = await userRepository.fetchCurrentUser();
+        if (updatedUser == null) {
           yield AddFriendFailure(errorMessage: 'Could not add friend!');
         } else {
           yield AddFriendSuccess();
@@ -31,6 +32,9 @@ class FriendsBloc extends Bloc<FriendsEvent, FriendsState> {
       } catch (_) {
         yield AddFriendFailure(errorMessage: _.toString());
       }
+    }
+    if (event is ResetFriends) {
+      yield FriendsInitial();
     }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:poe_currency/bloc/login/login_bloc.dart';
 import 'package:poe_currency/bloc/navigation/navigation_bloc.dart';
 import 'package:poe_currency/constants.dart';
@@ -7,12 +8,13 @@ import 'package:poe_currency/models/nav_page.dart';
 import 'package:poe_currency/models/user/user.dart';
 
 class MenuBar extends StatelessWidget {
-  final User currentUser;
-
-  const MenuBar({@required this.currentUser}) : assert(currentUser != null);
+  const MenuBar();
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('mainBox');
+    User currentUser = box.get('current_user');
+
     return Container(
       color: kBackgroundColor,
       child: Column(
@@ -121,8 +123,7 @@ class _NavigationList extends StatelessWidget {
                 .add(PageRequested(page: NavPage.STASH))),
         _NavigationListLink(
             navPage: NavPage.FRIENDS,
-            onLinkPressed: () =>
-                BlocProvider.of<NavigationBloc>(context)
+            onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
                 .add(PageRequested(page: NavPage.FRIENDS))),
         _NavigationListLink(
             navPage: NavPage.SETTINGS,
