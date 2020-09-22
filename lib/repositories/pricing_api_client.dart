@@ -11,7 +11,7 @@ class PricingApiClient {
   PricingApiClient();
 
   Future<List<PricedObject>> fetchPriceOverview(String category) async {
-    final requestUrl = '$baseUrl/pricing?league=Harvest&type=$category';
+    final requestUrl = '$baseUrl/pricing?league=Heist&type=$category';
 
     //print(requestUrl);
 
