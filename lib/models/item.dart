@@ -22,7 +22,7 @@ class Item {
   int x;
   int y;
   String inventoryId;
-  List<String> tabs = new List<String>();
+  List<String> tabs = [];
   double value;
 
   Item(
@@ -86,7 +86,7 @@ class Item {
         ? ['']
         : json['explicitMods'].cast<String>();
     if (json['sockets'] != null) {
-      sockets = new List<Socket>();
+      sockets = [];
       json['sockets'].forEach((s) {
         sockets.add(new Socket.fromJson(s));
       });

@@ -219,11 +219,11 @@ class _ItemListItem extends StatelessWidget {
         item.socketLinks != 0 ? Text('${item.socketLinks}') : Text('N/A');
     final Text level = Text('${item.level ?? 'N/A'}');
     final Text quantity = Text('${item.stackSize ?? '1'}');
-    final Text price = isPriced
+    final Text price = isPriced && item.value != null
         ? Text('${double.parse((item.value).toStringAsFixed(2))}',
             style: TextStyle(color: kPrimaryColor))
         : Text('N/A');
-    final Text totalValue = isPriced
+    final Text totalValue = isPriced && item.totalValue != null
         ? Text('${double.parse((item.totalValue).toStringAsFixed(2))}',
             style: TextStyle(color: kPrimaryColor))
         : Text('N/A');

@@ -41,22 +41,30 @@ class PricingRepository {
       : assert(pricingApiClient != null);
 
   Future<HashMap<String, double>> getPricesForCurrency() async {
-    var completedPrices = new List<PricedObject>();
+    List<PricedObject> completedPrices = [];
     int categoriesLoaded = 0;
     int totalNmbrOfCategories =
         currencyCategories.length + itemCategories.length;
 
     for (String cc in currencyCategories) {
       pricingApiClient.fetchPriceOverview(cc).then((prices) {
-        completedPrices..addAll(prices);
-        categoriesLoaded++;
+        if (prices != null) {
+          completedPrices..addAll(prices);
+          categoriesLoaded++;
+        } else {
+          print(cc + 'is null!');
+        }
       });
     }
 
     for (String ic in itemCategories) {
       pricingApiClient.fetchPriceOverview(ic).then((prices) {
-        completedPrices..addAll(prices);
-        categoriesLoaded++;
+        if (prices != null) {
+          completedPrices..addAll(prices);
+          categoriesLoaded++;
+        } else {
+          print(ic + ' is null!');
+        }
       });
     }
 
@@ -74,7 +82,7 @@ class PricingRepository {
 
   Future<List<Snapshot>> getLatestSnapshotsFromList(
       List<String> userList) async {
-    var completedSnapshots = new List<Snapshot>();
+    List<Snapshot> completedSnapshots = [];
     int snapshotsLoaded = 0;
     int totalNmbrOfSnapshots = userList.length;
 

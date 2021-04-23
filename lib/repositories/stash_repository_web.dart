@@ -15,7 +15,7 @@ class StashRepositoryWeb extends StashRepository {
   @override
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
-    List<StashTab> completedTabs = new List<StashTab>();
+    List<StashTab> completedTabs = [];
 
     print('getStash');
     // Fetch first tab to get total number of tabs to fetch.

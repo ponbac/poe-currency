@@ -46,7 +46,7 @@ class PricingBloc extends Bloc<PricingEvent, PricingState> {
       //print('Pricing in progress!');
 
       List<Item> itemsToPrice = event.itemsToPrice;
-      List<Item> pricedItems = new List<Item>();
+      List<Item> pricedItems = [];
       double totalValue = 0;
 
       try {
