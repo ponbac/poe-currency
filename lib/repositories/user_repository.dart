@@ -37,7 +37,7 @@ class UserRepository {
     map['password'] = password;
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: map,
     );
 
@@ -66,7 +66,7 @@ class UserRepository {
     map['poesessid'] = poesessid;
 
     http.Response response = await http.post(
-      url,
+      Uri.parse(url),
       body: map,
     );
 
@@ -111,7 +111,7 @@ class UserRepository {
     final requestUrl = '$apiUrl/users/me';
 
     var rawData = await http
-        .get(requestUrl, headers: {'Authorization': 'Bearer ' + token});
+        .get(Uri.parse(requestUrl), headers: {'Authorization': 'Bearer ' + token});
 
     // update stored user object
     User currentUser = User.fromJson(jsonDecode(rawData.body));
@@ -134,7 +134,7 @@ class UserRepository {
     map['user_to_add'] = userToAdd;
 
     http.Response response = await http
-        .post(url, body: map, headers: {'Authorization': 'Bearer ' + token});
+        .post(Uri.parse(url), body: map, headers: {'Authorization': 'Bearer ' + token});
 
     if (response.statusCode != 200) {
       throw Exception(response.body);

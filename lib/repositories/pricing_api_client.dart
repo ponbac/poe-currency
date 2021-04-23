@@ -15,7 +15,7 @@ class PricingApiClient {
 
     //print(requestUrl);
 
-    var rawData = await http.get(requestUrl);
+    var rawData = await http.get(Uri.parse(requestUrl));
 
     //print(rawData.body);
 
@@ -34,7 +34,7 @@ class PricingApiClient {
 
   Future<Snapshot> fetchLatestSnapshot(String username) async {
     final requestUrl = '$baseUrl/snapshot/latest?username=$username';
-    var rawData = await http.get(requestUrl);
+    var rawData = await http.get(Uri.parse(requestUrl));
 
     var snapshot;
 
@@ -57,7 +57,7 @@ class PricingApiClient {
 
     try {
       http.Response response = await http.post(
-        url,
+        Uri.parse(url),
         body: map,
       );
       if (response.statusCode == 200) {

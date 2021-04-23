@@ -18,7 +18,7 @@ class StashApiClient {
     //print(requestUrl);
 
     var rawData =
-        await http.get(requestUrl, headers: {'COOKIE': 'POESESSID=$sessionId'});
+        await http.get(Uri.parse(requestUrl), headers: {'COOKIE': 'POESESSID=$sessionId'});
 
     //print(rawData.body);
 
@@ -49,7 +49,7 @@ class StashApiClient {
 
     //print(requestUrl);
 
-    var rawData = await http.get(requestUrl);
+    var rawData = await http.get(Uri.parse(requestUrl));
 
     //print(rawData.body);
 
