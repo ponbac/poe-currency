@@ -1,18 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:meta/meta.dart';
-import 'package:poe_currency/bloc/filter_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
-import 'package:poe_currency/bloc/tab_bloc.dart';
+import 'package:poe_currency/bloc/filter/filter_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
+import 'package:poe_currency/bloc/tab/tab_bloc.dart';
 import 'package:poe_currency/constants.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 
 // TODO: Merge with _StashView
 
 class TopBar extends StatelessWidget {
-  const TopBar({@required this.user}) : assert(user != null);
-
-  final User user;
+  const TopBar();
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +35,7 @@ class TopBar extends StatelessWidget {
                   child: Row(
                     children: [
                       Flexible(child: _FilterButton()),
-                      Flexible(child: _RefreshButton(user: user))
+                      Flexible(child: _RefreshButton())
                     ],
                   ),
                 ),
@@ -103,19 +102,22 @@ class _FilterButton extends StatelessWidget {
 }
 
 class _RefreshButton extends StatelessWidget {
-  const _RefreshButton({@required this.user}) : assert(user != null);
-
-  final User user;
+  const _RefreshButton();
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('mainBox');
+    User currentUser = box.get('current_user');
+
     return IconButton(
         icon: Icon(
           Icons.refresh,
           color: kTextColor,
         ),
         onPressed: () => BlocProvider.of<StashBloc>(context).add(StashRequested(
-            sessionId: user.poeSessionId, accountName: user.accountname)));
+            username: currentUser.username,
+            sessionId: currentUser.poeSessionId,
+            accountName: currentUser.accountname)));
   }
 }
 

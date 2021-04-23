@@ -1,18 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/login_bloc.dart';
-import 'package:poe_currency/bloc/navigation_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:poe_currency/bloc/login/login_bloc.dart';
+import 'package:poe_currency/bloc/navigation/navigation_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 
 class MenuBar extends StatelessWidget {
-  final User currentUser;
-
-  const MenuBar({@required this.currentUser}) : assert(currentUser != null);
+  const MenuBar();
 
   @override
   Widget build(BuildContext context) {
+    var box = Hive.box('mainBox');
+    User currentUser = box.get('current_user');
+
     return Container(
       color: kBackgroundColor,
       child: Column(
@@ -111,52 +113,35 @@ class _NavigationList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    NavPage currentPage;
-
-    return BlocListener<NavigationBloc, NavPage>(
-      listener: (context, state) {
-        currentPage = state;
-      },
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _NavigationListLink(
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        _NavigationListLink(
             navPage: NavPage.STASH,
             onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
-                .add(PageRequested(page: NavPage.STASH)),
-            isActive: currentPage == NavPage.STASH ? true : false,
-          ),
-          _NavigationListLink(
-            navPage: NavPage.CHARACTER,
-            onLinkPressed: () =>
-                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-            isActive: currentPage == NavPage.CHARACTER ? true : false,
-          ),
-          _NavigationListLink(
+                .add(PageRequested(page: NavPage.STASH))),
+        _NavigationListLink(
+            navPage: NavPage.FRIENDS,
+            onLinkPressed: () => BlocProvider.of<NavigationBloc>(context)
+                .add(PageRequested(page: NavPage.FRIENDS))),
+        _NavigationListLink(
             navPage: NavPage.SETTINGS,
             onLinkPressed: () =>
-                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'),
-            isActive: currentPage == NavPage.SETTINGS ? true : false,
-          )
-        ],
-      ),
+                print('NAVIGATION LIST LINK TO BE IMPLEMENTED!'))
+      ],
     );
   }
 }
 
 class _NavigationListLink extends StatelessWidget {
   const _NavigationListLink(
-      {@required this.navPage,
-      @required this.onLinkPressed,
-      @required this.isActive})
+      {@required this.navPage, @required this.onLinkPressed})
       : assert(navPage != null),
-        assert(onLinkPressed != null),
-        assert(isActive != null);
+        assert(onLinkPressed != null);
 
   final NavPage navPage;
   final Function onLinkPressed;
-  final bool isActive;
 
   final TextStyle textStyle = const TextStyle(
     color: Colors.grey,
@@ -181,10 +166,10 @@ class _NavigationListLink extends StatelessWidget {
                       ? textStyle.copyWith(color: kTextColor)
                       : textStyle.copyWith(color: Colors.grey[600]));
             }
-            if (navPage == NavPage.CHARACTER) {
-              return Text('Character',
+            if (navPage == NavPage.FRIENDS) {
+              return Text('Friends',
                   overflow: TextOverflow.ellipsis,
-                  style: state == NavPage.CHARACTER
+                  style: state == NavPage.FRIENDS
                       ? textStyle.copyWith(color: kTextColor)
                       : textStyle.copyWith(color: Colors.grey[600]));
             }

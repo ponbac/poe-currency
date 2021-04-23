@@ -15,7 +15,7 @@ class StashRepositoryWeb extends StashRepository {
   @override
   Future<Stash> getStash(String accountName, String sessionId) async {
     Stash stash = new Stash();
-    List<StashTab> completedTabs = new List<StashTab>();
+    List<StashTab> completedTabs = [];
 
     print('getStash');
     // Fetch first tab to get total number of tabs to fetch.
@@ -28,10 +28,7 @@ class StashRepositoryWeb extends StashRepository {
     while (stashTabIndex < nmbrOfTabs) {
       stashApiClient
           .fetchStashTabWeb(accountName, sessionId, stashTabIndex)
-          .then((tab) {
-        completedTabs.add(tab);
-        print('Added: ${tab.items.length}');
-      });
+          .then((tab) => completedTabs.add(tab));
       stashTabIndex++;
     }
 
@@ -43,7 +40,7 @@ class StashRepositoryWeb extends StashRepository {
         //print('Tab is empty or null!');
       } else {
         stash.addStashTab(tab);
-        print('Added tab: ${tab.name} to stash!');
+        //print('Added tab: ${tab.name} to stash!');
       }
     });
 

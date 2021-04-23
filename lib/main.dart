@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/login_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:poe_currency/bloc/friends/friends_bloc.dart';
+import 'package:poe_currency/bloc/login/login_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/new_ui/start.dart';
 import 'package:poe_currency/repositories/pricing_api_client.dart';
@@ -11,7 +13,6 @@ import 'package:poe_currency/repositories/stash_repository.dart';
 import 'package:poe_currency/repositories/stash_repository_web.dart';
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:poe_currency/repositories/user_repository.dart';
-
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -70,7 +71,9 @@ class MyApp extends StatelessWidget {
           BlocProvider<StashBloc>(
               create: (context) => StashBloc(stashRepository: stashRepository)),
           BlocProvider<LoginBloc>(
-              create: (context) => LoginBloc(userRepository: userRepository))
+              create: (context) => LoginBloc(userRepository: userRepository)),
+          BlocProvider<FriendsBloc>(
+              create: (context) => FriendsBloc(userRepository: userRepository))
         ],
         child: Start(
           pricingRepository: pricingRepository,

@@ -4,13 +4,13 @@ A new Flutter project.
 
 ## TODO
 
+Add pricing for: BlightedMap, Invitations, Watchstones, (BaseTypes, HelmetEnchants)
+
+Add settings page where you can change league!
+
 Refactor bad code.
 
 Solve TODOS...
-
-Style everything more!
-
-Add pages other than Stash.
 
 Implement leaderboard?
 

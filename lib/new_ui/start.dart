@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/navigation_bloc.dart';
-import 'package:poe_currency/bloc/pricing_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/navigation/navigation_bloc.dart';
+import 'package:poe_currency/bloc/pricing/pricing_bloc.dart';
+import 'package:poe_currency/bloc/snapshot/snapshot_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/new_ui/main_area.dart';
 import 'package:poe_currency/repositories/pricing_repository.dart';
@@ -23,11 +24,17 @@ class Start extends StatelessWidget {
         backgroundColor: kBackgroundColor,
         body: BlocProvider<NavigationBloc>(
           create: (context) => NavigationBloc(),
-          child: BlocProvider<PricingBloc>(
+          child: MultiBlocProvider(providers: [
+            BlocProvider<PricingBloc>(
               create: (context) => PricingBloc(
                   pricingRepository: pricingRepository,
                   stashBloc: BlocProvider.of<StashBloc>(context)),
-              child: MainArea()),
+            ),
+            BlocProvider<SnapshotBloc>(
+              create: (context) =>
+                  SnapshotBloc(pricingRepository: pricingRepository),
+            )
+          ], child: MainArea()),
         ));
   }
 }

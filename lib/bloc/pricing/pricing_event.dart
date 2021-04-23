@@ -5,11 +5,12 @@ abstract class PricingEvent extends Equatable {
 }
 
 class PricingRequested extends PricingEvent {
+  final String username;
   final List<Item> itemsToPrice;
 
-  const PricingRequested({@required this.itemsToPrice})
+  const PricingRequested({@required this.username, @required this.itemsToPrice})
       : assert(itemsToPrice != null);
 
   @override
-  List<Object> get props => [itemsToPrice];
+  List<Object> get props => [username, itemsToPrice];
 }

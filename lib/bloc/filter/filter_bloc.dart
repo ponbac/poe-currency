@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:poe_currency/bloc/pricing_bloc.dart';
+import 'package:poe_currency/bloc/pricing/pricing_bloc.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:bloc/bloc.dart';

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/login_bloc.dart';
-import 'package:poe_currency/bloc/navigation_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
+import 'package:poe_currency/bloc/login/login_bloc.dart';
+import 'package:poe_currency/bloc/navigation/navigation_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
 import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/nav_page.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
+import 'package:poe_currency/new_ui/friends_view.dart';
 import 'package:poe_currency/new_ui/login_view.dart';
 import 'package:poe_currency/new_ui/menu_bar.dart';
 import 'package:poe_currency/new_ui/stash_view.dart';
@@ -21,14 +22,29 @@ class MainArea extends StatelessWidget {
           User user = state.user;
 
           BlocProvider.of<StashBloc>(context).add(StashRequested(
-              sessionId: user.poeSessionId, accountName: user.accountname));
+              username: user.username,
+              sessionId: user.poeSessionId,
+              accountName: user.accountname));
           BlocProvider.of<NavigationBloc>(context)
               .add(PageRequested(page: NavPage.STASH));
 
           return Row(
             children: [
-              Expanded(child: MenuBar(currentUser: user)),
-              Expanded(flex: 5, child: StashView(currentUser: user)),
+              Expanded(child: MenuBar()),
+              BlocBuilder<NavigationBloc, NavPage>(
+                builder: (context, state) {
+                  if (state == NavPage.STASH) {
+                    return Expanded(
+                        flex: 5, child: StashView());
+                  }
+                  if (state == NavPage.FRIENDS) {
+                    return Expanded(
+                        flex: 5, child: FriendsView());
+                  }
+
+                  return Text('Not implemented state: $state');
+                },
+              )
             ],
           );
         }

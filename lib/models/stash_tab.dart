@@ -6,7 +6,7 @@ class StashTab extends Equatable{
   final String type;
   final int index;
   final List<Item> items;
-  final int totalNmbrOfTabs;
+  final int totalNmbrOfTabs; // TODO: This is probably not information that belongs to a single stash tab.
 
   StashTab({this.name, this.type, this.index, this.items, this.totalNmbrOfTabs});
 

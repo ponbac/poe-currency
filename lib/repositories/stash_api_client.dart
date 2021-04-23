@@ -13,12 +13,12 @@ class StashApiClient {
   Future<StashTab> fetchStashTab(
       String accountName, String sessionId, int stashIndex) async {
     final requestUrl =
-        '$baseUrl/character-window/get-stash-items?league=Harvest&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
+        '$baseUrl/character-window/get-stash-items?league=SSF%20Ultimatum&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
 
     //print(requestUrl);
 
-    var rawData =
-        await http.get(requestUrl, headers: {'COOKIE': 'POESESSID=$sessionId'});
+    var rawData = await http.get(Uri.parse(requestUrl),
+        headers: {'COOKIE': 'POESESSID=$sessionId'});
 
     //print(rawData.body);
 
@@ -43,13 +43,13 @@ class StashApiClient {
 
   Future<StashTab> fetchStashTabWeb(
       String accountName, String sessionId, int stashIndex) async {
-    final proxyUrl = 'https://poe-api-proxy.herokuapp.com';
+    final proxyUrl = 'https://poe-currency-api.herokuapp.com';
     final requestUrl =
-        '$proxyUrl/stash?league=Harvest&tab=$stashIndex&account=$accountName&sessid=$sessionId';
+        '$proxyUrl/stash?league=SSF%20Ultimatum&tab=$stashIndex&account=$accountName&sessid=$sessionId';
 
     //print(requestUrl);
 
-    var rawData = await http.get(requestUrl);
+    var rawData = await http.get(Uri.parse(requestUrl));
 
     //print(rawData.body);
 
@@ -74,6 +74,10 @@ class StashApiClient {
     items.forEach((i) => i.icon = '$proxyUrl/image?path=${i.icon}');
 
     return new StashTab(
-        name: name, type: type, index: stashIndex, items: items, totalNmbrOfTabs: nmbrOfTabs);
+        name: name,
+        type: type,
+        index: stashIndex,
+        items: items,
+        totalNmbrOfTabs: nmbrOfTabs);
   }
 }

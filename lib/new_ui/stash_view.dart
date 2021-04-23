@@ -1,20 +1,18 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:poe_currency/bloc/filter_bloc.dart';
-import 'package:poe_currency/bloc/pricing_bloc.dart';
-import 'package:poe_currency/bloc/stash_bloc.dart';
-import 'package:poe_currency/bloc/tab_bloc.dart';
+import 'package:poe_currency/bloc/filter/filter_bloc.dart';
+import 'package:poe_currency/bloc/pricing/pricing_bloc.dart';
+import 'package:poe_currency/bloc/stash/stash_bloc.dart';
+import 'package:poe_currency/bloc/tab/tab_bloc.dart';
 import 'package:poe_currency/models/item.dart';
-import 'package:poe_currency/models/user.dart';
+import 'package:poe_currency/models/user/user.dart';
 import 'package:poe_currency/new_ui/top_bar.dart';
 
 import '../constants.dart';
 
 class StashView extends StatelessWidget {
-  final User currentUser;
-
-  const StashView({@required this.currentUser}) : assert(currentUser != null);
+  const StashView();
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +62,7 @@ class StashView extends StatelessWidget {
               // When done pricing items or pricing failed
               return Column(
                 children: [
-                  Expanded(flex: 1, child: TopBar(user: currentUser)),
+                  Expanded(flex: 1, child: TopBar()),
                   Expanded(flex: 5, child: _TabView()),
                 ],
               );
@@ -221,11 +219,11 @@ class _ItemListItem extends StatelessWidget {
         item.socketLinks != 0 ? Text('${item.socketLinks}') : Text('N/A');
     final Text level = Text('${item.level ?? 'N/A'}');
     final Text quantity = Text('${item.stackSize ?? '1'}');
-    final Text price = isPriced
+    final Text price = isPriced && item.value != null
         ? Text('${double.parse((item.value).toStringAsFixed(2))}',
             style: TextStyle(color: kPrimaryColor))
         : Text('N/A');
-    final Text totalValue = isPriced
+    final Text totalValue = isPriced && item.totalValue != null
         ? Text('${double.parse((item.totalValue).toStringAsFixed(2))}',
             style: TextStyle(color: kPrimaryColor))
         : Text('N/A');
