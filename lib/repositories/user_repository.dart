@@ -86,13 +86,13 @@ class UserRepository {
   void deleteToken() async {
     /// delete from keystore/keychain
     var box = await getOpenBox();
-    box.delete(tokenId);
+    await box.delete(tokenId);
   }
 
   void persistToken(String token) async {
     /// write to keystore/keychain
     var box = await getOpenBox();
-    box.put(tokenId, token);
+    await box.put(tokenId, token);
   }
 
   Future<bool> hasToken() async {
@@ -110,8 +110,14 @@ class UserRepository {
 
     final requestUrl = '$apiUrl/users/me';
 
-    var rawData = await http
-        .get(Uri.parse(requestUrl), headers: {'Authorization': 'Bearer ' + token});
+    var rawData = await http.get(Uri.parse(requestUrl),
+        headers: {'Authorization': 'Bearer ' + token});
+
+    // If Unauthorized delete invalid token
+    if (rawData.statusCode == 401) {
+      deleteToken();
+      return null;
+    }
 
     // update stored user object
     User currentUser = User.fromJson(jsonDecode(rawData.body));
@@ -133,8 +139,8 @@ class UserRepository {
 
     map['user_to_add'] = userToAdd;
 
-    http.Response response = await http
-        .post(Uri.parse(url), body: map, headers: {'Authorization': 'Bearer ' + token});
+    http.Response response = await http.post(Uri.parse(url),
+        body: map, headers: {'Authorization': 'Bearer ' + token});
 
     if (response.statusCode != 200) {
       throw Exception(response.body);
@@ -146,12 +152,12 @@ class UserRepository {
   void deleteUser() async {
     /// delete from keystore/keychain
     var box = await getOpenBox();
-    box.delete(currentUserId);
+    await box.delete(currentUserId);
   }
 
   void persistUser(User user) async {
     var box = await getOpenBox();
-    box.put(currentUserId, user);
+    await box.put(currentUserId, user);
   }
 
   Future<bool> hasUser() async {
