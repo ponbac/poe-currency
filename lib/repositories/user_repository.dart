@@ -11,7 +11,7 @@ class UserRepository {
   final String boxName = 'mainBox';
   final String tokenId = 'access_token';
   final String currentUserId = 'current_user';
-  final String apiUrl = 'https://poe-currency-api.herokuapp.com';
+  final String apiUrl = 'https://api.backman.app';
 
   Future<Box> getOpenBox() async {
     if (!Hive.isBoxOpen(boxName)) {

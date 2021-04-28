@@ -6,12 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:poe_currency/models/user/snapshot.dart';
 
 class PricingApiClient {
-  static const baseUrl = 'https://poe-currency-api.herokuapp.com';
+  static const baseUrl = 'https://api.backman.app';
 
   PricingApiClient();
 
   Future<List<PricedObject>> fetchPriceOverview(String category) async {
-    final requestUrl = '$baseUrl/pricing?league=Ultimatum&type=$category';
+    final requestUrl = '$baseUrl/ninja?league=Ultimatum&type=$category';
 
     //print(requestUrl);
 
@@ -33,7 +33,7 @@ class PricingApiClient {
   }
 
   Future<Snapshot> fetchLatestSnapshot(String username) async {
-    final requestUrl = '$baseUrl/snapshot/latest?username=$username';
+    final requestUrl = '$baseUrl/stash/snapshot/latest?username=$username';
     var rawData = await http.get(Uri.parse(requestUrl));
 
     var snapshot;
@@ -49,7 +49,7 @@ class PricingApiClient {
   }
 
   Future<bool> postSnapshot(String username, int value) async {
-    final url = '$baseUrl/snapshot/add';
+    final url = '$baseUrl/stash/snapshot/add';
     var map = new Map<String, dynamic>();
 
     map['username'] = username;
