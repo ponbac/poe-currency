@@ -14,10 +14,6 @@ Solve TODOS...
 
 Implement leaderboard?
 
-## Running web version on Gitpod
-
-`flutter run -d web-server --web-port=8080 --web-hostname=0.0.0.0`
-
 ## Deploying to Firebase Hosting
 
 Install Firebase-CLI and login:
@@ -34,6 +30,3 @@ Then:
 
 `firebase deploy`
 
-## Extras
-
-`cp build/app/outputs/flutter-apk/app-release.apk build/web/app.apk`
