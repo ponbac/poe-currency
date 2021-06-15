@@ -178,7 +178,7 @@ class _NavigationListLink extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: state == NavPage.SETTINGS
                       ? textStyle.copyWith(color: kTextColor)
-                      : textStyle.copyWith(color: Colors.grey[600]));
+                      : textStyle.copyWith(color: Colors.grey[600], decoration: TextDecoration.lineThrough));
             }
 
             return Text('NO WORKING BUTTON STATE!');
