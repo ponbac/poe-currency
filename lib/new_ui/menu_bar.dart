@@ -24,7 +24,7 @@ class MenuBar extends StatelessWidget {
             flex: 2,
             child: _UserInformation(
               userName: currentUser.accountname,
-              characterClass: 'Weird dude',
+              characterClass: 'Occultist',
               avatarPath: 'assets/images/test-avatar.png',
             ),
           ),
