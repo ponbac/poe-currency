@@ -13,6 +13,8 @@ If you want to test the application, go to [backman.app](https://www.backman.app
 
 To try out the custom API I built with Python and FastAPI, go here [api.backman.app](https://api.backman.app/docs). This also includes support for accessing the new Path of Exile API through OAuth2. This API also handles caching of image and pricing-data in order to reduce the load on the Path of Exile servers.
 
+Firebase is used for hosting, and database with Firestore. The [backman.app](https://backman.app/) domain is managed with the help of Cloudflare.
+
 ## Images
 ![](demo.gif)
 ![](https://i.imgur.com/gjKjHan.png)
