@@ -6,12 +6,16 @@ The items are fetched from the API provided by Grinding Gear Games for Path of E
 
 The code is pretty messy (learned a lot throughout the process) and lacks proper testing. [BLoC](https://bloclibrary.dev/#/) was used for state management.
 
+Backend repository: [poe-api](https://github.com/ponbac/poe-api-proxy-private)
+
 ## Demo
 If you want to test the application, go to [backman.app](https://www.backman.app) and login with the following information:
 * **Username**: svobba
 * **Password**: password
 
 To try out the custom API I built with Python and FastAPI, go here [api.backman.app](https://api.backman.app/docs). This also includes support for accessing the new Path of Exile API through OAuth2. This API also handles caching of image and pricing-data in order to reduce the load on the Path of Exile servers.
+
+Firebase is used for hosting, and database with Firestore. The backend API is deployed on Heroku and the [backman.app](https://backman.app/) domain is managed with the help of Cloudflare.
 
 ## Images
 ![](demo.gif)
