@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:poe_currency/bloc/filter/filter_bloc.dart';
@@ -139,14 +140,21 @@ class _ItemList extends StatelessWidget {
           ),
           Expanded(
             flex: 10,
-            child: ListView.separated(
-                itemBuilder: (BuildContext context, int index) {
-                  return _ItemListItem(item: items[index], isPriced: isPriced);
-                },
-                separatorBuilder: (BuildContext context, int index) {
-                  return Divider();
-                },
-                itemCount: items.length),
+            child: ScrollConfiguration(
+              behavior: ScrollBehavior().copyWith(dragDevices: {
+                PointerDeviceKind.touch,
+                PointerDeviceKind.mouse,
+              }),
+              child: ListView.separated(
+                  itemBuilder: (BuildContext context, int index) {
+                    return _ItemListItem(
+                        item: items[index], isPriced: isPriced);
+                  },
+                  separatorBuilder: (BuildContext context, int index) {
+                    return Divider();
+                  },
+                  itemCount: items.length),
+            ),
           ),
         ],
       );
