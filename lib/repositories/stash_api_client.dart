@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/item.dart';
 import 'package:http/http.dart' as http;
 import 'package:poe_currency/models/stash_tab.dart';
@@ -13,7 +14,7 @@ class StashApiClient {
   Future<StashTab> fetchStashTab(
       String accountName, String sessionId, int stashIndex) async {
     final requestUrl =
-        '$baseUrl/character-window/get-stash-items?league=Ultimatum&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
+        '$baseUrl/character-window/get-stash-items?league=$CURRENT_LEAGUE&tabs=1&tabIndex=$stashIndex&accountName=$accountName';
 
     //print(requestUrl);
 
@@ -45,7 +46,7 @@ class StashApiClient {
       String accountName, String sessionId, int stashIndex) async {
     final proxyUrl = 'https://api.backman.app';
     final requestUrl =
-        '$proxyUrl/stash?league=Ultimatum&tab=$stashIndex&account=$accountName&sessid=$sessionId';
+        '$proxyUrl/stash?league=$CURRENT_LEAGUE&tab=$stashIndex&account=$accountName&sessid=$sessionId';
 
     //print(requestUrl);
 

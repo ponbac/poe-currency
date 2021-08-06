@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:poe_currency/constants.dart';
 import 'package:poe_currency/models/pricing/priced_object.dart';
 import 'package:http/http.dart' as http;
 import 'package:poe_currency/models/user/snapshot.dart';
@@ -11,7 +12,7 @@ class PricingApiClient {
   PricingApiClient();
 
   Future<List<PricedObject>> fetchPriceOverview(String category) async {
-    final requestUrl = '$baseUrl/ninja?league=Ultimatum&type=$category';
+    final requestUrl = '$baseUrl/ninja?league=$CURRENT_PRICING_LEAGUE&type=$category';
 
     //print(requestUrl);
 

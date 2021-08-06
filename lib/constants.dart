@@ -1,5 +1,8 @@
-
 import 'package:flutter/material.dart';
+
+// Current league
+const String CURRENT_LEAGUE = 'ZERO DEATHS GAMING KALLESTYLE (PL17246)';
+const String CURRENT_PRICING_LEAGUE = 'Expedition';
 
 // Colors that we use in our app
 const kPrimaryColor = Color(0xFFFCA311);
