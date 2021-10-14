@@ -9,7 +9,7 @@ The code is pretty messy (learned a lot throughout the process) and lacks proper
 Backend repository: [poe-api](https://github.com/ponbac/poe-api-proxy-private)
 
 ## Demo
-If you want to test the application, go to [backman.app](https://www.backman.app) and login with the following information:
+If you want to test the application, go to [backman.app](https://www.backman.app) and login with the following information (this might not work right now due to the new Scourge expansion):
 * **Username**: svobba
 * **Password**: password
 
